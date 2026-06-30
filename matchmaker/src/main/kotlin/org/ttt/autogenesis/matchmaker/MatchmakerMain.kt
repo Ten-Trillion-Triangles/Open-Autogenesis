@@ -112,10 +112,20 @@ private fun runSmoke()
     Logger.info(LogCategory.SYSTEM, "Matchmaker: --smoke run complete")
 }
 
+// Smoke-test sample batch: 9 tickets so the algorithm can produce a full
+// 4-ticket proposal (consuming 4), a 3-ticket proposal (consuming 3), and
+// still has 2 tickets remaining for a 2-ticket proposal. Targets are
+// attempted in descending order (proposeAll sorts descending), so this
+// guarantees all three target sizes (4, 3, 2) can run without the
+// `Cannot propose matches with N tickets for target=K` require() tripping.
 private fun sampleBatch(): List<MatchTicket> = listOf(
     MatchTicket("t-1", "pvp-4", "pvp", "BYO_KEY", subsidy = 4, rank = 0, isByoKey = true),
     MatchTicket("t-2", "pvp-4", "pvp", "PRO",     subsidy = 2, rank = 1),
     MatchTicket("t-3", "pvp-4", "pvp", "PRO",     subsidy = 2, rank = 1),
     MatchTicket("t-4", "pvp-4", "pvp", "CASUAL",  subsidy = 1, rank = 2),
-    MatchTicket("t-5", "pvp-4", "pvp", "FREE",    subsidy = 0, rank = 4)
+    MatchTicket("t-5", "pvp-4", "pvp", "FREE",    subsidy = 0, rank = 4),
+    MatchTicket("t-6", "pvp-4", "pvp", "CASUAL",  subsidy = 1, rank = 3),
+    MatchTicket("t-7", "pvp-4", "pvp", "PRO",     subsidy = 2, rank = 1),
+    MatchTicket("t-8", "pvp-4", "pvp", "FREE",    subsidy = 0, rank = 4),
+    MatchTicket("t-9", "pvp-4", "pvp", "CASUAL",  subsidy = 1, rank = 3)
 )

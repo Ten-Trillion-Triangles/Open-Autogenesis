@@ -15,14 +15,14 @@ import org.ttt.autogenesis.logging.Logger
  */
 object ServerConfig
 {
-    /** Server port number */
-    var port: Int = 9080
+    /** Server port number (default 19080 — non-conflicting when operator's main Autogenesis dev stack is bound to 9080/9091/7070/9092/9095) */
+    var port: Int = 19080
 
     /** Server host address */
     var host: String = "0.0.0.0"
 
-    /** gRPC bridge port */
-    var grpcPort: Int = 9091
+    /** gRPC bridge port (default 19091 — see [port] for rationale) */
+    var grpcPort: Int = 19091
 
     /** AccelByte client ID — read from ConfigSource */
     val iamKey: String get() = ConfigSource.property("accelbyte.local.properties", "AB_CLIENT_ID")

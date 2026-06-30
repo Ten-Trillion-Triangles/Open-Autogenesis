@@ -183,8 +183,13 @@ fun main(args: Array<String>)
         }
     }
 
-    // Start embedded Netty server with REST endpoints
-    embeddedServer(Netty, host = "0.0.0.0", port = 7070) {
+    // Start embedded Netty server with REST endpoints (port 17070 — non-conflicting
+    // when operator's main Autogenesis dev stack is bound to the production port 7070.
+    // Override via -Dserver.extend.restPort JVM property or REST_PORT env var.
+    val restPort = System.getProperty("server.extend.restPort")?.toIntOrNull()
+        ?: System.getenv("REST_PORT")?.toIntOrNull()
+        ?: 17070
+    embeddedServer(Netty, host = "0.0.0.0", port = restPort) {
         serverModule()
     }.start(wait = true)
 }
