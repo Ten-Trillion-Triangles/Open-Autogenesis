@@ -1,0 +1,12 @@
+{
+  "name": "autogenesis-audio-tracks-editor-e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "serve": "node start.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.52.0"
+  }
+}

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Audio E2E Test Client</title>
+  <style>
+    body { font-family: monospace; padding: 1em; }
+    h1 { font-size: 1.2em; }
+    pre { background: #f4f4f4; padding: 0.5em; max-height: 60vh; overflow: auto; }
+    .status { padding: 0.25em 0.5em; border-radius: 3px; }
+    .status.ok { background: #d4edda; }
+    .status.err { background: #f8d7da; }
+  </style>
+</head>
+<body>
+  <h1>Audio E2E Test Client</h1>
+  <div id="status">connecting...</div>
+  <pre id="log"></pre>
+  <script>
+    // ─── Globals ───────────────────────────────────────────────────────
+    // Mutable handles the test probe reads via window.__audioProbe.
+    let audioCtx = null;
+    let audioBuffer = null;
+    let lastSourceNode = null;
+    let lastGainNode = null;
+    let msgCounter = 0;
+
+    // ─── Server URL: query-string overrideable for ad-hoc runs ────────
+    // Default matches the dev server config in server/ — the WebSocket
+    // bridge listens on /events. The playerId/role pair satisfies the
+    // server-side handshake's required connection params.
+    const defaultUrl =
+      'ws://localhost:8080/events?playerId=playwright-test&role=PRIMARY';
+    const serverUrl = new URLSearchParams(location.search).get('server')
+      || defaultUrl;
+
+    // ─── Test probe (consumed by Playwright) ──────────────────────────
+    // Exposed on window so the test runner can assert against it.
+    // NOTE: assigned BEFORE the WebSocket opens so the test can poll
+    // `__audioProbe.received.length` as soon as it navigates to the page.
+    window.__audioProbe = {
+      received: [],
+      lastSourceNode: () => lastSourceNode,
+      lastGainNode: () => lastGainNode,
+      clearReceived: () => { window.__audioProbe.received.length = 0; },
+      serverUrl: serverUrl,
+      audioContextState: () => audioCtx ? audioCtx.state : 'uninitialized',
+      bufferDuration: () => audioBuffer ? audioBuffer.duration : 0,
+      messageCount: () => msgCounter,
+    };
+
+    // ─── UI logging (separate from the probe's structured received[]) ─
+    function log(msg) {
+      const el = document.getElementById('log');
+      const stamp = new Date().toISOString().slice(11, 23);
+      el.textContent += '[' + stamp + '] ' + msg + '\n';
+      // Keep the visible log bounded.
+      if (el.textContent.length > 50000) {
+        el.textContent = el.textContent.slice(-25000);
+      }
+      console.log(msg);
+    }
+
+    function setStatus(text, ok) {
+      const el = document.getElementById('status');
+      el.textContent = text;
+      el.className = 'status ' + (ok ? 'ok' : 'err');
+    }
+
+    // ─── Synthetic 1-second 440Hz sine-wave buffer ────────────────────
+    // Built via OfflineAudioContext.startRendering() — no audio assets
+    // are bundled with the test harness. The buffer's duration is the
+    // (sampleRate × 1s) = 44100 frames at 44.1kHz.
+    async function makeSineBuffer() {
+      const sampleRate = 44100;
+      const offline = new OfflineAudioContext(1, sampleRate, sampleRate);
+      const osc = offline.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = 440;
+      // Slight envelope so loop boundaries are audibly distinct (helps
+      // humans verify the loop works; tests can ignore it).
+      const env = offline.createGain();
+      env.gain.setValueAtTime(0.0, 0);
+      env.gain.linearRampToValueAtTime(0.5, 0.01);
+      env.gain.linearRampToValueAtTime(0.5, sampleRate - 0.01);
+      env.gain.linearRampToValueAtTime(0.0, sampleRate);
+      osc.connect(env);
+      env.connect(offline.destination);
+      osc.start(0);
+      return await offline.startRendering();
+    }
+
+    // ─── RpcMessage handling ──────────────────────────────────────────
+    // The server's RpcMessage sealed interface uses "type" as the
+    // classDiscriminator (see sharedModel/.../network/RpcModels.kt).
+    // Possible discriminator values:
+    //   "request"            — server-initiated call needing a Response
+    //   "response"           — client-initiated call reply (ignored here)
+    //   "notification"       — server-initiated fire-and-forget event
+    //   "connection_state"   — handshake / connect status
+    //   "stream_chunk" / "stream_cancel" / "multipart" — streaming, ignored
+    function applyRpcMessage(msg) {
+      if (!msg || typeof msg !== 'object') return;
+      msgCounter += 1;
+      // Record every inbound message verbatim so the test can introspect.
+      window.__audioProbe.received.push(msg);
+
+      switch (msg.type) {
+        case 'request':
+          handleRequest(msg);
+          break;
+        case 'notification':
+          handleNotification(msg);
+          break;
+        case 'connection_state':
+          log('connection_state: ' + JSON.stringify(msg.event || msg));
+          break;
+        case 'response':
+        case 'stream_chunk':
+        case 'stream_cancel':
+        case 'multipart':
+        default:
+          // Responses and streaming traffic are not relevant to audio E2E.
+          log('(ignored) type=' + msg.type + ' method=' + (msg.method || ''));
+          break;
+      }
+    }
+
+    // Respond to server-initiated Requests. The only request we know
+    // the server will send during handshake is `client.pong` — echo the
+    // payload back so the WebSocket handshake completes and audio
+    // notifications begin flowing.
+    function handleRequest(msg) {
+      const method = msg.method || '';
+      if (method === 'client.pong') {
+        const echo = (msg.params && msg.params.echo) || 'pong';
+        const response = {
+          type: 'response',
+          id: msg.id,
+          result: { echo: echo, timestamp: Date.now() }
+        };
+        try {
+          ws.send(JSON.stringify(response));
+          log('Echoed pong for request id=' + msg.id + ' echo=' + echo);
+        } catch (e) {
+          log('Error sending pong: ' + e.message);
+        }
+        return;
+      }
+      log('Unhandled request method=' + method);
+    }
+
+    // Handle server-initiated notifications. We care about audio.* — the
+    // schedulePlay is the headline case; we also log stop / param updates
+    // so the test can assert the right method names are being received.
+    function handleNotification(msg) {
+      const method = msg.method || '';
+      switch (method) {
+        case 'audio.schedulePlay':
+          handleSchedulePlay(msg);
+          break;
+        case 'audio.stop':
+          log('audio.stop: ' + JSON.stringify(msg.params || {}));
+          break;
+        case 'audio.paramUpdate':
+          log('audio.paramUpdate: ' + JSON.stringify(msg.params || {}));
+          break;
+        case 'audio.channelUpdate':
+          log('audio.channelUpdate: ' + JSON.stringify(msg.params || {}));
+          break;
+        case 'audio.syncState':
+          log('audio.syncState: ' + JSON.stringify(msg.params || {}));
+          break;
+        default:
+          log('Unhandled notification method=' + method);
+          break;
+      }
+    }
+
+    // Decode the wire DTO: AudioSchedulePlay params = { objects, ... }.
+    // Each object is an AudioObject with id, resourceName, channelId,
+    // volume, panning, speed, loop, startTimeMs, loopStart, loopEnd, ...
+    // We construct a real AudioBufferSourceNode and apply the loop
+    // region fields exactly as AudioObjectPlayer does in production.
+    function handleSchedulePlay(msg) {
+      const params = msg.params || {};
+      const objects = Array.isArray(params.objects) ? params.objects : [];
+      log('audio.schedulePlay: count=' + objects.length
+          + ' serverTimestampMs=' + params.serverTimestampMs
+          + ' currentServerFrame=' + params.currentServerFrame);
+
+      for (const obj of objects) {
+        if (!audioBuffer) {
+          log('Skipping object ' + obj.id + ' — buffer not ready');
+          continue;
+        }
+        log('  -> object id=' + obj.id
+            + ' resource=' + obj.resourceName
+            + ' channel=' + obj.channelId
+            + ' loop=' + obj.loop
+            + ' loopStart=' + obj.loopStart
+            + ' loopEnd=' + obj.loopEnd
+            + ' volume=' + obj.volume);
+
+        const src = audioCtx.createBufferSource();
+        src.buffer = audioBuffer;
+        if (obj.loop) {
+          src.loop = true;
+          if (obj.loopStart != null) {
+            src.loopStart = Math.max(0, obj.loopStart);
+          }
+          if (obj.loopEnd != null) {
+            src.loopEnd = Math.min(audioBuffer.duration, obj.loopEnd);
+          }
+        }
+        if (obj.speed != null) {
+          src.playbackRate.value = obj.speed;
+        }
+        const gain = audioCtx.createGain();
+        gain.gain.value = (obj.volume != null) ? obj.volume : 1.0;
+        src.connect(gain);
+        gain.connect(audioCtx.destination);
+        src.start();
+        lastSourceNode = src;
+        lastGainNode = gain;
+        log('  -> created AudioBufferSourceNode: loop=' + src.loop
+            + ' loopStart=' + src.loopStart
+            + ' loopEnd=' + src.loopEnd
+            + ' bufferDuration=' + src.buffer.duration);
+      }
+    }
+
+    // ─── WebSocket lifecycle ──────────────────────────────────────────
+    const ws = new WebSocket(serverUrl);
+
+    ws.onopen = async () => {
+      log('WebSocket connected to ' + serverUrl);
+      setStatus('connected', true);
+      try {
+        // AudioContext must be created in a user-gesture handler in
+        // production, but Playwright can satisfy this by dispatching a
+        // synthetic click before navigation. We optimistically create
+        // the context here; if the browser suspends it, tests can
+        // resume via __audioProbe's audioContextState.
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        log('AudioContext created: state=' + audioCtx.state
+            + ' sampleRate=' + audioCtx.sampleRate);
+        audioBuffer = await makeSineBuffer();
+        log('Synthetic buffer ready: duration=' + audioBuffer.duration
+            + 's sampleRate=' + audioBuffer.sampleRate);
+        if (audioCtx.state === 'suspended') {
+          // Best-effort resume — usually succeeds when triggered by
+          // a user gesture in the parent test runner.
+          try { await audioCtx.resume(); } catch (e) { /* ignore */ }
+        }
+      } catch (e) {
+        log('Audio init failed: ' + e.message);
+      }
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const data = (typeof event.data === 'string')
+          ? event.data
+          : '';
+        const msg = JSON.parse(data);
+        applyRpcMessage(msg);
+      } catch (e) {
+        log('Error parsing message: ' + e.message + ' raw=' + event.data);
+      }
+    };
+
+    ws.onerror = (e) => {
+      log('WebSocket error: ' + (e.message || 'unknown'));
+      setStatus('error', false);
+    };
+
+    ws.onclose = (e) => {
+      log('WebSocket closed: code=' + e.code + ' reason=' + e.reason);
+      setStatus('disconnected', false);
+    };
+  </script>
+</body>
+</html>

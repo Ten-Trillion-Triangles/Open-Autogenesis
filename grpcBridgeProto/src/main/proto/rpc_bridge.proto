@@ -1,0 +1,11 @@
+syntax = "proto3";
+package autogenesis.rpc;
+
+message RpcEnvelope {
+  string payload = 1;
+}
+
+service RpcBridge {
+  rpc Stream (stream RpcEnvelope) returns (stream RpcEnvelope);
+  rpc Invoke (RpcEnvelope) returns (RpcEnvelope);
+}

@@ -1,0 +1,296 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Autogenesis KVision</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-BTv5lEoC+Wm0Yh1O+JvcEez93XsoCnrLW0lZa7nT0P8JxT+1N0aQdHkGptrH+Rai" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="night-mode.css">
+  <style>.kv-text-justify {
+    text-align: justify !important;
+}
+
+.kv-text-left {
+    text-align: left !important;
+}
+
+.kv-text-start {
+    text-align: start !important;
+}
+
+.kv-text-right {
+    text-align: right !important;
+}
+
+.kv-text-end {
+    text-align: end !important;
+}
+
+.kv-text-center {
+    text-align: center !important;
+}
+
+.kv-text-nowrap {
+    white-space: nowrap !important;
+}
+
+.kv-text-danger {
+    color: var(--bs-danger, #dc3545) !important;
+}
+
+.kv-mb-3 {
+    margin-bottom: 1rem;
+}
+
+.splitpanel-vertical {
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+}
+
+.splitpanel-vertical > *:first-child {
+    max-width: calc(100% - 9px);
+}
+
+.splitpanel-vertical > * {
+    flex: 0 0 auto;
+    overflow: auto;
+}
+
+.splitpanel-vertical > *:last-child {
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+.splitpanel-horizontal {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.splitpanel-horizontal > *:first-child {
+    max-height: calc(100% - 9px);
+}
+
+.splitpanel-horizontal > * {
+    flex: 0 0 auto;
+    overflow: auto;
+}
+
+.splitpanel-horizontal > *:last-child {
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+.splitter-vertical {
+    flex: 0 0 auto;
+    width: 9px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAhCAQAAABOpSL+AAAAIklEQVR4AWMwbb/PdR+JZDD9f1/oPhI5sgVGBSruc9xHIgGdSQqqQJGkRgAAAABJRU5ErkJggg==) center center no-repeat #cecece;
+    cursor: col-resize;
+}
+
+.splitter-horizontal {
+    flex: 0 0 auto;
+    height: 9px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAICAQAAADdTl4aAAAAIElEQVQoz2MwrTD9TxFsZ7jPcV+IIsjFQAUw6hFqegQA+xzRHT2p7pEAAAAASUVORK5CYII=) center center no-repeat #cecece;
+    cursor: row-resize;
+}
+
+.kv-radiogroup-inline label.form-label {
+    vertical-align: top;
+    margin-right: .75rem;
+    margin-bottom: 0px;
+}
+
+.row.kv-radiogroup-inline label.form-label {
+    margin-right: 0px;
+}
+
+.row.kv-radiogroup-inline .kv-radiogroup-container, .row.kv-radiogroup .kv-radiogroup-container {
+    margin-left: -15px;
+}
+
+.kv-radiogroup-inline .kv-radiogroup-container {
+    display: inline-flex;
+}
+
+.kv-radiogroup-container.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
+.kv-check-primary {
+    accent-color: var(--bs-primary, #0d6efd);
+}
+
+.kv-check-primary:checked, .kv-check-primary[type="checkbox"]:indeterminate {
+    background-color: var(--bs-primary, #0d6efd) !important;
+    border-color: var(--bs-primary, #0d6efd) !important;
+}
+
+.kv-check-secondary {
+    accent-color: var(--bs-secondary, #6c757d);
+}
+
+.kv-check-secondary:checked, .kv-check-secondary[type="checkbox"]:indeterminate {
+    background-color: var(--bs-secondary, #6c757d) !important;
+    border-color: var(--bs-secondary, #6c757d) !important;
+}
+
+.kv-check-success {
+    accent-color: var(--bs-success, #198754);
+}
+
+.kv-check-success:checked, .kv-check-success[type="checkbox"]:indeterminate {
+    background-color: var(--bs-success, #198754) !important;
+    border-color: var(--bs-success, #198754) !important;
+}
+
+.kv-check-danger {
+    accent-color: var(--bs-danger, #dc3545);
+}
+
+.kv-check-danger:checked, .kv-check-danger[type="checkbox"]:indeterminate {
+    background-color: var(--bs-danger, #dc3545) !important;
+    border-color: var(--bs-danger, #dc3545) !important;
+}
+
+.kv-check-warning {
+    accent-color: var(--bs-warning, #ffc107);
+}
+
+.kv-check-warning:checked, .kv-check-warning[type="checkbox"]:indeterminate {
+    background-color: var(--bs-warning, #ffc107) !important;
+    border-color: var(--bs-warning, #ffc107) !important;
+}
+
+.kv-check-info {
+    accent-color: var(--bs-info, #0dcaf0);
+}
+
+.kv-check-info:checked, .kv-check-info[type="checkbox"]:indeterminate {
+    background-color: var(--bs-info, #0dcaf0) !important;
+    border-color: var(--bs-info, #0dcaf0) !important;
+}
+
+.kv-check-light {
+    accent-color: var(--bs-light, #f8f9fa);
+}
+
+.kv-check-light:checked, .kv-check-light[type="checkbox"]:indeterminate {
+    background-color: var(--bs-light, #f8f9fa) !important;
+    border-color: var(--bs-light, #f8f9fa) !important;
+}
+
+.kv-check-dark {
+    accent-color: var(--bs-dark, #212529);
+}
+
+.kv-check-dark:checked, .kv-check-dark[type="checkbox"]:indeterminate {
+    background-color: var(--bs-dark, #212529) !important;
+    border-color: var(--bs-dark, #212529) !important;
+}
+
+.kv-check-warning[type="checkbox"]:checked, .kv-check-info[type="checkbox"]:checked, .kv-check-light[type="checkbox"]:checked {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23000%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+}
+
+.kv-check-warning[type="checkbox"]:indeterminate, .kv-check-info[type="checkbox"]:indeterminate, .kv-check-light[type="checkbox"]:indeterminate {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23000%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27M6 10h8%27/%3e%3c/svg%3e");
+}
+
+.kv-check-warning[type="radio"]:checked, .kv-check-info[type="radio"]:checked, .kv-check-light[type="radio"]:checked {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%272%27 fill=%27%23000%27/%3e%3c/svg%3e");
+}
+
+.form-switch .kv-check-warning[type="checkbox"]:checked, .form-switch .kv-check-info[type="checkbox"]:checked, .form-switch .kv-check-light[type="checkbox"]:checked {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23000%27/%3e%3c/svg%3e");
+}
+
+.kv-checkbox-circle {
+    width: 1em;
+    height: 1em;
+    border-radius: 50% !important;
+    border: 1px solid rgba(0, 0, 0, .25);
+    appearance: none;
+    -webkit-appearance: none;
+    vertical-align: top;
+}
+
+.kv-checkbox-circle:checked {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23000%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+}
+
+.kv-checkbox-circle:indeterminate {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23000%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27M6 10h8%27/%3e%3c/svg%3e");
+}
+
+.kv-check-primary.kv-checkbox-circle:checked, .kv-check-secondary.kv-checkbox-circle:checked, .kv-check-success.kv-checkbox-circle:checked, .kv-check-danger.kv-checkbox-circle:checked, .kv-check-dark.kv-checkbox-circle:checked {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+}
+
+.kv-check-primary.kv-checkbox-circle:indeterminate, .kv-check-secondary.kv-checkbox-circle:indeterminate, .kv-check-success.kv-checkbox-circle:indeterminate, .kv-check-danger.kv-checkbox-circle:indeterminate, .kv-check-dark.kv-checkbox-circle:indeterminate {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27M6 10h8%27/%3e%3c/svg%3e");
+}
+
+.kv-radio-square[type="radio"] {
+    width: 1em;
+    height: 1em;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, .25);
+    vertical-align: top;
+    border-radius: .25em;
+}
+
+.kv-radio-square[type="radio"]:checked {
+    background-color: var(--bs-primary, #0d6efd);
+    border-color: var(--bs-primary, #0d6efd);
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+}
+
+.kv-check-warning.kv-radio-square[type="radio"]:checked, .kv-check-info.kv-radio-square[type="radio"]:checked, .kv-check-light.kv-radio-square[type="radio"]:checked {
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23000%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+}
+
+.kv_fieldset {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.kv_fieldset legend {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 3px 10px 3px 10px;
+    width: auto;
+    float: inherit;
+}
+
+form fieldset.kv_fieldset {
+    padding-top: 5px;
+    margin-bottom: 8px;
+}
+
+form[class~="form-horizontal"] fieldset.kv_fieldset {
+    padding-left: 1.1rem;
+    padding-right: 2rem;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+form[class~="form-inline"] fieldset.kv_fieldset {
+    margin-right: 6px;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8uLy4uLy4uL25vZGVfbW9kdWxlcy96enota3Zpc2lvbi1hc3NldHMvY3NzL2t2LXN0eWxlLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLDhCQUE4QjtBQUNsQzs7QUFFQTtJQUNJLDJCQUEyQjtBQUMvQjs7QUFFQTtJQUNJLDRCQUE0QjtBQUNoQzs7QUFFQTtJQUNJLDRCQUE0QjtBQUNoQzs7QUFFQTtJQUNJLDBCQUEwQjtBQUM5Qjs7QUFFQTtJQUNJLDZCQUE2QjtBQUNqQzs7QUFFQTtJQUNJLDhCQUE4QjtBQUNsQzs7QUFFQTtJQUNJLDJDQUEyQztBQUMvQzs7QUFFQTtJQUNJLG1CQUFtQjtBQUN2Qjs7QUFFQTtJQUNJLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsY0FBYztBQUNsQjs7QUFFQTtJQUNJLDJCQUEyQjtBQUMvQjs7QUFFQTtJQUNJLGNBQWM7SUFDZCxjQUFjO0FBQ2xCOztBQUVBO0lBQ0ksY0FBYztJQUNkLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxhQUFhO0lBQ2Isc0JBQXNCO0lBQ3RCLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSw0QkFBNEI7QUFDaEM7O0FBRUE7SUFDSSxjQUFjO0lBQ2QsY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7SUFDZCxjQUFjO0FBQ2xCOztBQUVBO0lBQ0ksY0FBYztJQUNkLFVBQVU7SUFDVixtRkFBcU07SUFDck0sa0JBQWtCO0FBQ3RCOztBQUVBO0lBQ0ksY0FBYztJQUNkLFdBQVc7SUFDWCxtRkFBaU07SUFDak0sa0JBQWtCO0FBQ3RCOztBQUVBO0lBQ0ksbUJBQW1CO0lBQ25CLG9CQUFvQjtJQUNwQixrQkFBa0I7QUFDdEI7O0FBRUE7SUFDSSxpQkFBaUI7QUFDckI7O0FBRUE7SUFDSSxrQkFBa0I7QUFDdEI7O0FBRUE7SUFDSSxvQkFBb0I7QUFDeEI7O0FBRUE7SUFDSSxjQUFjO0FBQ2xCOztBQUVBO0lBQ0ksd0NBQXdDO0FBQzVDOztBQUVBO0lBQ0ksdURBQXVEO0lBQ3ZELG1EQUFtRDtBQUN2RDs7QUFFQTtJQUNJLDBDQUEwQztBQUM5Qzs7QUFFQTtJQUNJLHlEQUF5RDtJQUN6RCxxREFBcUQ7QUFDekQ7O0FBRUE7SUFDSSx3Q0FBd0M7QUFDNUM7O0FBRUE7SUFDSSx1REFBdUQ7SUFDdkQsbURBQW1EO0FBQ3ZEOztBQUVBO0lBQ0ksdUNBQXVDO0FBQzNDOztBQUVBO0lBQ0ksc0RBQXNEO0lBQ3RELGtEQUFrRDtBQUN0RDs7QUFFQTtJQUNJLHdDQUF3QztBQUM1Qzs7QUFFQTtJQUNJLHVEQUF1RDtJQUN2RCxtREFBbUQ7QUFDdkQ7O0FBRUE7SUFDSSxxQ0FBcUM7QUFDekM7O0FBRUE7SUFDSSxvREFBb0Q7SUFDcEQsZ0RBQWdEO0FBQ3BEOztBQUVBO0lBQ0ksc0NBQXNDO0FBQzFDOztBQUVBO0lBQ0kscURBQXFEO0lBQ3JELGlEQUFpRDtBQUNyRDs7QUFFQTtJQUNJLHFDQUFxQztBQUN6Qzs7QUFFQTtJQUNJLG9EQUFvRDtJQUNwRCxnREFBZ0Q7QUFDcEQ7O0FBRUE7SUFDSSx5REFBK1E7QUFDblI7O0FBRUE7SUFDSSx5REFBeVE7QUFDN1E7O0FBRUE7SUFDSSx5REFBdUs7QUFDM0s7O0FBRUE7SUFDSSx5REFBdUs7QUFDM0s7O0FBRUE7SUFDSSxVQUFVO0lBQ1YsV0FBVztJQUNYLDZCQUE2QjtJQUM3QixvQ0FBb0M7SUFDcEMsZ0JBQWdCO0lBQ2hCLHdCQUF3QjtJQUN4QixtQkFBbUI7QUFDdkI7O0FBRUE7SUFDSSx5REFBK1E7QUFDblI7O0FBRUE7SUFDSSx5REFBeVE7QUFDN1E7O0FBRUE7SUFDSSx5REFBK1E7QUFDblI7O0FBRUE7SUFDSSx5REFBeVE7QUFDN1E7O0FBRUE7SUFDSSxVQUFVO0lBQ1YsV0FBVztJQUNYLHNCQUFzQjtJQUN0QixnQkFBZ0I7SUFDaEIsd0JBQXdCO0lBQ3hCLGlCQUFpQjtJQUNqQixvQ0FBb0M7SUFDcEMsbUJBQW1CO0lBQ25CLG9CQUFvQjtBQUN4Qjs7QUFFQTtJQUNJLDRDQUE0QztJQUM1Qyx3Q0FBd0M7SUFDeEMseURBQStRO0FBQ25SOztBQUVBO0lBQ0kseURBQStRO0FBQ25SOztBQUVBO0lBQ0kseUJBQXlCO0lBQ3pCLHNCQUFzQjtJQUN0QixrQkFBa0I7SUFDbEIsbUJBQW1CO0FBQ3ZCOztBQUVBO0lBQ0kseUJBQXlCO0lBQ3pCLHNCQUFzQjtJQUN0QixnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLGlCQUFpQjtJQUNqQiwwQkFBMEI7SUFDMUIsV0FBVztJQUNYLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxnQkFBZ0I7SUFDaEIsa0JBQWtCO0FBQ3RCOztBQUVBO0lBQ0ksb0JBQW9CO0lBQ3BCLG1CQUFtQjtJQUNuQixtQkFBbUI7SUFDbkIsa0JBQWtCO0FBQ3RCOztBQUVBO0lBQ0ksaUJBQWlCO0FBQ3JCIiwic291cmNlc0NvbnRlbnQiOlsiLmt2LXRleHQtanVzdGlmeSB7XG4gICAgdGV4dC1hbGlnbjoganVzdGlmeSAhaW1wb3J0YW50O1xufVxuXG4ua3YtdGV4dC1sZWZ0IHtcbiAgICB0ZXh0LWFsaWduOiBsZWZ0ICFpbXBvcnRhbnQ7XG59XG5cbi5rdi10ZXh0LXN0YXJ0IHtcbiAgICB0ZXh0LWFsaWduOiBzdGFydCAhaW1wb3J0YW50O1xufVxuXG4ua3YtdGV4dC1yaWdodCB7XG4gICAgdGV4dC1hbGlnbjogcmlnaHQgIWltcG9ydGFudDtcbn1cblxuLmt2LXRleHQtZW5kIHtcbiAgICB0ZXh0LWFsaWduOiBlbmQgIWltcG9ydGFudDtcbn1cblxuLmt2LXRleHQtY2VudGVyIHtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXIgIWltcG9ydGFudDtcbn1cblxuLmt2LXRleHQtbm93cmFwIHtcbiAgICB3aGl0ZS1zcGFjZTogbm93cmFwICFpbXBvcnRhbnQ7XG59XG5cbi5rdi10ZXh0LWRhbmdlciB7XG4gICAgY29sb3I6IHZhcigtLWJzLWRhbmdlciwgI2RjMzU0NSkgIWltcG9ydGFudDtcbn1cblxuLmt2LW1iLTMge1xuICAgIG1hcmdpbi1ib3R0b206IDFyZW07XG59XG5cbi5zcGxpdHBhbmVsLXZlcnRpY2FsIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gICAgb3ZlcmZsb3c6IGF1dG87XG59XG5cbi5zcGxpdHBhbmVsLXZlcnRpY2FsID4gKjpmaXJzdC1jaGlsZCB7XG4gICAgbWF4LXdpZHRoOiBjYWxjKDEwMCUgLSA5cHgpO1xufVxuXG4uc3BsaXRwYW5lbC12ZXJ0aWNhbCA+ICoge1xuICAgIGZsZXg6IDAgMCBhdXRvO1xuICAgIG92ZXJmbG93OiBhdXRvO1xufVxuXG4uc3BsaXRwYW5lbC12ZXJ0aWNhbCA+ICo6bGFzdC1jaGlsZCB7XG4gICAgZmxleDogMSAxIGF1dG87XG4gICAgb3ZlcmZsb3c6IGF1dG87XG59XG5cbi5zcGxpdHBhbmVsLWhvcml6b250YWwge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgICBvdmVyZmxvdzogYXV0bztcbn1cblxuLnNwbGl0cGFuZWwtaG9yaXpvbnRhbCA+ICo6Zmlyc3QtY2hpbGQge1xuICAgIG1heC1oZWlnaHQ6IGNhbGMoMTAwJSAtIDlweCk7XG59XG5cbi5zcGxpdHBhbmVsLWhvcml6b250YWwgPiAqIHtcbiAgICBmbGV4OiAwIDAgYXV0bztcbiAgICBvdmVyZmxvdzogYXV0bztcbn1cblxuLnNwbGl0cGFuZWwtaG9yaXpvbnRhbCA+ICo6bGFzdC1jaGlsZCB7XG4gICAgZmxleDogMSAxIGF1dG87XG4gICAgb3ZlcmZsb3c6IGF1dG87XG59XG5cbi5zcGxpdHRlci12ZXJ0aWNhbCB7XG4gICAgZmxleDogMCAwIGF1dG87XG4gICAgd2lkdGg6IDlweDtcbiAgICBiYWNrZ3JvdW5kOiB1cmwoJ2RhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQWdBQUFBaENBUUFBQUJPcFNMK0FBQUFJa2xFUVZSNEFXTXdiYi9QZFIrSlpERDlmMS9vUGhJNXNnVkdCU3J1Yzl4SElnR2RTUXFxUUpHa1JnQUFBQUJKUlU1RXJrSmdnZz09JykgY2VudGVyIGNlbnRlciBuby1yZXBlYXQgI2NlY2VjZTtcbiAgICBjdXJzb3I6IGNvbC1yZXNpemU7XG59XG5cbi5zcGxpdHRlci1ob3Jpem9udGFsIHtcbiAgICBmbGV4OiAwIDAgYXV0bztcbiAgICBoZWlnaHQ6IDlweDtcbiAgICBiYWNrZ3JvdW5kOiB1cmwoJ2RhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQ0VBQUFBSUNBUUFBQURkVGw0YUFBQUFJRWxFUVZRb3oyTXdyVEQ5VHhGc1o3alBjVitJSXNqRlFBVXc2aEZxZWdRQSt4elJIVDJwN3BFQUFBQUFTVVZPUks1Q1lJST0nKSBjZW50ZXIgY2VudGVyIG5vLXJlcGVhdCAjY2VjZWNlO1xuICAgIGN1cnNvcjogcm93LXJlc2l6ZTtcbn1cblxuLmt2LXJhZGlvZ3JvdXAtaW5saW5lIGxhYmVsLmZvcm0tbGFiZWwge1xuICAgIHZlcnRpY2FsLWFsaWduOiB0b3A7XG4gICAgbWFyZ2luLXJpZ2h0OiAuNzVyZW07XG4gICAgbWFyZ2luLWJvdHRvbTogMHB4O1xufVxuXG4ucm93Lmt2LXJhZGlvZ3JvdXAtaW5saW5lIGxhYmVsLmZvcm0tbGFiZWwge1xuICAgIG1hcmdpbi1yaWdodDogMHB4O1xufVxuXG4ucm93Lmt2LXJhZGlvZ3JvdXAtaW5saW5lIC5rdi1yYWRpb2dyb3VwLWNvbnRhaW5lciwgLnJvdy5rdi1yYWRpb2dyb3VwIC5rdi1yYWRpb2dyb3VwLWNvbnRhaW5lciB7XG4gICAgbWFyZ2luLWxlZnQ6IC0xNXB4O1xufVxuXG4ua3YtcmFkaW9ncm91cC1pbmxpbmUgLmt2LXJhZGlvZ3JvdXAtY29udGFpbmVyIHtcbiAgICBkaXNwbGF5OiBpbmxpbmUtZmxleDtcbn1cblxuLmt2LXJhZGlvZ3JvdXAtY29udGFpbmVyLmlzLWludmFsaWQgfiAuaW52YWxpZC1mZWVkYmFjayB7XG4gICAgZGlzcGxheTogYmxvY2s7XG59XG5cbi5rdi1jaGVjay1wcmltYXJ5IHtcbiAgICBhY2NlbnQtY29sb3I6IHZhcigtLWJzLXByaW1hcnksICMwZDZlZmQpO1xufVxuXG4ua3YtY2hlY2stcHJpbWFyeTpjaGVja2VkLCAua3YtY2hlY2stcHJpbWFyeVt0eXBlPVwiY2hlY2tib3hcIl06aW5kZXRlcm1pbmF0ZSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tYnMtcHJpbWFyeSwgIzBkNmVmZCkgIWltcG9ydGFudDtcbiAgICBib3JkZXItY29sb3I6IHZhcigtLWJzLXByaW1hcnksICMwZDZlZmQpICFpbXBvcnRhbnQ7XG59XG5cbi5rdi1jaGVjay1zZWNvbmRhcnkge1xuICAgIGFjY2VudC1jb2xvcjogdmFyKC0tYnMtc2Vjb25kYXJ5LCAjNmM3NTdkKTtcbn1cblxuLmt2LWNoZWNrLXNlY29uZGFyeTpjaGVja2VkLCAua3YtY2hlY2stc2Vjb25kYXJ5W3R5cGU9XCJjaGVja2JveFwiXTppbmRldGVybWluYXRlIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1icy1zZWNvbmRhcnksICM2Yzc1N2QpICFpbXBvcnRhbnQ7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1icy1zZWNvbmRhcnksICM2Yzc1N2QpICFpbXBvcnRhbnQ7XG59XG5cbi5rdi1jaGVjay1zdWNjZXNzIHtcbiAgICBhY2NlbnQtY29sb3I6IHZhcigtLWJzLXN1Y2Nlc3MsICMxOTg3NTQpO1xufVxuXG4ua3YtY2hlY2stc3VjY2VzczpjaGVja2VkLCAua3YtY2hlY2stc3VjY2Vzc1t0eXBlPVwiY2hlY2tib3hcIl06aW5kZXRlcm1pbmF0ZSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tYnMtc3VjY2VzcywgIzE5ODc1NCkgIWltcG9ydGFudDtcbiAgICBib3JkZXItY29sb3I6IHZhcigtLWJzLXN1Y2Nlc3MsICMxOTg3NTQpICFpbXBvcnRhbnQ7XG59XG5cbi5rdi1jaGVjay1kYW5nZXIge1xuICAgIGFjY2VudC1jb2xvcjogdmFyKC0tYnMtZGFuZ2VyLCAjZGMzNTQ1KTtcbn1cblxuLmt2LWNoZWNrLWRhbmdlcjpjaGVja2VkLCAua3YtY2hlY2stZGFuZ2VyW3R5cGU9XCJjaGVja2JveFwiXTppbmRldGVybWluYXRlIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1icy1kYW5nZXIsICNkYzM1NDUpICFpbXBvcnRhbnQ7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1icy1kYW5nZXIsICNkYzM1NDUpICFpbXBvcnRhbnQ7XG59XG5cbi5rdi1jaGVjay13YXJuaW5nIHtcbiAgICBhY2NlbnQtY29sb3I6IHZhcigtLWJzLXdhcm5pbmcsICNmZmMxMDcpO1xufVxuXG4ua3YtY2hlY2std2FybmluZzpjaGVja2VkLCAua3YtY2hlY2std2FybmluZ1t0eXBlPVwiY2hlY2tib3hcIl06aW5kZXRlcm1pbmF0ZSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tYnMtd2FybmluZywgI2ZmYzEwNykgIWltcG9ydGFudDtcbiAgICBib3JkZXItY29sb3I6IHZhcigtLWJzLXdhcm5pbmcsICNmZmMxMDcpICFpbXBvcnRhbnQ7XG59XG5cbi5rdi1jaGVjay1pbmZvIHtcbiAgICBhY2NlbnQtY29sb3I6IHZhcigtLWJzLWluZm8sICMwZGNhZjApO1xufVxuXG4ua3YtY2hlY2staW5mbzpjaGVja2VkLCAua3YtY2hlY2staW5mb1t0eXBlPVwiY2hlY2tib3hcIl06aW5kZXRlcm1pbmF0ZSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tYnMtaW5mbywgIzBkY2FmMCkgIWltcG9ydGFudDtcbiAgICBib3JkZXItY29sb3I6IHZhcigtLWJzLWluZm8sICMwZGNhZjApICFpbXBvcnRhbnQ7XG59XG5cbi5rdi1jaGVjay1saWdodCB7XG4gICAgYWNjZW50LWNvbG9yOiB2YXIoLS1icy1saWdodCwgI2Y4ZjlmYSk7XG59XG5cbi5rdi1jaGVjay1saWdodDpjaGVja2VkLCAua3YtY2hlY2stbGlnaHRbdHlwZT1cImNoZWNrYm94XCJdOmluZGV0ZXJtaW5hdGUge1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWJzLWxpZ2h0LCAjZjhmOWZhKSAhaW1wb3J0YW50O1xuICAgIGJvcmRlci1jb2xvcjogdmFyKC0tYnMtbGlnaHQsICNmOGY5ZmEpICFpbXBvcnRhbnQ7XG59XG5cbi5rdi1jaGVjay1kYXJrIHtcbiAgICBhY2NlbnQtY29sb3I6IHZhcigtLWJzLWRhcmssICMyMTI1MjkpO1xufVxuXG4ua3YtY2hlY2stZGFyazpjaGVja2VkLCAua3YtY2hlY2stZGFya1t0eXBlPVwiY2hlY2tib3hcIl06aW5kZXRlcm1pbmF0ZSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tYnMtZGFyaywgIzIxMjUyOSkgIWltcG9ydGFudDtcbiAgICBib3JkZXItY29sb3I6IHZhcigtLWJzLWRhcmssICMyMTI1MjkpICFpbXBvcnRhbnQ7XG59XG5cbi5rdi1jaGVjay13YXJuaW5nW3R5cGU9XCJjaGVja2JveFwiXTpjaGVja2VkLCAua3YtY2hlY2staW5mb1t0eXBlPVwiY2hlY2tib3hcIl06Y2hlY2tlZCwgLmt2LWNoZWNrLWxpZ2h0W3R5cGU9XCJjaGVja2JveFwiXTpjaGVja2VkIHtcbiAgICBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoXCJkYXRhOmltYWdlL3N2Zyt4bWwsJTNjc3ZnIHhtbG5zPSUyN2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJTI3IHZpZXdCb3g9JTI3MCAwIDIwIDIwJTI3JTNlJTNjcGF0aCBmaWxsPSUyN25vbmUlMjcgc3Ryb2tlPSUyNyUyMzAwMCUyNyBzdHJva2UtbGluZWNhcD0lMjdyb3VuZCUyNyBzdHJva2UtbGluZWpvaW49JTI3cm91bmQlMjcgc3Ryb2tlLXdpZHRoPSUyNzMlMjcgZD0lMjdtNiAxMCAzIDMgNi02JTI3LyUzZSUzYy9zdmclM2VcIik7XG59XG5cbi5rdi1jaGVjay13YXJuaW5nW3R5cGU9XCJjaGVja2JveFwiXTppbmRldGVybWluYXRlLCAua3YtY2hlY2staW5mb1t0eXBlPVwiY2hlY2tib3hcIl06aW5kZXRlcm1pbmF0ZSwgLmt2LWNoZWNrLWxpZ2h0W3R5cGU9XCJjaGVja2JveFwiXTppbmRldGVybWluYXRlIHtcbiAgICBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoXCJkYXRhOmltYWdlL3N2Zyt4bWwsJTNjc3ZnIHhtbG5zPSUyN2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJTI3IHZpZXdCb3g9JTI3MCAwIDIwIDIwJTI3JTNlJTNjcGF0aCBmaWxsPSUyN25vbmUlMjcgc3Ryb2tlPSUyNyUyMzAwMCUyNyBzdHJva2UtbGluZWNhcD0lMjdyb3VuZCUyNyBzdHJva2UtbGluZWpvaW49JTI3cm91bmQlMjcgc3Ryb2tlLXdpZHRoPSUyNzMlMjcgZD0lMjdNNiAxMGg4JTI3LyUzZSUzYy9zdmclM2VcIik7XG59XG5cbi5rdi1jaGVjay13YXJuaW5nW3R5cGU9XCJyYWRpb1wiXTpjaGVja2VkLCAua3YtY2hlY2staW5mb1t0eXBlPVwicmFkaW9cIl06Y2hlY2tlZCwgLmt2LWNoZWNrLWxpZ2h0W3R5cGU9XCJyYWRpb1wiXTpjaGVja2VkIHtcbiAgICBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoXCJkYXRhOmltYWdlL3N2Zyt4bWwsJTNjc3ZnIHhtbG5zPSUyN2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJTI3IHZpZXdCb3g9JTI3LTQgLTQgOCA4JTI3JTNlJTNjY2lyY2xlIHI9JTI3MiUyNyBmaWxsPSUyNyUyMzAwMCUyNy8lM2UlM2Mvc3ZnJTNlXCIpO1xufVxuXG4uZm9ybS1zd2l0Y2ggLmt2LWNoZWNrLXdhcm5pbmdbdHlwZT1cImNoZWNrYm94XCJdOmNoZWNrZWQsIC5mb3JtLXN3aXRjaCAua3YtY2hlY2staW5mb1t0eXBlPVwiY2hlY2tib3hcIl06Y2hlY2tlZCwgLmZvcm0tc3dpdGNoIC5rdi1jaGVjay1saWdodFt0eXBlPVwiY2hlY2tib3hcIl06Y2hlY2tlZCB7XG4gICAgYmFja2dyb3VuZC1pbWFnZTogdXJsKFwiZGF0YTppbWFnZS9zdmcreG1sLCUzY3N2ZyB4bWxucz0lMjdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyUyNyB2aWV3Qm94PSUyNy00IC00IDggOCUyNyUzZSUzY2NpcmNsZSByPSUyNzMlMjcgZmlsbD0lMjclMjMwMDAlMjcvJTNlJTNjL3N2ZyUzZVwiKTtcbn1cblxuLmt2LWNoZWNrYm94LWNpcmNsZSB7XG4gICAgd2lkdGg6IDFlbTtcbiAgICBoZWlnaHQ6IDFlbTtcbiAgICBib3JkZXItcmFkaXVzOiA1MCUgIWltcG9ydGFudDtcbiAgICBib3JkZXI6IDFweCBzb2xpZCByZ2JhKDAsIDAsIDAsIC4yNSk7XG4gICAgYXBwZWFyYW5jZTogbm9uZTtcbiAgICAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7XG4gICAgdmVydGljYWwtYWxpZ246IHRvcDtcbn1cblxuLmt2LWNoZWNrYm94LWNpcmNsZTpjaGVja2VkIHtcbiAgICBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoXCJkYXRhOmltYWdlL3N2Zyt4bWwsJTNjc3ZnIHhtbG5zPSUyN2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJTI3IHZpZXdCb3g9JTI3MCAwIDIwIDIwJTI3JTNlJTNjcGF0aCBmaWxsPSUyN25vbmUlMjcgc3Ryb2tlPSUyNyUyMzAwMCUyNyBzdHJva2UtbGluZWNhcD0lMjdyb3VuZCUyNyBzdHJva2UtbGluZWpvaW49JTI3cm91bmQlMjcgc3Ryb2tlLXdpZHRoPSUyNzMlMjcgZD0lMjdtNiAxMCAzIDMgNi02JTI3LyUzZSUzYy9zdmclM2VcIik7XG59XG5cbi5rdi1jaGVja2JveC1jaXJjbGU6aW5kZXRlcm1pbmF0ZSB7XG4gICAgYmFja2dyb3VuZC1pbWFnZTogdXJsKFwiZGF0YTppbWFnZS9zdmcreG1sLCUzY3N2ZyB4bWxucz0lMjdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyUyNyB2aWV3Qm94PSUyNzAgMCAyMCAyMCUyNyUzZSUzY3BhdGggZmlsbD0lMjdub25lJTI3IHN0cm9rZT0lMjclMjMwMDAlMjcgc3Ryb2tlLWxpbmVjYXA9JTI3cm91bmQlMjcgc3Ryb2tlLWxpbmVqb2luPSUyN3JvdW5kJTI3IHN0cm9rZS13aWR0aD0lMjczJTI3IGQ9JTI3TTYgMTBoOCUyNy8lM2UlM2Mvc3ZnJTNlXCIpO1xufVxuXG4ua3YtY2hlY2stcHJpbWFyeS5rdi1jaGVja2JveC1jaXJjbGU6Y2hlY2tlZCwgLmt2LWNoZWNrLXNlY29uZGFyeS5rdi1jaGVja2JveC1jaXJjbGU6Y2hlY2tlZCwgLmt2LWNoZWNrLXN1Y2Nlc3Mua3YtY2hlY2tib3gtY2lyY2xlOmNoZWNrZWQsIC5rdi1jaGVjay1kYW5nZXIua3YtY2hlY2tib3gtY2lyY2xlOmNoZWNrZWQsIC5rdi1jaGVjay1kYXJrLmt2LWNoZWNrYm94LWNpcmNsZTpjaGVja2VkIHtcbiAgICBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoXCJkYXRhOmltYWdlL3N2Zyt4bWwsJTNjc3ZnIHhtbG5zPSUyN2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJTI3IHZpZXdCb3g9JTI3MCAwIDIwIDIwJTI3JTNlJTNjcGF0aCBmaWxsPSUyN25vbmUlMjcgc3Ryb2tlPSUyNyUyM2ZmZiUyNyBzdHJva2UtbGluZWNhcD0lMjdyb3VuZCUyNyBzdHJva2UtbGluZWpvaW49JTI3cm91bmQlMjcgc3Ryb2tlLXdpZHRoPSUyNzMlMjcgZD0lMjdtNiAxMCAzIDMgNi02JTI3LyUzZSUzYy9zdmclM2VcIik7XG59XG5cbi5rdi1jaGVjay1wcmltYXJ5Lmt2LWNoZWNrYm94LWNpcmNsZTppbmRldGVybWluYXRlLCAua3YtY2hlY2stc2Vjb25kYXJ5Lmt2LWNoZWNrYm94LWNpcmNsZTppbmRldGVybWluYXRlLCAua3YtY2hlY2stc3VjY2Vzcy5rdi1jaGVja2JveC1jaXJjbGU6aW5kZXRlcm1pbmF0ZSwgLmt2LWNoZWNrLWRhbmdlci5rdi1jaGVja2JveC1jaXJjbGU6aW5kZXRlcm1pbmF0ZSwgLmt2LWNoZWNrLWRhcmsua3YtY2hlY2tib3gtY2lyY2xlOmluZGV0ZXJtaW5hdGUge1xuICAgIGJhY2tncm91bmQtaW1hZ2U6IHVybChcImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM2NzdmcgeG1sbnM9JTI3aHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmclMjcgdmlld0JveD0lMjcwIDAgMjAgMjAlMjclM2UlM2NwYXRoIGZpbGw9JTI3bm9uZSUyNyBzdHJva2U9JTI3JTIzZmZmJTI3IHN0cm9rZS1saW5lY2FwPSUyN3JvdW5kJTI3IHN0cm9rZS1saW5lam9pbj0lMjdyb3VuZCUyNyBzdHJva2Utd2lkdGg9JTI3MyUyNyBkPSUyN002IDEwaDglMjcvJTNlJTNjL3N2ZyUzZVwiKTtcbn1cblxuLmt2LXJhZGlvLXNxdWFyZVt0eXBlPVwicmFkaW9cIl0ge1xuICAgIHdpZHRoOiAxZW07XG4gICAgaGVpZ2h0OiAxZW07XG4gICAgYm94LXNpemluZzogYm9yZGVyLWJveDtcbiAgICBhcHBlYXJhbmNlOiBub25lO1xuICAgIC13ZWJraXQtYXBwZWFyYW5jZTogbm9uZTtcbiAgICBiYWNrZ3JvdW5kOiB3aGl0ZTtcbiAgICBib3JkZXI6IDFweCBzb2xpZCByZ2JhKDAsIDAsIDAsIC4yNSk7XG4gICAgdmVydGljYWwtYWxpZ246IHRvcDtcbiAgICBib3JkZXItcmFkaXVzOiAuMjVlbTtcbn1cblxuLmt2LXJhZGlvLXNxdWFyZVt0eXBlPVwicmFkaW9cIl06Y2hlY2tlZCB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tYnMtcHJpbWFyeSwgIzBkNmVmZCk7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1icy1wcmltYXJ5LCAjMGQ2ZWZkKTtcbiAgICBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoXCJkYXRhOmltYWdlL3N2Zyt4bWwsJTNjc3ZnIHhtbG5zPSUyN2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJTI3IHZpZXdCb3g9JTI3MCAwIDIwIDIwJTI3JTNlJTNjcGF0aCBmaWxsPSUyN25vbmUlMjcgc3Ryb2tlPSUyNyUyM2ZmZiUyNyBzdHJva2UtbGluZWNhcD0lMjdyb3VuZCUyNyBzdHJva2UtbGluZWpvaW49JTI3cm91bmQlMjcgc3Ryb2tlLXdpZHRoPSUyNzMlMjcgZD0lMjdtNiAxMCAzIDMgNi02JTI3LyUzZSUzYy9zdmclM2VcIik7XG59XG5cbi5rdi1jaGVjay13YXJuaW5nLmt2LXJhZGlvLXNxdWFyZVt0eXBlPVwicmFkaW9cIl06Y2hlY2tlZCwgLmt2LWNoZWNrLWluZm8ua3YtcmFkaW8tc3F1YXJlW3R5cGU9XCJyYWRpb1wiXTpjaGVja2VkLCAua3YtY2hlY2stbGlnaHQua3YtcmFkaW8tc3F1YXJlW3R5cGU9XCJyYWRpb1wiXTpjaGVja2VkIHtcbiAgICBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoXCJkYXRhOmltYWdlL3N2Zyt4bWwsJTNjc3ZnIHhtbG5zPSUyN2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJTI3IHZpZXdCb3g9JTI3MCAwIDIwIDIwJTI3JTNlJTNjcGF0aCBmaWxsPSUyN25vbmUlMjcgc3Ryb2tlPSUyNyUyMzAwMCUyNyBzdHJva2UtbGluZWNhcD0lMjdyb3VuZCUyNyBzdHJva2UtbGluZWpvaW49JTI3cm91bmQlMjcgc3Ryb2tlLXdpZHRoPSUyNzMlMjcgZD0lMjdtNiAxMCAzIDMgNi02JTI3LyUzZSUzYy9zdmclM2VcIik7XG59XG5cbi5rdl9maWVsZHNldCB7XG4gICAgYm9yZGVyOiAxcHggc29saWQgI2RlZTJlNjtcbiAgICBib3JkZXItcmFkaXVzOiAwLjI1cmVtO1xuICAgIHBhZGRpbmctbGVmdDogMXJlbTtcbiAgICBwYWRkaW5nLXJpZ2h0OiAxcmVtO1xufVxuXG4ua3ZfZmllbGRzZXQgbGVnZW5kIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCAjZGVlMmU2O1xuICAgIGJvcmRlci1yYWRpdXM6IDAuMjVyZW07XG4gICAgbWFyZ2luLWJvdHRvbTogMDtcbiAgICBmb250LXNpemU6IDFyZW07XG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gICAgcGFkZGluZzogM3B4IDEwcHggM3B4IDEwcHg7XG4gICAgd2lkdGg6IGF1dG87XG4gICAgZmxvYXQ6IGluaGVyaXQ7XG59XG5cbmZvcm0gZmllbGRzZXQua3ZfZmllbGRzZXQge1xuICAgIHBhZGRpbmctdG9wOiA1cHg7XG4gICAgbWFyZ2luLWJvdHRvbTogOHB4O1xufVxuXG5mb3JtW2NsYXNzfj1cImZvcm0taG9yaXpvbnRhbFwiXSBmaWVsZHNldC5rdl9maWVsZHNldCB7XG4gICAgcGFkZGluZy1sZWZ0OiAxLjFyZW07XG4gICAgcGFkZGluZy1yaWdodDogMnJlbTtcbiAgICBtYXJnaW4tcmlnaHQ6IC0xNXB4O1xuICAgIG1hcmdpbi1sZWZ0OiAtMTVweDtcbn1cblxuZm9ybVtjbGFzc349XCJmb3JtLWlubGluZVwiXSBmaWVsZHNldC5rdl9maWVsZHNldCB7XG4gICAgbWFyZ2luLXJpZ2h0OiA2cHg7XG59XG4iXSwic291cmNlUm9vdCI6IiJ9 */</style></head>
+  <body data-bs-no-jquery="true">
+    <div id="kvapp" style="background-image: url(&quot;img/AutogenesisTitle.png&quot;); background-repeat: no-repeat; background-size: cover; background-attachment: fixed; background-position: center center;"><div style="width: 100vw; height: 100vh; position: relative;"><div class="gameplay-ui" data-testid="gameplay-ui" style="width: 100%; height: 100vh; background-image: url(&quot;img/AutogenesisBlank.png&quot;); background-size: cover; background-repeat: no-repeat; background-position: center center; background-attachment: fixed; min-height: 100vh; z-index: 1;"><div class="login-widget-window modal modal-content kv-window" id="kv_window_1" style="position: absolute; overflow: hidden; width: 400px; z-index: 1000; resize: both; left: 0px; top: 0px; height: 600px; justify-items: center;"><div class="modal-header"><h5 class="modal-title kv-text-center" style="justify-items: center; place-self: center; font-size: 20px;">Game History</h5><div class="kv-window-icons-container"></div></div><div style="height: 545px; width: 396px; overflow: auto; margin-bottom: 11px;"><div style="display: flex; flex-direction: column; width: 100%; height: 100%;"><div class="gh-header-container" style="display: flex; justify-content: center; width: 100%; height: 42px;"><button class="gh-tab-button gh-tab-button-active btn btn-primary" type="button"><i class="fas fa-book-open"></i> Story</button><button class="gh-tab-button btn btn-primary" type="button"><i class="fas fa-list"></i> Details</button><button class="gh-tab-button btn btn-primary gh-tab-glow" type="button"><i class="fas fa-globe"></i> Geopolitics</button><button class="gh-tab-button btn btn-primary" type="button"><i class="fas fa-stream"></i> Work Stream</button></div><div class="gh-stack-container" style="width: 100%; height: 100%; overflow: hidden;"><div style="display: flex; flex-direction: column; padding: 12px; overflow: auto; align-items: stretch; width: 100%; height: 100%;"></div></div></div></div></div><div class="login-widget-window" style="width: 540px; height: 650px; min-width: 520px; min-height: 620px; max-width: 92vw; max-height: 90vh; position: fixed; top: 50%; left: 50%; margin-top: -300px; margin-left: -250px; z-index: 100; padding: 20px; display: none; flex-direction: column; animation: 0.3s ease-out 0s 1 normal none running dialogFadeIn;"><div style="display: flex; flex-direction: column; align-items: center; width: 100%; flex-grow: 1; overflow: hidden;"><h4 style="color: cyan; font-size: 28px; font-weight: bold; margin-bottom: 10px; text-shadow: cyan 0px 0px 5px;">World Stats</h4><div style="display: flex; flex-direction: column; width: 100%; overflow: auto; margin-bottom: 10px;"><p style="font-size: 24px; font-weight: bold; color: white; margin-bottom: 12px; text-align: center; width: 100%;">Round: 1</p><p style="font-size: 16px; color: lightgray; margin-bottom: 12px; text-align: center; width: 100%;">Points Claimed: 101 / 223</p><h4 style="color: gold; font-size: 20px; font-weight: bold; margin-bottom: 12px; margin-top: 10px; text-align: center; width: 100%;">Leaderboard</h4><div style="display: flex; flex-direction: column; width: 100%; align-items: center; margin-bottom: 12px;"><div style="display: flex; width: 100%; align-items: center; justify-content: space-between; margin-bottom: 5px;"><span style="color: white; font-size: 14px; font-weight: bold; margin-right: 10px;">1. AUongfa834nfa</span><span style="color: lightgreen; font-size: 14px; font-weight: bold; margin-right: 10px;">52 VP</span></div><div style="display: flex; width: 100%; align-items: center; justify-content: space-between; margin-bottom: 5px;"><span style="color: white; font-size: 14px; font-weight: normal; margin-right: 10px;">2. Ogadi Okwengu</span><span style="color: lightgreen; font-size: 14px; font-weight: bold; margin-right: 10px;">10 VP</span></div></div></div></div><div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 20px; flex-shrink: 0;"><button class="btn btn-play btn-primary" type="button"><i class="fas fa-times"></i> CLOSE</button></div></div><div class="login-widget-window" style="width: 600px; height: 700px; position: fixed; top: 50%; left: 50%; margin-top: -350px; margin-left: -300px; z-index: 102; padding: 20px; display: none; flex-direction: column; align-items: center; animation: 0.3s ease-out 0s 1 normal none running dialogFadeIn;"><div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 100%; overflow: auto;"><h4 style="color: cyan; font-size: 28px; font-weight: bold; margin-bottom: 10px; text-shadow: cyan 0px 0px 5px;">My Resources</h4><div style="display: flex; flex-direction: column; width: 90%; align-items: center; margin-bottom: 10px;"><p style="color: gray; font-style: italic; margin-bottom: 15px;">No resources owned.</p></div></div><div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 20px; flex-shrink: 0;"><button class="btn btn-play btn-primary" type="button"><i class="fas fa-times"></i> CLOSE</button></div></div><div class="login-widget-window" style="width: 600px; height: 700px; position: fixed; top: 50%; left: 50%; margin-top: -350px; margin-left: -300px; z-index: 105; padding: 20px; display: none; flex-direction: column; animation: 0.3s ease-out 0s 1 normal none running dialogFadeIn; align-items: center;"><div class="" style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 100%; overflow: hidden;"><h4 style="color: cyan; font-size: 28px; font-weight: bold; margin-bottom: 15px; text-shadow: cyan 0px 0px 5px;">Territories</h4><div style="display: flex; flex-direction: column; width: 90%; height: 100%; align-items: center; overflow: auto; margin-bottom: 15px;"></div></div><div style="display: flex; width: 100%; justify-content: center; align-items: center; margin-top: 20px; flex-shrink: 0;"><button class="btn btn-play btn-primary" type="button"><i class="fas fa-times"></i> CLOSE</button></div></div><div class="login-widget-window" style="width: 900px; height: 700px; position: fixed; top: 50%; left: 50%; margin-top: -350px; margin-left: -450px; z-index: 105; padding: 20px; display: none; flex-direction: column; align-items: center; animation: 0.3s ease-out 0s 1 normal none running dialogFadeIn;"><div style="display: flex; flex-direction: column; align-items: center; width: 100%; flex-grow: 1;"><h4 style="color: cyan; font-size: 28px; font-weight: bold; margin-bottom: 10px; text-shadow: cyan 0px 0px 5px; text-align: center;">Player Name</h4><p style="color: lightgray; font-size: 16px; font-style: italic; text-align: center; margin-bottom: 10px; width: 80%;">Description placeholder</p><div style="display: flex; width: 100%; align-items: center; margin-bottom: 10px; justify-content: center;"></div></div><div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 20px; flex-shrink: 0;"><button class="btn btn-play btn-primary" type="button"><i class="fas fa-times"></i> CLOSE</button></div></div><div class="login-widget-window" style="width: 700px; height: 800px; position: fixed; top: 50%; left: 50%; margin-top: -400px; margin-left: -350px; z-index: 101; padding: 20px; display: none; flex-direction: column; align-items: center;"><h4 style="color: cyan; font-size: 28px; font-weight: bold; margin-top: 0px; margin-bottom: 10px; text-shadow: cyan 0px 0px 5px;">Game Statistics</h4><div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 10px;"><button class="btn-tab btn btn-primary" type="button" style="margin-right: 20px; background: transparent; border-width: 0px 0px 2px; border-style: none none solid; border-color: transparent transparent gold; border-image: initial; border-radius: 0px; padding: 10px; font-size: 16px; color: gold; font-weight: bold;">Player Stats</button><button class="btn-tab btn btn-primary" type="button" style="margin-right: 20px; background: transparent; border-width: 0px 0px 2px; border-style: none none solid; border-color: transparent; border-image: initial; border-radius: 0px; padding: 10px; font-size: 16px; color: lightgray; font-weight: normal;">NPC Stats</button><button class="btn-tab btn btn-primary" type="button" style="margin-right: 20px; background: transparent; border-width: 0px 0px 2px; border-style: none none solid; border-color: transparent; border-image: initial; border-radius: 0px; padding: 10px; font-size: 16px; color: lightgray; font-weight: normal;">Territories</button><button class="btn-tab btn btn-primary" type="button" style="margin-right: 20px; background: transparent; border-width: 0px 0px 2px; border-style: none none solid; border-color: transparent; border-image: initial; border-radius: 0px; padding: 10px; font-size: 16px; color: lightgray; font-weight: normal;">Turn Order</button></div><div style="display: flex; flex-direction: column; width: 100%; flex-grow: 1; overflow: hidden; border: 1px solid darkgray; background: rgb(0, 0, 51); padding: 10px;"><div style="display: flex; flex-direction: column; width: 100%; height: 100%; padding: 10px; overflow-y: scroll; opacity: 1; transition: opacity 0.2s ease-in-out;"><div style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px; margin-bottom: 5px; background: rgb(26, 26, 46); border: 1px solid rgb(56, 63, 89); border-radius: 5px;"><span style="color: white; font-size: 16px; font-weight: bold; margin-right: 10px;">AUongfa834nfa</span><div style="display: flex; margin-right: 10px;"><button class="btn btn-sm btn-primary" title="RESOURCES" type="button" style="margin-right: 5px;"><span class="fas fa-box-open" style="font-size: 18px;"></span><span style="font-size: 12px; font-weight: bold;">RESOURCES</span></button><button class="btn btn-sm btn-primary" title="TERRITORIES" type="button" style="margin-right: 5px;"><span class="fas fa-map-marked-alt" style="font-size: 18px;"></span><span style="font-size: 12px; font-weight: bold;">TERRITORIES</span></button><button class="btn btn-sm btn-primary" title="INFO" type="button" style="margin-right: 5px;"><span class="fas fa-info-circle" style="font-size: 18px;"></span><span style="font-size: 12px; font-weight: bold;">INFO</span></button></div></div><div style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px; margin-bottom: 5px; background: rgb(26, 26, 46); border: 1px solid rgb(56, 63, 89); border-radius: 5px;"><span style="color: white; font-size: 16px; font-weight: bold; margin-right: 10px;">Ogadi Okwengu</span><div style="display: flex; margin-right: 10px;"><button class="btn btn-sm btn-primary" title="RESOURCES" type="button" style="margin-right: 5px;"><span class="fas fa-box-open" style="font-size: 18px;"></span><span style="font-size: 12px; font-weight: bold;">RESOURCES</span></button><button class="btn btn-sm btn-primary" title="TERRITORIES" type="button" style="margin-right: 5px;"><span class="fas fa-map-marked-alt" style="font-size: 18px;"></span><span style="font-size: 12px; font-weight: bold;">TERRITORIES</span></button><button class="btn btn-sm btn-primary" title="INFO" type="button" style="margin-right: 5px;"><span class="fas fa-info-circle" style="font-size: 18px;"></span><span style="font-size: 12px; font-weight: bold;">INFO</span></button></div></div></div><div style="display: none; flex-direction: column; width: 100%; height: 100%; padding: 10px; overflow-y: scroll; opacity: 0; transition: opacity 0.2s ease-in-out;"></div><div style="display: none; flex-direction: column; width: 100%; height: 100%; padding: 10px; overflow-y: scroll; opacity: 0; transition: opacity 0.2s ease-in-out;"></div><div style="display: none; width: 100%; flex-direction: column; height: 100%; padding: 10px; overflow-y: scroll; opacity: 0; transition: opacity 0.2s ease-in-out;"></div></div><div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 15px; flex-shrink: 0;"><button class="btn btn-play btn-primary" type="button"><i class="fas fa-times"></i> CLOSE</button></div></div><div class="login-widget-window" style="width: 600px; height: 100%; position: fixed; top: 120px; left: calc(50% - 300px); z-index: 200; padding: 30px; display: none; flex-direction: column; align-items: center; bottom: 220px; max-width: calc(-40px + 100vw); max-height: calc(-340px + 100vh); box-sizing: border-box; overflow: hidden; justify-content: flex-start; animation: 0.3s ease-out 0s 1 normal none running dialogFadeIn;"><h4 style="color: cyan; font-size: 32px; font-weight: bold; margin-bottom: 24px; text-shadow: cyan 0px 0px 5px;">Game Settings</h4><div style="display: flex; align-items: stretch; width: 90%; flex-direction: column; flex-grow: 1; overflow: auto; min-height: 0px;"><div style="display: flex; flex-direction: column; margin-bottom: 24px;"><div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span style="color: white; font-size: 18px;">Music Volume</span><span style="color: cyan; font-size: 18px;">50%</span></div><input class="form-range" type="range" value="50" min="0" max="100" step="1" style="width: 100%; margin-bottom: 8px;"></div><div style="display: flex; flex-direction: column; margin-bottom: 24px;"><div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span style="color: white; font-size: 18px;">SFX Volume</span><span style="color: cyan; font-size: 18px;">75%</span></div><input class="form-range" type="range" value="75" min="0" max="100" step="1" style="width: 100%; margin-bottom: 8px;"></div><div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;"><span style="color: white; font-size: 18px;">Show Tooltips</span><div class="form-check" style="cursor: pointer;"><input class="form-check-input" id="kv_form_checkbox_3" type="checkbox" checked="checked"><label class="form-check-label" for="kv_form_checkbox_3"><span></span></label></div></div><div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;"><span style="color: white; font-size: 18px;">Fullscreen Mode</span><div class="form-check" style="cursor: pointer;"><input class="form-check-input" id="kv_form_checkbox_4" type="checkbox"><label class="form-check-label" for="kv_form_checkbox_4"><span></span></label></div></div><div style="height: 1px; background: rgba(255, 80, 80, 0.235); margin-top: 12px; margin-bottom: 24px;"></div><button class="btn btn-primary btn-surrender" type="button" style="background: linear-gradient(135deg, rgb(139, 26, 26), rgb(178, 34, 34)); border: 1px solid rgb(255, 68, 68); font-size: 18px; color: white; font-weight: bold; width: 100%; height: 50px; cursor: pointer; margin-top: 8px; margin-bottom: 24px;"><i class="fas fa-flag"></i> SURRENDER</button></div><button class="btn btn-play btn-primary" type="button" style="width: 200px; height: 60px; font-size: 24px; font-weight: bold; color: white; margin-top: 20px; margin-bottom: 10px;"><i class="fas fa-times"></i> CLOSE</button></div><div class="login-widget-window" style="width: 90vw; position: fixed; top: 50%; left: 50%; max-width: 820px; max-height: 95vh; z-index: 5000; padding: 32px; display: none; flex-direction: column; align-items: center; min-width: 360px; transform: translate(-50%, -50%); overflow-y: visible;"><div style="display: flex; flex-direction: column; align-items: center; width: 100%; animation: 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0s 1 normal none running dialogFadeIn;"><h1 style="font-size: 54px; font-weight: bold; letter-spacing: 6px; text-align: center; margin-bottom: 16px; text-shadow: cyan 0px 0px 20px;"></h1><div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 16px;"><div class="commander-selection-card-active" style="width: 120px; height: 120px; border-radius: 60px; display: flex; align-items: center; justify-content: center; font-size: 48px; margin-bottom: 15px; box-shadow: cyan 0px 0px 30px 0px;">👤</div><h2 style="font-size: 28px; color: gold; text-align: center; margin-bottom: 30px;"></h2></div><div style="display: flex; justify-content: space-around; width: 100%; margin-top: 6px; margin-bottom: 16px; flex-wrap: wrap;"></div><div style="display: flex; flex-direction: column; align-items: center; width: 100%; margin-bottom: 16px;"></div><button class="btn btn-play btn-primary" type="button" style="width: 100%; max-width: 360px; height: 56px; font-size: 18px; font-weight: bold; letter-spacing: 2px; margin-top: 12px; margin-bottom: 16px;">RETURN TO MAIN MENU</button></div></div><div class="login-widget-window" style="display: none; align-items: center; width: 600px; padding: 30px; max-width: calc(-40px + 100vw); max-height: calc(-340px + 100vh); position: fixed; top: 120px; left: calc(50% - 300px); z-index: 200; flex-direction: column; height: 100%; bottom: 220px; box-sizing: border-box; overflow: hidden; justify-content: center; animation: 0.3s ease-out 0s 1 normal none running dialogFadeIn;"><h4 style="color: cyan; font-size: 28px; font-weight: bold; margin-bottom: 8px; text-shadow: cyan 0px 0px 5px; text-align: center; width: 100%;">DELEGATE INSTRUCTIONS</h4><p style="color: lightgray; font-size: 14px; font-style: italic; text-align: center; margin-bottom: 16px; width: 100%;">Guidance for the AI that takes over your character when you step away.</p><div style="display: flex; flex-direction: column; align-items: stretch; width: 100%; flex-grow: 1; overflow: auto; min-height: 0px; position: relative;"><div class="form-group kv-mb-3" style="width: 100%; height: 200px; font-size: 15px; padding: 12px; margin-bottom: 8px;"><textarea class="form-control" id="kv_form_text_0" placeholder="E.g., 'Prioritize defending the north front. Avoid attacking Qos. If pressured, trade with Kara for resources rather than fighting.'" cols="70" rows="8"></textarea></div><span style="font-size: 13px; color: rgb(160, 168, 204); text-align: center; width: 100%; margin-top: 4px; margin-bottom: 8px;">0 / 1500 characters</span></div><div style="display: flex; align-items: center; width: 100%; justify-content: center; margin-top: 20px; flex-shrink: 0;"><button class="delegate-modal-button delegate-modal-button-secondary btn btn-primary" type="button" style="margin-right: 12px;"><i class="fas fa-eraser"></i> CLEAR</button><button class="delegate-modal-button delegate-modal-button-secondary btn btn-primary" type="button" style="margin-right: 12px;"><i class="fas fa-times"></i> CANCEL</button><button class="btn btn-primary delegate-modal-button delegate-modal-button-primary" type="button" style="margin-right: 12px;"><i class="fas fa-save"></i> SAVE</button></div></div><div class="" style="height: 100%; width: 100%; z-index: 2;"><div style="display: flex; justify-content: space-between; align-items: stretch; width: 100%; flex-direction: column; height: 100%;"><div style="order: 2; flex-grow: 1; flex-basis: 0%;"><div style="display: flex; justify-content: space-between; align-items: stretch; width: 100%; height: 100%;"><div style="order: 1; flex-basis: 0%;"><div style="display: flex; flex-direction: column; width: 400px; min-width: 400px; height: 100%;"></div></div><div style="order: 2; flex-grow: 1; flex-basis: 0%;"><div style="width: 100%; height: 100%; z-index: 3;"><div class="" style="width: 100%; height: 100%; background: rgb(26, 26, 46); z-index: 200;"><div class="" style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; align-items: stretch;"><div style="order: 2; flex-grow: 1; flex-basis: 0%;"><div style="display: flex; justify-content: space-between; align-items: stretch; width: 100%; height: 100%;"><div style="order: 2; flex-grow: 1; flex-basis: 0%;"><div style="display: flex; flex-direction: column; width: 100%; height: 100%;"><div style="width: 100%; height: 100%; margin-bottom: 0px;"><div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;"><h1 style="color: white; font-size: 48px; margin-bottom: 20px; text-shadow: cyan 0px 0px 10px;">Your Turn To Act</h1><p style="color: lightgray; font-size: 18px; margin-bottom: 20px;">Review the map and issue your commands.</p><button class="btn btn-play btn-primary" type="button" style="width: 200px; height: 60px; font-size: 24px; margin-bottom: 20px;">Go To Map</button></div></div></div></div></div></div><div style="order: 3; flex-basis: 0%;"><div style="display: flex; flex-direction: column; width: 100%; background: rgb(14, 14, 26); border-top: 2px solid rgb(51, 51, 51); align-items: center; justify-content: center; padding-top: 8px;"><div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;"><div style="display: flex; flex-direction: column; align-items: center; margin-right: 25px;"><span class="fas fa-flag fa-pulse" style="font-size: 18px; color: cyan; margin-bottom: 5px;"></span><span style="color: gray; font-size: 10px; margin-bottom: 5px;">Start</span></div><div style="display: flex; flex-direction: column; align-items: center; margin-right: 25px;"><span class="fas fa-terminal" style="font-size: 18px; color: gray; margin-bottom: 5px;"></span><span style="color: gray; font-size: 10px; margin-bottom: 5px;">Action</span></div><div style="display: flex; flex-direction: column; align-items: center; margin-right: 25px;"><span class="fas fa-brain" style="font-size: 18px; color: gray; margin-bottom: 5px;"></span><span style="color: gray; font-size: 10px; margin-bottom: 5px;">Planning</span></div><div style="display: flex; flex-direction: column; align-items: center; margin-right: 25px;"><span class="fas fa-pen-nib" style="font-size: 18px; color: gray; margin-bottom: 5px;"></span><span style="color: gray; font-size: 10px; margin-bottom: 5px;">Writing</span></div><div style="display: flex; flex-direction: column; align-items: center; margin-right: 25px;"><span class="fas fa-gavel" style="font-size: 18px; color: gray; margin-bottom: 5px;"></span><span style="color: gray; font-size: 10px; margin-bottom: 5px;">Judging</span></div><div style="display: flex; flex-direction: column; align-items: center; margin-right: 25px;"><span class="fas fa-truck-loading" style="font-size: 18px; color: gray; margin-bottom: 5px;"></span><span style="color: gray; font-size: 10px; margin-bottom: 5px;">Dispatch</span></div><div style="display: flex; flex-direction: column; align-items: center; margin-right: 25px;"><span class="fas fa-users" style="font-size: 18px; color: gray; margin-bottom: 5px;"></span><span style="color: gray; font-size: 10px; margin-bottom: 5px;">NPCs</span></div><div style="display: flex; flex-direction: column; align-items: center; margin-right: 25px;"><span class="fas fa-globe-americas" style="font-size: 18px; color: gray; margin-bottom: 5px;"></span><span style="color: gray; font-size: 10px; margin-bottom: 5px;">World</span></div><div style="display: flex; flex-direction: column; align-items: center; margin-right: 25px;"><span class="fas fa-exclamation-triangle" style="font-size: 18px; color: gray; margin-bottom: 5px;"></span><span style="color: gray; font-size: 10px; margin-bottom: 5px;">Counter</span></div></div><span class="shimmer-text" style="font-size: 12px; text-align: center; width: 100%; margin-bottom: 10px;">Active actor: AUongfa834nfa</span></div></div></div></div></div></div></div></div><div style="order: 1; flex-basis: 0%;"><div style="display: flex; place-items: center stretch; width: 100%; height: 100px; padding-left: 400px;"><div class="score-display-widget" style="display: flex; width: 100%; height: 100px; align-items: center; justify-content: space-between;"><div style="display: flex; align-items: center; margin-right: 10px;"><p class="main-score-label" style="font-size: 24px; font-weight: bold; color: white; padding-left: 20px; text-shadow: cyan 0px 0px 5px; margin-right: 5px;">Main Score:</p><p class="main-score-text" style="margin-right: 5px;">52</p></div><div style="display: flex; align-items: center; margin-right: 10px;"><div class="resource-point-panel" style="display: flex; align-items: center; margin-right: 30px; padding-bottom: 10px;"><span class="fas fa-gavel" style="font-size: 28px; color: lightblue; margin-right: 10px;"></span><div style="display: flex; flex-direction: column; place-items: flex-start start; margin-right: 10px;"><p style="font-size: 14px; font-weight: bold; color: lightgray; margin-bottom: 2px;">Military</p><div style="display: flex; align-items: center; margin-bottom: 2px;"><span class="fas fa-cube" style="font-size: 12px; color: gold; margin-right: 5px;"></span><p class="" style="font-size: 14px; color: white; margin-bottom: 0px; margin-right: 5px;">100</p></div></div></div><div class="resource-point-panel" style="display: flex; align-items: center; margin-right: 30px; padding-bottom: 10px;"><span class="fas fa-handshake" style="font-size: 28px; color: lightblue; margin-right: 10px;"></span><div style="display: flex; flex-direction: column; place-items: flex-start start; margin-right: 10px;"><p style="font-size: 14px; font-weight: bold; color: lightgray; margin-bottom: 2px;">Diplomatic</p><div style="display: flex; align-items: center; margin-bottom: 2px;"><span class="fas fa-coins" style="font-size: 12px; color: gold; margin-right: 5px;"></span><p class="" style="font-size: 14px; color: white; margin-bottom: 0px; margin-right: 5px;">100</p></div></div></div><div class="resource-point-panel" style="display: flex; align-items: center; margin-right: 30px; padding-bottom: 10px;"><span class="fas fa-flask" style="font-size: 28px; color: lightblue; margin-right: 10px;"></span><div style="display: flex; flex-direction: column; place-items: flex-start start; margin-right: 10px;"><p style="font-size: 14px; font-weight: bold; color: lightgray; margin-bottom: 2px;">Research</p><div style="display: flex; align-items: center; margin-bottom: 2px;"><span class="fas fa-gem" style="font-size: 12px; color: gold; margin-right: 5px;"></span><p class="" style="font-size: 14px; color: white; margin-bottom: 0px; margin-right: 5px;">100</p></div></div></div><div class="resource-point-panel" style="display: flex; align-items: center; margin-right: 30px; padding-bottom: 10px;"><span class="fas fa-mountain" style="font-size: 28px; color: lightblue; margin-right: 10px;"></span><div style="display: flex; flex-direction: column; place-items: flex-start start; margin-right: 10px;"><p style="font-size: 14px; font-weight: bold; color: lightgray; margin-bottom: 2px;">Summit</p><div style="display: flex; align-items: center; margin-bottom: 2px;"><span class="fas fa-coins" style="font-size: 12px; color: gold; margin-right: 5px;"></span><p style="font-size: 14px; color: white; margin-bottom: 0px; margin-right: 5px;">0</p></div></div></div></div><div style="display: flex; align-items: center; margin-right: 10px;"><div style="display: flex; flex-direction: column; align-items: center; margin-right: 12px;"><span class="fas fa-trophy" style="font-size: 32px; color: gold; margin-bottom: 2px;"></span><p style="font-size: 14px; font-weight: bold; color: white; margin-bottom: 2px;">1st Place</p></div><div class="score-delegate-button" style="margin-right: 12px; padding: 6px 12px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; cursor: pointer; user-select: none;"><span class="fas fa-scroll" style="font-size: 22px; color: white;"></span><span style="font-size: 12px; font-weight: bold; color: white; line-height: 1;">DELEGATE</span></div><div class="turn-timer-widget" style="width: 240px; height: 54px; align-items: center; justify-content: center; margin-right: 12px;"><div class="turn-timer-track" style="width: 220px; height: 42px; position: relative; border-radius: 22px; border: 1px solid rgb(75, 95, 220); overflow: hidden; box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 18px inset;"><div style="position: absolute; top: 0px; left: 0px; bottom: 0px; width: 99%; border-radius: 22px; background: rgb(59, 125, 255); transition: width 0.35s; z-index: 0;"></div><span class="turn-timer-label" style="position: absolute; inset: 0px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 16px; font-weight: bold; color: white; z-index: 1; pointer-events: none;">04:57</span></div></div></div></div></div></div><div style="order: 3; flex-basis: 0%;"><div class="score-display-widget command-box-flash" style="display: flex; width: 100%; height: 200px; place-items: center stretch; padding-left: 30px;"><button class="btn btn-play btn-primary" type="button" style="width: 200px; height: 100px; font-size: 36px; margin-right: 10px;">Send</button><div style="min-width: 0px; position: relative; margin-right: 10px;"><div class="form-group kv-mb-3" style="font-size: 24px; margin-right: 10px;"><textarea class="form-control" id="kv_form_text_1" placeholder="Type the action you want the game to take, ask any question, use slash commands (e.g., /chat, /prompts), and hit Shift+Enter to send. Try asking how to play this game!" maxlength="500" cols="150" rows="8"></textarea></div><span class="character-counter" style="position: absolute; bottom: 20px; right: 20px; opacity: 0.5; font-size: 14px; z-index: 10; margin-right: 10px;">0 / 500</span></div><div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; width: 220px; height: 180px; margin-right: 10px;"><button class="action-button btn btn-primary" type="button" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;"><span class="fas fa-cubes" style="font-size: 20px;"></span><span style="font-size: 12px; font-weight: bold;">RESOURCES</span></button><button class="action-button btn btn-primary" type="button" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;"><span class="fas fa-chart-bar" style="font-size: 20px;"></span><span style="font-size: 12px; font-weight: bold;">STATS</span></button><button class="action-button btn btn-primary" type="button" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;"><span class="fas fa-globe" style="font-size: 20px;"></span><span style="font-size: 12px; font-weight: bold;">WORLD</span></button><button class="action-button btn btn-primary" type="button" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;"><span class="fas fa-cog" style="font-size: 20px;"></span><span style="font-size: 12px; font-weight: bold;">SETTINGS</span></button></div></div></div></div></div></div></div></div>
+    <script type="module" src="kvisionApp.js"></script>
+  
+
+</body></html>

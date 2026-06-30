@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="mapEditor-js">
+    <output-path>$PROJECT_DIR$/mapEditor/build/libs</output-path>
+    <root id="archive" name="mapEditor-js.jar">
+      <element id="module-output" name="Autogenesis.mapEditor.jsMain" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,1058 @@
+- generic [active] [ref=e1]:
+  - list:
+    - listitem:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]:
+        - /url: "#content"
+    - listitem:
+      - link "Skip to search" [ref=e3] [cursor=pointer]:
+        - /url: "#search"
+  - generic [ref=e772]:
+    - generic [ref=e773]:
+      - link "MongoDB Develop and launch modern apps with MongoDB Atlas, built for reliability and scale. Get started for free" [ref=e774] [cursor=pointer]:
+        - /url: /pong/click?code=aHR0cHM6Ly9zcnYuYnV5c2VsbGFkcy5jb20vYWRzL2NsaWNrL3gvR1RORDQyN1VDWUFENEtKV0NFNzRZS1FVQ0FTREMyN0VGNlNEUFozSkNBU0lLMlFFQ0VCSTVLSktDS1NEVks3TkM2N0lQS0o3Q1lCRFZLSkxDWUFJNjJKS0M2U0k1MkpZQ1k3REVLM0VISk5DTFNJWg%3D%3D.qiUL6hAzHPhk3KpNw5Ld%2FfGPAfyLVaFklXOMZtrZgns%3D&version=2
+        - generic [ref=e775]:
+          - img "MongoDB" [ref=e776]
+          - generic [ref=e777]: Develop and launch modern apps with MongoDB Atlas, built for reliability and scale.
+        - generic [ref=e778]: Get started for free
+      - link "Ad" [ref=e780] [cursor=pointer]:
+        - /url: /en-US/advertising
+    - link "Don't want to see ads?" [ref=e782] [cursor=pointer]:
+      - /url: /en-US/plus?ref=nope
+  - banner [ref=e7]:
+    - navigation [ref=e8]:
+      - link "MDN" [ref=e10] [cursor=pointer]:
+        - /url: /en-US/
+        - img "MDN" [ref=e11]
+      - button "Search the site" [ref=e17] [cursor=pointer]:
+        - img [ref=e18]
+      - button "Toggle navigation" [ref=e21] [cursor=pointer]
+      - text: (external) (external)
+    - generic [ref=e22]:
+      - button "Toggle sidebar" [ref=e25] [cursor=pointer]:
+        - img [ref=e27]
+      - list [ref=e29]:
+        - listitem [ref=e30]:
+          - link "Web" [ref=e31] [cursor=pointer]:
+            - /url: /en-US/docs/Web
+        - listitem [ref=e32]:
+          - link "Media" [ref=e33] [cursor=pointer]:
+            - /url: /en-US/docs/Web/Media
+        - listitem [ref=e34]:
+          - link "Guides" [ref=e35] [cursor=pointer]:
+            - /url: /en-US/docs/Web/Media/Guides
+        - listitem [ref=e36]:
+          - link "Autoplay guide for media and Web Audio APIs" [ref=e37] [cursor=pointer]:
+            - /url: /en-US/docs/Web/Media/Guides/Autoplay
+      - button "Switch color theme" [ref=e41] [cursor=pointer]:
+        - generic [ref=e42]: Theme
+      - generic [ref=e45]:
+        - button "English (US)" [ref=e46] [cursor=pointer]:
+          - generic [ref=e47]: English (US)
+        - generic: Remember language
+  - main [ref=e50]:
+    - generic [ref=e51]:
+      - heading "Autoplay guide for media and Web Audio APIs" [level=1] [ref=e52]
+      - generic [ref=e53]:
+        - paragraph [ref=e54]: Automatically starting the playback of audio (or videos with audio tracks) immediately upon page load can be an unwelcome surprise to users. While autoplay of media serves a useful purpose, it should be used carefully and only when needed. In order to give users control over this, browsers often provide various forms of autoplay blocking. In this guide, we'll cover autoplay functionality in the various media and Web Audio APIs, including a brief overview of how to use autoplay and how to work with browsers to handle autoplay blocking gracefully.
+        - paragraph [ref=e55]:
+          - text: Autoplay blocking is
+          - emphasis [ref=e56]: not
+          - text: applied to
+          - link "<video>" [ref=e57] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/video
+            - code [ref=e58]: <video>
+          - text: elements when the source media does not have an audio track, or if the audio track is muted. Media with an active audio track are considered to be
+          - strong [ref=e59]: audible
+          - text: ", and autoplay blocking applies to them."
+          - strong [ref=e60]: Inaudible
+          - text: media are not affected by autoplay blocking.
+    - complementary [ref=e61]:
+      - navigation [ref=e62]:
+        - heading "In this article" [level=2] [ref=e63]
+        - list [ref=e64]:
+          - listitem [ref=e65]:
+            - link "Autoplay and autoplay blocking" [ref=e66] [cursor=pointer]:
+              - /url: "#autoplay_and_autoplay_blocking"
+          - listitem [ref=e67]:
+            - link "Autoplay of media elements" [ref=e68] [cursor=pointer]:
+              - /url: "#autoplay_of_media_elements"
+          - listitem [ref=e69]:
+            - link "Autoplay using the Web Audio API" [ref=e70] [cursor=pointer]:
+              - /url: "#autoplay_using_the_web_audio_api"
+          - listitem [ref=e71]:
+            - link "The autoplay Permissions Policy" [ref=e72] [cursor=pointer]:
+              - /url: "#the_autoplay_permissions_policy"
+          - listitem [ref=e73]:
+            - link "Best practices" [ref=e74] [cursor=pointer]:
+              - /url: "#best_practices"
+          - listitem [ref=e75]:
+            - link "Browser configuration options" [ref=e76] [cursor=pointer]:
+              - /url: "#browser_configuration_options"
+          - listitem [ref=e77]:
+            - link "See also" [ref=e78] [cursor=pointer]:
+              - /url: "#see_also"
+      - generic [ref=e784]:
+        - generic [ref=e785]:
+          - link "Adobe Migrate sites faster with AI Experience Manager includes an AI agent for site migration, block mapping, and Edge Delivery setup. Read the post" [ref=e786] [cursor=pointer]:
+            - /url: /pong/click?code=aHR0cHM6Ly9zcnYuYnV5c2VsbGFkcy5jb20vYWRzL2NsaWNrL3gvR1RORDQyN1VDWUFENEtKV0NFWUxZS1FVQ0FTREM1M1lGNjdJNlozSkNBU0lLMlFFQzZZREw1UUtDNkJJNDIzSUZUU0RQSzdOQ0tCRDUySllDNjdES0tKSkhFWUk1MjdORlRTRDY1M0VDVE5DWUJaNTJL.9LEqldTvRLQkLvPdvJKzaQoOVTx4mI7mT5rPv%2BGenG0%3D&version=2
+            - img "Adobe" [ref=e787]
+            - generic [ref=e788]:
+              - strong [ref=e789]: Migrate sites faster with AI
+              - generic [ref=e790]: Experience Manager includes an AI agent for site migration, block mapping, and Edge Delivery setup.
+              - generic [ref=e791]: Read the post
+          - link "Ad" [ref=e793] [cursor=pointer]:
+            - /url: /en-US/advertising
+        - link "Don't want to see ads?" [ref=e795] [cursor=pointer]:
+          - /url: /en-US/plus?ref=nope
+    - generic [ref=e79]:
+      - region "Autoplay and autoplay blocking" [ref=e80]:
+        - heading "Autoplay and autoplay blocking" [level=2] [ref=e81]:
+          - link "Autoplay and autoplay blocking" [ref=e82] [cursor=pointer]:
+            - /url: "#autoplay_and_autoplay_blocking"
+        - paragraph [ref=e83]:
+          - text: The term
+          - strong [ref=e84]: autoplay
+          - text: refers to any feature that causes media to begin to play without the user specifically requesting that playback begin. This includes both the use of HTML attributes to autoplay media as well as the use of JavaScript code to start playback outside the context of handling user input.
+        - paragraph [ref=e85]: "That means that both of the following are considered autoplay behavior, and are therefore subject to the browser's autoplay blocking policy:"
+        - generic [ref=e87]:
+          - generic [ref=e88]:
+            - generic [ref=e89]: html
+            - button "Copy" [ref=e92] [cursor=pointer]:
+              - generic [ref=e93]:
+                - generic: Copy
+          - code [ref=e95]:
+            - generic [ref=e96]:
+              - generic [ref=e97]: <audio
+              - text: src
+              - generic [ref=e98]: ="/music.mp3"
+              - text: autoplay>
+            - generic [ref=e99]:
+              - generic [ref=e100]: </audio
+              - text: ">"
+        - paragraph [ref=e101]: and
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - generic [ref=e105]: js
+            - button "Copy" [ref=e108] [cursor=pointer]:
+              - generic [ref=e109]:
+                - generic: Copy
+          - code [ref=e111]: audioElement.play();
+        - paragraph [ref=e112]: "The following web features and APIs may be affected by autoplay blocking:"
+        - list [ref=e113]:
+          - listitem [ref=e114]:
+            - text: The
+            - link "HTML" [ref=e115] [cursor=pointer]:
+              - /url: /en-US/docs/Glossary/HTML
+            - link "<audio>" [ref=e116] [cursor=pointer]:
+              - /url: /en-US/docs/Web/HTML/Reference/Elements/audio
+              - code [ref=e117]: <audio>
+            - text: and
+            - link "<video>" [ref=e118] [cursor=pointer]:
+              - /url: /en-US/docs/Web/HTML/Reference/Elements/video
+              - code [ref=e119]: <video>
+            - text: elements
+          - listitem [ref=e120]:
+            - text: The
+            - link "Web Audio API" [ref=e121] [cursor=pointer]:
+              - /url: /en-US/docs/Web/API/Web_Audio_API
+        - paragraph [ref=e122]: From the user's perspective, a web page or app that spontaneously starts making noise without warning can be jarring, inconvenient, or off-putting. Because of that, browsers generally only allow autoplay to occur successfully under specific circumstances.
+      - region "Autoplay availability" [ref=e123]:
+        - heading "Autoplay availability" [level=3] [ref=e124]:
+          - link "Autoplay availability" [ref=e125] [cursor=pointer]:
+            - /url: "#autoplay_availability"
+        - paragraph [ref=e126]:
+          - text: As a general rule, you can assume that media will be allowed to autoplay only if
+          - emphasis [ref=e127]: at least one
+          - text: "of the following is true:"
+        - list [ref=e128]:
+          - listitem [ref=e129]: The audio is muted or its volume is set to 0
+          - listitem [ref=e130]: The user has interacted with the site (by clicking, tapping, pressing keys, etc.)
+          - listitem [ref=e131]: If the site has been allowlisted; this may happen either automatically if the browser determines that the user engages with media frequently, or manually through preferences or other user interface features
+          - listitem [ref=e132]:
+            - text: If the autoplay
+            - link "Permissions Policy" [ref=e133] [cursor=pointer]:
+              - /url: /en-US/docs/Web/HTTP/Guides/Permissions_Policy
+            - text: is used to grant autoplay support to an
+            - link "<iframe>" [ref=e134] [cursor=pointer]:
+              - /url: /en-US/docs/Web/HTML/Reference/Elements/iframe
+              - code [ref=e135]: <iframe>
+            - text: and its document.
+        - paragraph [ref=e136]: Otherwise, the playback will likely be blocked. The exact situations that result in blocking, and the specifics of how sites become allowlisted, vary from browser to browser, but the above are good guidelines to go by.
+        - paragraph [ref=e137]:
+          - text: For details, see the autoplay policies for
+          - link "Google Chrome (external)" [ref=e138] [cursor=pointer]:
+            - /url: https://developer.chrome.com/blog/autoplay/
+          - text: and
+          - link "WebKit (external)" [ref=e139] [cursor=pointer]:
+            - /url: https://webkit.org/blog/7734/auto-play-policy-changes-for-macos/
+          - text: .
+        - paragraph [ref=e141]:
+          - strong [ref=e142]: "Note:"
+          - text: Put another way, playback of any media that includes audio is generally blocked if the playback is programmatically initiated in a tab which has not yet had any user interaction. Browsers may additionally choose to block under other circumstances.
+      - region "Autoplay of media elements" [ref=e143]:
+        - heading "Autoplay of media elements" [level=2] [ref=e144]:
+          - link "Autoplay of media elements" [ref=e145] [cursor=pointer]:
+            - /url: "#autoplay_of_media_elements"
+        - paragraph [ref=e146]: Now that we've covered what autoplay is and what can prevent autoplay from being allowed, we'll look at how your website or app can automatically play media upon page load, how to detect when autoplay fails to occur, and tips for coping when autoplay is denied by the browser.
+      - region "The autoplay attribute" [ref=e147]:
+        - heading "The autoplay attribute" [level=3] [ref=e148]:
+          - link "The autoplay attribute" [ref=e149] [cursor=pointer]:
+            - /url: "#the_autoplay_attribute"
+        - paragraph [ref=e150]:
+          - text: The simplest way to automatically play content is to add the
+          - link "autoplay" [ref=e151] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/audio#autoplay
+            - code [ref=e152]: autoplay
+          - text: attribute to your
+          - link "<audio>" [ref=e153] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/audio
+            - code [ref=e154]: <audio>
+          - text: or
+          - link "<video>" [ref=e155] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/video
+            - code [ref=e156]: <video>
+          - text: element, which sets the
+          - link "autoplay" [ref=e157] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/HTMLMediaElement/autoplay
+            - code [ref=e158]: autoplay
+          - text: property on the element to
+          - code [ref=e159]: "true"
+          - text: . When
+          - code [ref=e160]: autoplay
+          - text: is
+          - code [ref=e161]: "true"
+          - text: ", the media will automatically begin to play as soon as possible after the following have occurred:"
+        - list [ref=e162]:
+          - listitem [ref=e163]: The page is allowed to use autoplay functionality
+          - listitem [ref=e164]: The element has been created during page load
+          - listitem [ref=e165]: Enough media has been received to begin playback and continue to play through to the end of the media without interruption, assuming there are no dramatic changes in network performance or bandwidth.
+        - 'heading "Example: The autoplay attribute" [level=4] [ref=e166]'
+        - paragraph [ref=e167]:
+          - text: An
+          - link "<audio>" [ref=e168] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/audio
+            - code [ref=e169]: <audio>
+          - text: element using the
+          - code [ref=e170]: autoplay
+          - text: "attribute might look like this:"
+        - generic [ref=e172]:
+          - generic [ref=e173]:
+            - generic [ref=e174]: html
+            - button "Copy" [ref=e177] [cursor=pointer]:
+              - generic [ref=e178]:
+                - generic: Copy
+          - code [ref=e180]:
+            - generic [ref=e181]:
+              - generic [ref=e182]: <audio
+              - text: id
+              - generic [ref=e183]: ="musicplayer"
+              - text: autoplay>
+            - generic [ref=e184]:
+              - generic [ref=e185]: <source
+              - text: src
+              - generic [ref=e186]: ="/music/chapter1.mp3"
+              - text: />
+            - generic [ref=e187]:
+              - generic [ref=e188]: </audio
+              - text: ">"
+        - 'heading "Example 2: Detecting whether autoplay is allowed" [level=4] [ref=e189]'
+        - paragraph [ref=e190]:
+          - text: If autoplay is important for your application, you may need to customize behavior based on whether or not autoplay is allowed, disallowed, or only supported for inaudible content. For example, if your application needs to autoplay a video and you know that the page only allows the autoplay of inaudible content, you can either mute it or supply a video with no audio track. Similarly, if you know that autoplay is not allowed at all, you might provide a default image for the video (using the
+          - link "poster" [ref=e191] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/video#poster
+            - code [ref=e192]: poster
+          - text: attribute), or choose to defer loading the video until it is requested.
+        - paragraph [ref=e193]:
+          - text: The
+          - link "Navigator.getAutoplayPolicy()" [ref=e194] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/Navigator/getAutoplayPolicy
+            - code [ref=e195]: Navigator.getAutoplayPolicy()
+          - text: method can be used to check the autoplay policy for a type of media feature (i.e., all media elements, or all audio contexts) in a document, or to check whether a specific media element or audio context can autoplay.
+        - paragraph [ref=e196]:
+          - text: The example below shows how you pass the
+          - code [ref=e197]: mediaelement
+          - text: string to get the autoplay policy for all media elements in the document (pass
+          - code [ref=e198]: audiocontext
+          - text: to get the policy for audio contexts). The code assumes
+          - code [ref=e199]: video
+          - text: is an
+          - code [ref=e200]: HTMLVideoElement
+          - text: media element using the
+          - link "<video>" [ref=e201] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/video#autoplay
+            - code [ref=e202]: <video>
+          - text: tag or
+          - link "HTMLVideoElement" [ref=e203] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/HTMLVideoElement
+            - code [ref=e204]: HTMLVideoElement
+          - text: ", and that it is configured to autoplay with audio by default. If autoplay is only allowed for inaudible content, we mute the audio; if autoplay is disallowed, we make sure that a placeholder image is displayed for the video."
+        - generic [ref=e206]:
+          - generic [ref=e207]:
+            - generic [ref=e208]: js
+            - button "Copy" [ref=e211] [cursor=pointer]:
+              - generic [ref=e212]:
+                - generic: Copy
+          - code [ref=e214]: "if (navigator.getAutoplayPolicy(\"mediaelement\") === \"allowed\") { // The video element will autoplay with audio. } else if (navigator.getAutoplayPolicy(\"mediaelement\") === \"allowed-muted\") { // Mute audio on video video.muted = true; } else if (navigator.getAutoplayPolicy(\"mediaelement\") === \"disallowed\") { // Set a default placeholder image. video.poster = \"http://example.com/poster_image_url\"; }"
+        - paragraph [ref=e215]:
+          - text: The code to test a specific element or audio context is the same, except that you pass in the element or context to test rather than the type string. Here we pass in the
+          - code [ref=e216]: video
+          - text: object we want to test.
+        - generic [ref=e218]:
+          - generic [ref=e219]:
+            - generic [ref=e220]: js
+            - button "Copy" [ref=e223] [cursor=pointer]:
+              - generic [ref=e224]:
+                - generic: Copy
+          - code [ref=e226]: "if (navigator.getAutoplayPolicy(video) === \"allowed\") { // The video element will autoplay with audio. } else if (navigator.getAutoplayPolicy(video) === \"allowed-muted\") { // Mute audio on video video.muted = true; } else if (navigator.getAutoplayPolicy(video) === \"disallowed\") { // Set a default placeholder image. video.poster = \"http://example.com/poster_image_url\"; }"
+        - paragraph [ref=e227]: The autoplay policy for a type may change due to user interaction with the site, page, or a particular element. Similarly, on some browsers the policy for a specific element might change even though the policy for the type has not (for example, on browsers where touching a particular element can allow just that element to autoplay).
+        - paragraph [ref=e228]: As there is no way to be notified when the autoplay policy has changed (either for a type or element), generally we recommend that the policy is checked when the page is loaded, using the type.
+        - 'heading "Example 3: Detecting autoplay failure as a fallback" [level=4] [ref=e229]'
+        - paragraph [ref=e230]:
+          - text: No specific event (or other notification) is triggered by autoplay success or failure, so browsers that do not support
+          - link "Navigator.getAutoplayPolicy()" [ref=e231] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/Navigator/getAutoplayPolicy
+            - code [ref=e232]: Navigator.getAutoplayPolicy()
+          - text: have no easy way to determine if autoplay is supported, or to react when it is triggered or not triggered.
+        - paragraph [ref=e233]:
+          - text: One approach is to listen for the first instance of the
+          - link "play" [ref=e234] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/HTMLMediaElement/play_event
+            - code [ref=e235]: play
+          - text: event, which is fired on the media element when is resumed after being paused
+          - emphasis [ref=e236]: and
+          - text: when autoplay occurs. That means that the first time the
+          - code [ref=e237]: play
+          - text: event is fired, you know your media is being started for the first time after the page is opened,
+        - paragraph [ref=e238]: "Consider this HTML for a media element:"
+        - generic [ref=e240]:
+          - generic [ref=e241]:
+            - generic [ref=e242]: html
+            - button "Copy" [ref=e245] [cursor=pointer]:
+              - generic [ref=e246]:
+                - generic: Copy
+          - code [ref=e248]:
+            - generic [ref=e249]:
+              - generic [ref=e250]: <video
+              - text: src
+              - generic [ref=e251]: ="my-video.mp4"
+              - text: id
+              - generic [ref=e252]: ="video"
+              - text: autoplay>
+            - generic [ref=e253]:
+              - generic [ref=e254]: </video
+              - text: ">"
+        - paragraph [ref=e255]:
+          - text: Here we have a
+          - link "<video>" [ref=e256] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/video
+            - code [ref=e257]: <video>
+          - text: element whose
+          - link "autoplay" [ref=e258] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/video#autoplay
+            - code [ref=e259]: autoplay
+          - text: attribute is set and with a
+          - link "play" [ref=e260] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/HTMLMediaElement/play_event
+            - code [ref=e261]: play
+          - text: event handler set up; the event is handled by a function called
+          - code [ref=e262]: handleFirstPlay()
+          - text: ", which receives as input the"
+          - code [ref=e263]: play
+          - text: event.
+        - paragraph [ref=e264]:
+          - code [ref=e265]: handleFirstPlay()
+          - text: "looks like this:"
+        - generic [ref=e267]:
+          - generic [ref=e268]:
+            - generic [ref=e269]: js
+            - button "Copy" [ref=e272] [cursor=pointer]:
+              - generic [ref=e273]:
+                - generic: Copy
+          - code [ref=e275]: "const video = document.getElementById(\"video\"); video.addEventListener(\"play\", handleFirstPlay); let hasPlayed = false; function handleFirstPlay(event) { if (!hasPlayed) { hasPlayed = true; // Remove listener so this only gets called once. const vid = event.target; vid.removeEventListener(\"play\", handleFirstPlay); // Start whatever you need to do after first playback has started } }"
+        - paragraph [ref=e276]:
+          - text: After getting a reference to the video element from the
+          - link "Event" [ref=e277] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/Event
+            - code [ref=e278]: Event
+          - text: object's
+          - link "target" [ref=e279] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/Event/target
+            - code [ref=e280]: target
+          - text: ", we use it to remove the event listener. This will prevent any future"
+          - code [ref=e281]: play
+          - text: events from being delivered to the handler. That could happen if the video is paused and resumed by the user or automatically by the browser when the document is in a background tab.
+        - paragraph [ref=e282]: At this point, your site or app can begin whatever it needs to do that relies upon the video having been started up.
+      - region "The play() method" [ref=e283]:
+        - heading "The play() method" [level=3] [ref=e284]:
+          - link "The play() method" [ref=e285] [cursor=pointer]:
+            - /url: "#the_play_method"
+        - paragraph [ref=e286]:
+          - text: The term "autoplay" also refers to scenarios in which a script tries to trigger the playback of media that includes audio, outside the context of handling a user input event. This is done by calling the media element's
+          - link "play()" [ref=e287] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/HTMLMediaElement/play
+            - code [ref=e288]: play()
+          - text: method.
+        - paragraph [ref=e290]:
+          - strong [ref=e291]: "Note:"
+          - text: It is strongly recommended that you use the
+          - code [ref=e292]: autoplay
+          - text: attribute whenever possible, because support for autoplay preferences are more widespread for the
+          - code [ref=e293]: autoplay
+          - text: attribute than for other means of playing media automatically. It also lets the browser take responsibility for starting playback, letting it optimize the timing of that taking place.
+        - 'heading "Example: Playing video" [level=4] [ref=e294]'
+        - paragraph [ref=e295]:
+          - text: This example plays the first
+          - link "<video>" [ref=e296] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/video
+            - code [ref=e297]: <video>
+          - text: element found in the document.
+          - code [ref=e298]: play()
+          - text: won't let the playback begin unless the document has permission to automatically play media.
+        - generic [ref=e300]:
+          - generic [ref=e301]:
+            - generic [ref=e302]: js
+            - button "Copy" [ref=e305] [cursor=pointer]:
+              - generic [ref=e306]:
+                - generic: Copy
+          - code [ref=e308]: document.querySelector("video").play();
+        - 'heading "Example: Handling play() failures" [level=4] [ref=e309]'
+        - paragraph [ref=e310]:
+          - text: It's much easier to detect a failure to autoplay media when you use the
+          - link "play()" [ref=e311] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/HTMLMediaElement/play
+            - code [ref=e312]: play()
+          - text: method to start it.
+          - code [ref=e313]: play()
+          - text: returns a
+          - link "Promise" [ref=e314] [cursor=pointer]:
+            - /url: /en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+            - code [ref=e315]: Promise
+          - text: which is resolved once the media successfully begins to play, and is rejected when playback fails to begin (such as if autoplay is denied). When autoplay fails, you likely will want to offer a way for the user to manually tell the browser to ask the user to grant permission to play media.
+        - paragraph [ref=e316]: "You might use code like this to accomplish the job:"
+        - generic [ref=e318]:
+          - generic [ref=e319]:
+            - generic [ref=e320]: js
+            - button "Copy" [ref=e323] [cursor=pointer]:
+              - generic [ref=e324]:
+                - generic: Copy
+          - code [ref=e326]: "let startPlayPromise = videoElem.play(); if (startPlayPromise !== undefined) { startPlayPromise .then(() => { // Start whatever you need to do only after playback // has begun. }) .catch((error) => { if (error.name === \"NotAllowedError\") { showPlayButton(videoElem); } else { // Handle a load or playback error } }); }"
+        - paragraph [ref=e327]:
+          - text: The first thing we do with the result of
+          - code [ref=e328]: play()
+          - text: is make sure it's not
+          - code [ref=e329]: undefined
+          - text: . We check for this because in earlier versions of the HTML specification,
+          - code [ref=e330]: play()
+          - text: didn't return a value. Returning a promise to allow you to determine success or failure of the operation was added more recently. Checking for
+          - code [ref=e331]: undefined
+          - text: prevents this code from failing with an error on older versions of web browsers.
+        - paragraph [ref=e332]:
+          - text: If the promise returned by
+          - code [ref=e333]: play()
+          - text: is resolved without error, the
+          - code [ref=e334]: then()
+          - text: clause is run and can begin whatever needs to be done when autoplay has begun.
+        - paragraph [ref=e335]:
+          - text: We then add a
+          - link "catch()" [ref=e336] [cursor=pointer]:
+            - /url: /en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch
+            - code [ref=e337]: catch()
+          - text: handler to the promise. This looks at the error's
+          - link "name" [ref=e338] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/DOMException/name
+            - code [ref=e339]: name
+          - text: to see if it's
+          - code [ref=e340]: NotAllowedError
+          - text: . This indicates that playback failed due to a permission issue, such as autoplay being denied. If that's the case, we should present a user interface to let the user manually start playback; that's handled here by a function
+          - code [ref=e341]: showPlayButton()
+          - text: .
+        - paragraph [ref=e342]: Any other errors are handled as appropriate.
+        - paragraph [ref=e343]:
+          - text: If you want to start playing the video after the first interaction with the page,
+          - link "setInterval()" [ref=e344] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/Window/setInterval
+            - code [ref=e345]: setInterval()
+          - text: "might be used to achieve this:"
+        - generic [ref=e347]:
+          - generic [ref=e348]:
+            - generic [ref=e349]: js
+            - button "Copy" [ref=e352] [cursor=pointer]:
+              - generic [ref=e353]:
+                - generic: Copy
+          - code [ref=e355]: "let playAttempt = setInterval(() => { videoElem .play() .then(() => { clearInterval(playAttempt); }) .catch((error) => { console.log(\"Unable to play the video, User has not interacted yet.\"); }); }, 3000);"
+      - region "Autoplay using the Web Audio API" [ref=e356]:
+        - heading "Autoplay using the Web Audio API" [level=2] [ref=e357]:
+          - link "Autoplay using the Web Audio API" [ref=e358] [cursor=pointer]:
+            - /url: "#autoplay_using_the_web_audio_api"
+        - paragraph [ref=e359]:
+          - text: In the
+          - link "Web Audio API" [ref=e360] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/Web_Audio_API
+          - text: ", a website or app can start playing audio using the"
+          - code [ref=e361]: start()
+          - text: method on a source node linked to the
+          - link "AudioContext" [ref=e362] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/AudioContext
+            - code [ref=e363]: AudioContext
+          - text: . Doing so outside the context of handling a user input event is subject to autoplay rules.
+      - region "The autoplay Permissions Policy" [ref=e364]:
+        - heading "The autoplay Permissions Policy" [level=2] [ref=e365]:
+          - link "The autoplay Permissions Policy" [ref=e366] [cursor=pointer]:
+            - /url: "#the_autoplay_permissions_policy"
+        - paragraph [ref=e367]:
+          - text: In addition to the browser-side management and control over autoplay functionality described above, a web server can also express its willingness to allow autoplay to function. The
+          - link "HTTP" [ref=e368] [cursor=pointer]:
+            - /url: /en-US/docs/Glossary/HTTP
+          - link "Permissions-Policy" [ref=e369] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy
+            - code [ref=e370]: Permissions-Policy
+          - text: header's
+          - link "autoplay" [ref=e371] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy/autoplay
+            - code [ref=e372]: autoplay
+          - text: directive is used to control which domains, if any, can be used to autoplay media. By default, the
+          - code [ref=e373]: autoplay
+          - text: Permissions Policy is set to
+          - code [ref=e374]: self
+          - text: ", indicating that autoplay is permitted as they're hosted on the same domain as the document."
+        - paragraph [ref=e375]:
+          - text: You can also specify an empty allowlist (
+          - code [ref=e376]: ()
+          - text: ) to disable autoplay entirely,
+          - code [ref=e377]: "*"
+          - text: to allow autoplay from all domains, or one or more specific origins from which media can be automatically played. These origins are separated by space characters.
+        - paragraph [ref=e379]:
+          - strong [ref=e380]: "Note:"
+          - text: The specified Permissions Policy applies to the document and every
+          - link "<iframe>" [ref=e381] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/iframe
+            - code [ref=e382]: <iframe>
+          - text: nested within it, unless those frames include an
+          - link "allow" [ref=e383] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/iframe#allow
+            - code [ref=e384]: allow
+          - text: ", which sets a new Permissions Policy for that frame and all frames nested within it."
+        - paragraph [ref=e385]:
+          - text: When using the
+          - link "allow" [ref=e386] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/iframe#allow
+            - code [ref=e387]: allow
+          - text: attribute on an
+          - code [ref=e388]: <iframe>
+          - text: to specify a Permissions Policy for that frame and its nested frames, you can also specify the value
+          - code [ref=e389]: "'src'"
+          - text: to allow autoplay of media only from the same domain as that specified by the frame's
+          - link "src" [ref=e390] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/iframe#src
+            - code [ref=e391]: src
+          - text: attribute.
+      - 'region "Example: Allowing autoplay only from the document''s domain" [ref=e392]':
+        - 'heading "Example: Allowing autoplay only from the document''s domain" [level=3] [ref=e393]':
+          - 'link "Example: Allowing autoplay only from the document''s domain" [ref=e394] [cursor=pointer]':
+            - /url: "#example_allowing_autoplay_only_from_the_documents_domain"
+        - paragraph [ref=e395]:
+          - text: To use the
+          - link "Permissions-Policy" [ref=e396] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy
+            - code [ref=e397]: Permissions-Policy
+          - text: header to only allow media to autoplay from the document's
+          - link "origin" [ref=e398] [cursor=pointer]:
+            - /url: /en-US/docs/Glossary/Origin
+          - text: ":"
+        - generic [ref=e400]:
+          - generic [ref=e401]:
+            - generic [ref=e402]: http
+            - button "Copy" [ref=e405] [cursor=pointer]:
+              - generic [ref=e406]:
+                - generic: Copy
+          - code [ref=e408]:
+            - generic [ref=e796]: "Permissions-Policy: autoplay=(self)"
+        - paragraph [ref=e409]:
+          - text: To do the same for an
+          - link "<iframe>" [ref=e410] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/iframe
+            - code [ref=e411]: <iframe>
+          - text: ":"
+        - generic [ref=e413]:
+          - generic [ref=e414]:
+            - generic [ref=e415]: html
+            - button "Copy" [ref=e418] [cursor=pointer]:
+              - generic [ref=e419]:
+                - generic: Copy
+          - code [ref=e421]:
+            - generic [ref=e422]:
+              - generic [ref=e423]: <iframe
+              - text: src
+              - generic [ref=e424]: ="mediaplayer.html"
+              - text: allow
+              - generic [ref=e425]: ="autoplay"
+              - text: ">"
+            - generic [ref=e426]:
+              - generic [ref=e427]: </iframe
+              - text: ">"
+      - 'region "Example: Allowing autoplay and fullscreen mode" [ref=e428]':
+        - 'heading "Example: Allowing autoplay and fullscreen mode" [level=3] [ref=e429]':
+          - 'link "Example: Allowing autoplay and fullscreen mode" [ref=e430] [cursor=pointer]':
+            - /url: "#example_allowing_autoplay_and_fullscreen_mode"
+        - paragraph [ref=e431]:
+          - text: Adding
+          - link "Fullscreen API" [ref=e432] [cursor=pointer]:
+            - /url: /en-US/docs/Web/API/Fullscreen_API
+          - text: permission to the previous example results in a
+          - code [ref=e433]: Permissions-Policy
+          - text: header like the following if fullscreen access is allowed regardless of the domain; a domain restriction can be added as well as needed.
+        - generic [ref=e435]:
+          - generic [ref=e436]:
+            - generic [ref=e437]: http
+            - button "Copy" [ref=e440] [cursor=pointer]:
+              - generic [ref=e441]:
+                - generic: Copy
+          - code [ref=e443]:
+            - generic [ref=e797]: "Permissions-Policy: autoplay=(self), fullscreen=(self)"
+        - paragraph [ref=e444]:
+          - text: The same permissions, granted using the
+          - code [ref=e445]: <iframe>
+          - text: element's
+          - code [ref=e446]: allow
+          - text: "property, look like this:"
+        - generic [ref=e448]:
+          - generic [ref=e449]:
+            - generic [ref=e450]: html
+            - button "Copy" [ref=e453] [cursor=pointer]:
+              - generic [ref=e454]:
+                - generic: Copy
+          - code [ref=e456]:
+            - generic [ref=e457]:
+              - generic [ref=e458]: <iframe
+              - text: src
+              - generic [ref=e459]: ="mediaplayer.html"
+              - text: allow
+              - generic [ref=e460]: ="autoplay; fullscreen"
+              - text: ">"
+            - generic [ref=e461]:
+              - generic [ref=e462]: </iframe
+              - text: ">"
+      - 'region "Example: Allowing autoplay from specific sources" [ref=e463]':
+        - 'heading "Example: Allowing autoplay from specific sources" [level=3] [ref=e464]':
+          - 'link "Example: Allowing autoplay from specific sources" [ref=e465] [cursor=pointer]':
+            - /url: "#example_allowing_autoplay_from_specific_sources"
+        - paragraph [ref=e466]:
+          - text: The
+          - code [ref=e467]: Permissions-Policy
+          - text: header to allow media to be played from both the document's (or
+          - code [ref=e468]: <iframe>
+          - text: "'s) own domain and"
+          - code [ref=e469]: https://example.media
+          - text: "looks like this:"
+        - generic [ref=e471]:
+          - generic [ref=e472]:
+            - generic [ref=e473]: http
+            - button "Copy" [ref=e476] [cursor=pointer]:
+              - generic [ref=e477]:
+                - generic: Copy
+          - code [ref=e479]:
+            - generic [ref=e798]: "Permissions-Policy: autoplay=(self \"https://example.media\")"
+        - paragraph [ref=e480]:
+          - text: An
+          - link "<iframe>" [ref=e481] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/iframe
+            - code [ref=e482]: <iframe>
+          - text: "can be written to specify that this autoplay policy should be applied to itself and any child frames would be written thusly:"
+        - generic [ref=e484]:
+          - generic [ref=e485]:
+            - generic [ref=e486]: html
+            - button "Copy" [ref=e489] [cursor=pointer]:
+              - generic [ref=e490]:
+                - generic: Copy
+          - code [ref=e492]:
+            - generic [ref=e493]:
+              - generic [ref=e494]: <iframe
+              - text: width
+              - generic [ref=e495]: ="300"
+              - text: height
+              - generic [ref=e496]: ="200"
+              - text: src
+              - generic [ref=e497]: ="mediaplayer.html"
+              - text: allow
+              - generic [ref=e498]: ="autoplay 'src' https://example.media"
+              - text: ">"
+            - generic [ref=e499]:
+              - generic [ref=e500]: </iframe
+              - text: ">"
+      - 'region "Example: Disabling autoplay" [ref=e501]':
+        - 'heading "Example: Disabling autoplay" [level=3] [ref=e502]':
+          - 'link "Example: Disabling autoplay" [ref=e503] [cursor=pointer]':
+            - /url: "#example_disabling_autoplay"
+        - paragraph [ref=e504]:
+          - text: Setting the
+          - code [ref=e505]: autoplay
+          - text: Permissions Policy to
+          - code [ref=e506]: ()
+          - text: /
+          - code [ref=e507]: none
+          - text: disables autoplay entirely for the document or
+          - code [ref=e508]: <iframe>
+          - text: "and all nested frames. The HTTP header is:"
+        - generic [ref=e510]:
+          - generic [ref=e511]:
+            - generic [ref=e512]: http
+            - button "Copy" [ref=e515] [cursor=pointer]:
+              - generic [ref=e516]:
+                - generic: Copy
+          - code [ref=e518]:
+            - generic [ref=e799]: "Permissions-Policy: autoplay=()"
+        - paragraph [ref=e519]:
+          - text: Using the
+          - code [ref=e520]: <iframe>
+          - text: "'s"
+          - code [ref=e521]: allow
+          - text: "attribute:"
+        - generic [ref=e523]:
+          - generic [ref=e524]:
+            - generic [ref=e525]: html
+            - button "Copy" [ref=e528] [cursor=pointer]:
+              - generic [ref=e529]:
+                - generic: Copy
+          - code [ref=e531]:
+            - generic [ref=e532]:
+              - generic [ref=e533]: <iframe
+              - text: src
+              - generic [ref=e534]: ="mediaplayer.html"
+              - text: allow
+              - generic [ref=e535]: ="autoplay 'none'"
+              - text: ">"
+            - generic [ref=e536]:
+              - generic [ref=e537]: </iframe
+              - text: ">"
+      - region "Best practices" [ref=e538]:
+        - heading "Best practices" [level=2] [ref=e539]:
+          - link "Best practices" [ref=e540] [cursor=pointer]:
+            - /url: "#best_practices"
+        - paragraph [ref=e541]: Tips and recommended best practices to help you make the most of working with autoplay are offered here.
+      - region "Handling autoplay failure with media controls" [ref=e542]:
+        - heading "Handling autoplay failure with media controls" [level=3] [ref=e543]:
+          - link "Handling autoplay failure with media controls" [ref=e544] [cursor=pointer]:
+            - /url: "#handling_autoplay_failure_with_media_controls"
+        - paragraph [ref=e545]:
+          - text: "A common use case for autoplay is to automatically begin to play a video clip that goes along with an article, an advertisement, or a preview of the page's main functionality. To autoplay videos like these, you have two options: don't have an audio track, or have an audio track but configure the"
+          - link "<video>" [ref=e546] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/video
+            - code [ref=e547]: <video>
+          - text: "element to mute the audio by default, like this:"
+        - generic [ref=e549]:
+          - generic [ref=e550]:
+            - generic [ref=e551]: html
+            - button "Copy" [ref=e554] [cursor=pointer]:
+              - generic [ref=e555]:
+                - generic: Copy
+          - code [ref=e557]:
+            - generic [ref=e558]:
+              - generic [ref=e559]: <video
+              - text: src
+              - generic [ref=e560]: ="/videos/awesomevid.webm"
+              - text: controls autoplay playsinline muted>
+            - generic [ref=e561]:
+              - generic [ref=e562]: </video
+              - text: ">"
+        - paragraph [ref=e563]:
+          - text: This video element is configured to include the user controls (typically play/pause, scrubbing through the video's timeline, volume control, and muting); also, since the
+          - link "muted" [ref=e564] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/video#muted
+            - code [ref=e565]: muted
+          - text: attribute is included, and the
+          - link "playsinline" [ref=e566] [cursor=pointer]:
+            - /url: /en-US/docs/Web/HTML/Reference/Elements/video#playsinline
+            - code [ref=e567]: playsinline
+          - text: attribute that is required for autoplay in Safari, the video will autoplay but with the audio muted. The user has the option, however, of re-enabling the audio by clicking on the unmute button in the controls.
+      - region "Browser configuration options" [ref=e568]:
+        - heading "Browser configuration options" [level=2] [ref=e569]:
+          - link "Browser configuration options" [ref=e570] [cursor=pointer]:
+            - /url: "#browser_configuration_options"
+        - paragraph [ref=e571]: Browsers may have preferences that control the way autoplay works, or how autoplay blocking is handled. Here, any such preferences that may be of special significance or importance to you as a web developer are listed. These include any that may aid in testing or debugging as well as any that could be set in a way that you need to be prepared to handle.
+      - region "Firefox" [ref=e572]:
+        - heading "Firefox" [level=3] [ref=e573]:
+          - link "Firefox" [ref=e574] [cursor=pointer]:
+            - /url: "#firefox"
+        - generic [ref=e575]:
+          - term [ref=e576]:
+            - link "media.allowed-to-play.enabled" [ref=e577] [cursor=pointer]:
+              - /url: "#media.allowed-to-play.enabled"
+              - code [ref=e578]: media.allowed-to-play.enabled
+          - definition [ref=e579]:
+            - paragraph [ref=e580]:
+              - text: A Boolean preference which specifies whether the non-standard
+              - code [ref=e581]: HTMLMediaElement.allowedToPlay
+              - text: property is exposed to the web. This is currently
+              - code [ref=e582]: "false"
+              - text: by default (except in nightly builds, where it's
+              - code [ref=e583]: "true"
+              - text: by default). If this is
+              - code [ref=e584]: "false"
+              - text: ", the"
+              - code [ref=e585]: allowedToPlay
+              - text: property is missing from the
+              - code [ref=e586]: HTMLMediaElement
+              - text: interface, and is thus not present on either
+              - link "<audio>" [ref=e587] [cursor=pointer]:
+                - /url: /en-US/docs/Web/HTML/Reference/Elements/audio
+                - code [ref=e588]: <audio>
+              - text: or
+              - link "<video>" [ref=e589] [cursor=pointer]:
+                - /url: /en-US/docs/Web/HTML/Reference/Elements/video
+                - code [ref=e590]: <video>
+              - text: elements.
+          - term [ref=e591]:
+            - link "media.autoplay.allow-extension-background-pages" [ref=e592] [cursor=pointer]:
+              - /url: "#media.autoplay.allow-extension-background-pages"
+              - code [ref=e593]: media.autoplay.allow-extension-background-pages
+          - definition [ref=e594]:
+            - paragraph [ref=e595]:
+              - text: This Boolean preference, if
+              - code [ref=e596]: "true"
+              - text: ", allows browser extensions' background scripts to autoplay audio media. Setting this value to"
+              - code [ref=e597]: "false"
+              - text: disables this capability. The default value is
+              - code [ref=e598]: "true"
+              - text: .
+          - term [ref=e599]:
+            - link "media.autoplay.allow-muted" [ref=e600] [cursor=pointer]:
+              - /url: "#media.autoplay.allow-muted"
+              - code [ref=e601]: media.autoplay.allow-muted
+          - definition [ref=e602]:
+            - paragraph [ref=e603]:
+              - text: A Boolean preference which if
+              - code [ref=e604]: "true"
+              - text: (the default) allows audio media which is currently muted to be automatically played. If this has been changed to
+              - code [ref=e605]: "false"
+              - text: ", media with an audio track will not be permitted to play even if muted."
+          - term [ref=e606]:
+            - link "media.autoplay.block-webaudio" [ref=e607] [cursor=pointer]:
+              - /url: "#media.autoplay.block-webaudio"
+              - code [ref=e608]: media.autoplay.block-webaudio
+          - definition [ref=e609]:
+            - paragraph [ref=e610]:
+              - text: A Boolean preference that indicates whether to apply autoplay blocking to the
+              - link "Web Audio API" [ref=e611] [cursor=pointer]:
+                - /url: /en-US/docs/Web/API/Web_Audio_API
+              - text: . If
+              - code [ref=e612]: "false"
+              - text: ", web audio is always allowed to autoplay. If"
+              - code [ref=e613]: "true"
+              - text: ", audio contexts are only able to play on pages once there has been"
+              - link "Sticky activation" [ref=e614] [cursor=pointer]:
+                - /url: /en-US/docs/Glossary/Sticky_activation
+              - text: . The default is set to
+              - code [ref=e615]: "true"
+              - text: .
+          - term [ref=e616]:
+            - link "media.autoplay.default" [ref=e617] [cursor=pointer]:
+              - /url: "#media.autoplay.default"
+              - code [ref=e618]: media.autoplay.default
+          - definition [ref=e619]:
+            - paragraph [ref=e620]:
+              - text: An integer preference which specifies whether per-domain configuration for autoplay support by default is allowed (
+              - code [ref=e621]: "0"
+              - text: ), blocked (
+              - code [ref=e622]: "1"
+              - text: ), or prompt-on-use (
+              - code [ref=e623]: "2"
+              - text: ). The default value is
+              - code [ref=e624]: "0"
+              - text: .
+          - term [ref=e625]:
+            - link "media.autoplay.enabled.user-gestures-needed (Nightly builds only)" [ref=e626] [cursor=pointer]:
+              - /url: "#media.autoplay.enabled.user-gestures-needed"
+              - code [ref=e627]: media.autoplay.enabled.user-gestures-needed
+              - text: (Nightly builds only)
+          - definition [ref=e628]:
+            - paragraph [ref=e629]:
+              - text: A Boolean preference which controls whether detection of user gestures is allowed to override the setting of
+              - code [ref=e630]: media.autoplay.default
+              - text: . If
+              - code [ref=e631]: media.autoplay.default
+              - text: is
+              - emphasis [ref=e632]: not
+              - text: set to
+              - code [ref=e633]: "0"
+              - text: (autoplay allowed by default), this preference being
+              - code [ref=e634]: "true"
+              - text: allows autoplay of media with audio tracks anyway if the page has been activated by user gestures, and media that isn't audible is not restricted at all.
+          - term [ref=e635]:
+            - link "media.block-autoplay-until-in-foreground" [ref=e636] [cursor=pointer]:
+              - /url: "#media.block-autoplay-until-in-foreground"
+              - code [ref=e637]: media.block-autoplay-until-in-foreground
+          - definition [ref=e638]:
+            - paragraph [ref=e639]:
+              - text: A Boolean preference which indicates whether media playback is blocked when started on a background tab. The default value,
+              - code [ref=e640]: "true"
+              - text: ", means that even when otherwise available, autoplay won't take place until after a tab is brought to the foreground. This prevents the distracting situation in which a tab begins playing sound and the user can't find the tab among all their tabs and windows."
+      - region "See also" [ref=e641]:
+        - heading "See also" [level=2] [ref=e642]:
+          - link "See also" [ref=e643] [cursor=pointer]:
+            - /url: "#see_also"
+        - list [ref=e644]:
+          - listitem [ref=e645]:
+            - link "Web media technologies" [ref=e646] [cursor=pointer]:
+              - /url: /en-US/docs/Web/Media
+          - listitem [ref=e647]:
+            - link "HTML video and audio" [ref=e648] [cursor=pointer]:
+              - /url: /en-US/docs/Learn_web_development/Core/Structuring_content/HTML_video_and_audio
+            - text: (Learning guide)
+          - listitem [ref=e649]:
+            - link "Using the Web Audio API" [ref=e650] [cursor=pointer]:
+              - /url: /en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API
+          - listitem [ref=e651]:
+            - link "Cross-browser audio basics" [ref=e652] [cursor=pointer]:
+              - /url: /en-US/docs/Web/Media/Guides/Audio_and_video_delivery/Cross-browser_audio_basics
+      - region "Help improve MDN" [ref=e653]:
+        - generic [ref=e654]:
+          - img [ref=e655]
+          - heading "Help improve MDN" [level=2] [ref=e665]
+          - group [ref=e667]:
+            - generic [ref=e668]: Was this page helpful to you?
+            - generic [ref=e669]:
+              - button "Yes" [ref=e671] [cursor=pointer]:
+                - img [ref=e673]
+                - generic [ref=e675]:
+                  - generic: "Yes"
+              - button "No" [ref=e677] [cursor=pointer]:
+                - img [ref=e679]
+                - generic [ref=e681]:
+                  - generic: "No"
+          - link "Learn how to contribute" [ref=e682] [cursor=pointer]:
+            - /url: /en-US/docs/MDN/Community/Getting_started
+          - paragraph [ref=e683]:
+            - text: This page was last modified on
+            - time [ref=e684]: Sep 18, 2025
+            - text: by
+            - link "MDN contributors" [ref=e685] [cursor=pointer]:
+              - /url: /en-US/docs/Web/Media/Guides/Autoplay/contributors.txt
+            - text: .
+          - generic [ref=e686]:
+            - link "View this page on GitHub (external)" [ref=e687] [cursor=pointer]:
+              - /url: https://github.com/mdn/content/blob/main/files/en-us/web/media/guides/autoplay/index.md?plain=1
+            - text: •
+            - link "Report a problem with this content (external)" [ref=e688] [cursor=pointer]:
+              - /url: https://github.com/mdn/content/issues/new?template=page-report.yml&mdn-url=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FMedia%2FGuides%2FAutoplay&metadata=%3C%21--+Do+not+make+changes+below+this+line+--%3E%0A%3Cdetails%3E%0A%3Csummary%3EPage+report+details%3C%2Fsummary%3E%0A%0A*+Folder%3A+%60en-us%2Fweb%2Fmedia%2Fguides%2Fautoplay%60%0A*+MDN+URL%3A+https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FMedia%2FGuides%2FAutoplay%0A*+GitHub+URL%3A+https%3A%2F%2Fgithub.com%2Fmdn%2Fcontent%2Fblob%2Fmain%2Ffiles%2Fen-us%2Fweb%2Fmedia%2Fguides%2Fautoplay%2Findex.md%0A*+Last+commit%3A+https%3A%2F%2Fgithub.com%2Fmdn%2Fcontent%2Fcommit%2F6036cd414b2214f85901158bdf3e3a96123d4553%0A*+Document+last+modified%3A+2025-09-18T15%3A38%3A35.000Z%0A%0A%3C%2Fdetails%3E
+  - generic [ref=e689]:
+    - generic [ref=e802]:
+      - link "MongoDB Atlas" [ref=e803] [cursor=pointer]:
+        - /url: /pong/click?code=aHR0cHM6Ly9zcnYuYnV5c2VsbGFkcy5jb20vYWRzL2NsaWNrL3gvR1RORDQyN1VDWUFENDJRVUNUQUxZS1FVQ0FTREM1UVlDVFNJVFozSkNBU0lLMlFFQ1RBRDQyN0tDNllJTEszSkNZQklMS0pXQ1RCSVY1M0VGVFNJNUs3SkhFWUk1MjdORlRTRDY1M0VDVE5DWUJaNTJL.l5qSQN18x1eF0HK9Z4DJcl6Ouzlp1zW1KvLeXV1GrY8%3D&version=2
+        - img "MongoDB Atlas" [ref=e804]
+      - link "Ad" [ref=e806] [cursor=pointer]:
+        - /url: /en-US/advertising
+    - contentinfo [ref=e690]:
+      - generic [ref=e691]:
+        - generic [ref=e692]:
+          - link "MDN logo" [ref=e693] [cursor=pointer]:
+            - /url: /
+            - img "MDN" [ref=e694]
+          - paragraph [ref=e696]: Your blueprint for a better internet.
+        - list [ref=e697]:
+          - listitem [ref=e698]:
+            - link "MDN on GitHub" [ref=e699] [cursor=pointer]:
+              - /url: https://github.com/mdn/
+          - listitem [ref=e700]:
+            - link "MDN on Bluesky" [ref=e701] [cursor=pointer]:
+              - /url: https://bsky.app/profile/developer.mozilla.org
+          - listitem [ref=e702]:
+            - link "MDN on X" [ref=e703] [cursor=pointer]:
+              - /url: https://x.com/mozdevnet
+          - listitem [ref=e704]:
+            - link "MDN on Mastodon" [ref=e705] [cursor=pointer]:
+              - /url: https://mastodon.social/@mdn
+          - listitem [ref=e706]:
+            - link "MDN blog RSS feed" [ref=e707] [cursor=pointer]:
+              - /url: /en-US/blog/rss.xml
+        - generic [ref=e708]:
+          - term [ref=e709]: MDN
+          - definition [ref=e710]:
+            - list [ref=e711]:
+              - listitem [ref=e712]:
+                - link "About" [ref=e713] [cursor=pointer]:
+                  - /url: /en-US/about
+              - listitem [ref=e714]:
+                - link "Blog" [ref=e715] [cursor=pointer]:
+                  - /url: /en-US/blog/
+              - listitem [ref=e716]:
+                - link "Mozilla careers (external)" [ref=e717] [cursor=pointer]:
+                  - /url: https://www.mozilla.org/en-US/careers/listings/
+              - listitem [ref=e718]:
+                - link "Advertise with us" [ref=e719] [cursor=pointer]:
+                  - /url: /en-US/advertising
+              - listitem [ref=e720]:
+                - link "MDN Plus" [ref=e721] [cursor=pointer]:
+                  - /url: /en-US/plus
+              - listitem [ref=e722]:
+                - link "Product help (external)" [ref=e723] [cursor=pointer]:
+                  - /url: https://support.mozilla.org/products/mdn-plus
+        - generic [ref=e724]:
+          - term [ref=e725]: Contribute
+          - definition [ref=e726]:
+            - list [ref=e727]:
+              - listitem [ref=e728]:
+                - link "MDN Community" [ref=e729] [cursor=pointer]:
+                  - /url: /en-US/community
+              - listitem [ref=e730]:
+                - link "Community resources" [ref=e731] [cursor=pointer]:
+                  - /url: /en-US/docs/MDN/Community
+              - listitem [ref=e732]:
+                - link "Writing guidelines" [ref=e733] [cursor=pointer]:
+                  - /url: /en-US/docs/MDN/Writing_guidelines
+              - listitem [ref=e734]:
+                - link "MDN Discord (external)" [ref=e735] [cursor=pointer]:
+                  - /url: /discord
+              - listitem [ref=e736]:
+                - link "MDN on GitHub (external)" [ref=e737] [cursor=pointer]:
+                  - /url: https://github.com/mdn
+        - generic [ref=e738]:
+          - term [ref=e739]: Developers
+          - definition [ref=e740]:
+            - list [ref=e741]:
+              - listitem [ref=e742]:
+                - link "Web technologies" [ref=e743] [cursor=pointer]:
+                  - /url: /en-US/docs/Web
+              - listitem [ref=e744]:
+                - link "Learn web development" [ref=e745] [cursor=pointer]:
+                  - /url: /en-US/docs/Learn_web_development
+              - listitem [ref=e746]:
+                - link "Guides" [ref=e747] [cursor=pointer]:
+                  - /url: /en-US/docs/MDN/Guides
+              - listitem [ref=e748]:
+                - link "Tutorials" [ref=e749] [cursor=pointer]:
+                  - /url: /en-US/docs/MDN/Tutorials
+              - listitem [ref=e750]:
+                - link "Glossary" [ref=e751] [cursor=pointer]:
+                  - /url: /en-US/docs/Glossary
+              - listitem [ref=e752]:
+                - link "Hacks blog (external)" [ref=e753] [cursor=pointer]:
+                  - /url: https://hacks.mozilla.org/
+      - generic [ref=e754]:
+        - link "Mozilla logo" [ref=e755] [cursor=pointer]:
+          - /url: https://www.mozilla.org/
+          - img "Mozilla" [ref=e756]
+        - list [ref=e758]:
+          - listitem [ref=e759]:
+            - link "Website Privacy Notice (external)" [ref=e760] [cursor=pointer]:
+              - /url: https://www.mozilla.org/privacy/websites/
+          - listitem [ref=e761]:
+            - link "Telemetry Settings (external)" [ref=e762] [cursor=pointer]:
+              - /url: https://www.mozilla.org/en-US/privacy/websites/data-preferences/
+          - listitem [ref=e763]:
+            - link "Legal (external)" [ref=e764] [cursor=pointer]:
+              - /url: https://www.mozilla.org/about/legal/terms/mozilla
+          - listitem [ref=e765]:
+            - link "Community Participation Guidelines (external)" [ref=e766] [cursor=pointer]:
+              - /url: https://www.mozilla.org/about/governance/policies/participation/
+        - paragraph [ref=e767]:
+          - text: Visit
+          - link "Mozilla Corporation’s" [ref=e768] [cursor=pointer]:
+            - /url: https://www.mozilla.org/
+          - text: not-for-profit parent, the
+          - link "Mozilla Foundation" [ref=e769] [cursor=pointer]:
+            - /url: https://foundation.mozilla.org/
+          - text: .
+          - text: Portions of this content are ©1998–2026 by individual mozilla.org contributors. Content available under
+          - link "a Creative Commons license" [ref=e770] [cursor=pointer]:
+            - /url: /docs/MDN/Writing_guidelines/Attrib_copyright_license
+          - text: .

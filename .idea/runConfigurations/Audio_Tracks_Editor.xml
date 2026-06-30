@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Audio Tracks Editor" type="ShConfiguration">
+    <option name="SCRIPT_TEXT" value="set -euo pipefail
+SCRIPT_DIR="$PROJECT_DIR$/audioTracksEditor/scripts"
+bash "$SCRIPT_DIR/serve-audio-editor.sh" 4174" />
+    <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="false" />
+    <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$/audioTracksEditor" />
+    <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+    <option name="INTERPRETER_PATH" value="/bin/bash" />
+    <option name="INTERPRETER_OPTIONS" value="" />
+    <option name="EXECUTE_IN_TERMINAL" value="true" />
+    <option name="EXECUTE_SCRIPT_FILE" value="true" />
+    <envs>
+      <env name="AUDIO_EDITOR_NO_OPEN" value="0" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>

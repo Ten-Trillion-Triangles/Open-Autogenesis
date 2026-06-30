@@ -1,0 +1,89 @@
+// accelbyte_matchmaker.proto
+//
+// Vendored sketch of the AccelByte match2 `Service` contract that the
+// custom matchmaker gRPC server must implement. The actual upstream proto
+// lives in the private `accelbyte/accelbyte-matchmaker` repository; this
+// file mirrors the shape the platform sends on the wire so the algorithm
+// implementation in this module can be wired up against the real schema
+// without code changes.
+//
+// Wire path:
+//   match2 (AccelByte)  -- streaming gRPC -->  matchmaker (this module)
+//
+// The contract is two RPCs:
+//   - Validate(Request)         -> Response
+//   - MakeMatches(stream Req)   -> stream Res
+//
+// `MakeMatches` is a server-streaming RPC: AccelByte keeps the stream open
+// and sends periodic `Request` batches; the matchmaker streams back
+// `Response` proposals whenever it forms a group.
+
+syntax = "proto3";
+
+package accelbyte.matchmaker;
+
+option java_multiple_files = true;
+option java_package = "net.accelbyte.matchmaker.proto";
+
+message ApiMatchTicket {
+  string ticket_id = 1;
+  string match_pool = 2;
+  // Attribute map: at minimum, the server-extend enrichment stamps
+  // `cost_class`, `cost_subsidy`, `wallet_credits`, `byo_api_key`.
+  map<string, AttributeValue> attributes = 3;
+  // Empty in our flow; reserved for future use.
+  map<string, int32> latencies = 4;
+}
+
+message AttributeValue {
+  // Stringified scalar (the platform passes a small JSON-ish scalar).
+  string string_value = 1;
+  int64  int_value = 2;
+  double double_value = 3;
+  bool   bool_value = 4;
+}
+
+message ApiProposedProposal {
+  map<string, AttributeValue> attributes = 1;
+}
+
+message Request {
+  repeated ApiMatchTicket tickets = 1;
+  string match_function = 2;
+  // Optional: when the platform surfaces a `MakeMatches` re-call for
+  // backfill or enrichment, the candidates are filtered to the same
+  // pool name; we honor this in the algorithm.
+  string match_pool = 3;
+}
+
+message Match {
+  repeated string ticket_ids = 1;
+  // Match-level attributes that the platform will copy onto the created
+  // game session. The matchmaker sets `max_players` so the session
+  // template (4 / 3 / 2) lines up with the chosen group.
+  map<string, AttributeValue> match_attributes = 2;
+  // Optional scoring breakdown (visible in admin dashboards).
+  double subsidy_total = 3;
+  bool   has_byo_key = 4;
+}
+
+message Response {
+  // Empty when no proposal is ready (the platform treats the empty stream
+  // as "no match this tick"). Populated when the matchmaker has a group.
+  repeated Match matches = 1;
+}
+
+// Service contract for the custom matchmaker. Mirrors the upstream
+// accelbyte/accelbyte-matchmaker `Service` shape so the generated stubs are
+// wire-compatible with the platform's match2 gRPC client.
+service Service {
+  // Validate a single ticket. The platform calls this to accept / reject
+  // before adding the ticket to a pool.
+  rpc Validate(Request) returns (Response);
+
+  // Server-streaming: the platform keeps the stream open and sends periodic
+  // Request batches. The matchmaker streams back Response proposals whenever
+  // it forms a group. An empty Response (no matches) is a valid "no proposal
+  // this tick" signal.
+  rpc MakeMatches(stream Request) returns (stream Response);
+}

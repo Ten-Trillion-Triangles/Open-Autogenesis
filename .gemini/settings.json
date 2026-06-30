@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "accelbyte-sdk": {
+      "command": "node",
+      "args": [
+        "accelbyte-mcp-server/dist/index.js"
+      ],
+      "env": {
+        "CONFIG_DIR": "config/java"
+      }
+    }
+  }
+}

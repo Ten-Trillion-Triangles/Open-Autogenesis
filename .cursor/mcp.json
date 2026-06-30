@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "accelbyte-sdk": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "CONFIG_DIR",
+        "ghcr.io/accelbyte/ags-extend-sdk-mcp-server:2026.1.0"
+      ],
+      "env": {
+        "CONFIG_DIR": "config/java"
+      }
+    }
+  }
+}

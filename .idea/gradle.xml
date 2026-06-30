@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$PROJECT_DIR$/../../TPipe/TPipe" name="TPipe">
+                <projects>
+                  <project path="$PROJECT_DIR$/../../TPipe/TPipe" />
+                  <project path="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-Bedrock" />
+                  <project path="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-Defaults" />
+                  <project path="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-GenericOpenAI" />
+                  <project path="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-MCP" />
+                  <project path="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-Ollama" />
+                  <project path="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-OpenRouter" />
+                  <project path="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-TraceServer" />
+                  <project path="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-Tuner" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/accelbyteSdk" />
+            <option value="$PROJECT_DIR$/audioTracksEditor" />
+            <option value="$PROJECT_DIR$/electronApp" />
+            <option value="$PROJECT_DIR$/electronJukebox" />
+            <option value="$PROJECT_DIR$/jukebox" />
+            <option value="$PROJECT_DIR$/kvisionApp" />
+            <option value="$PROJECT_DIR$/mapEditor" />
+            <option value="$PROJECT_DIR$/matchmaker" />
+            <option value="$PROJECT_DIR$/rpc-ksp" />
+            <option value="$PROJECT_DIR$/server" />
+            <option value="$PROJECT_DIR$/server-extend" />
+            <option value="$PROJECT_DIR$/sharedModel" />
+            <option value="$PROJECT_DIR$/../../TPipe/TPipe" />
+            <option value="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-Bedrock" />
+            <option value="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-Defaults" />
+            <option value="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-GenericOpenAI" />
+            <option value="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-MCP" />
+            <option value="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-Ollama" />
+            <option value="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-OpenRouter" />
+            <option value="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-TraceServer" />
+            <option value="$PROJECT_DIR$/../../TPipe/TPipe/TPipe-Tuner" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

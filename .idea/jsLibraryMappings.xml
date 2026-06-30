@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <excludedPredefinedLibrary name="Autogenesis/build/js/node_modules" />
+    <excludedPredefinedLibrary name="Autogenesis/build/js/packages/Autogenesis-accelbyteSdk-test/node_modules" />
+    <excludedPredefinedLibrary name="Autogenesis/build/js/packages/Autogenesis-kvisionApp-test/node_modules" />
+    <excludedPredefinedLibrary name="Autogenesis/build/js/packages/Autogenesis-kvisionApp/node_modules" />
+    <excludedPredefinedLibrary name="Autogenesis/build/js/packages/Autogenesis-mapEditor-test/node_modules" />
+    <excludedPredefinedLibrary name="Autogenesis/build/js/packages/Autogenesis-mapEditor/node_modules" />
+    <excludedPredefinedLibrary name="Autogenesis/build/js/packages/Autogenesis-sharedModel-test/node_modules" />
+    <excludedPredefinedLibrary name="Autogenesis/build/js/packages_imported/kvision-project-kvision-modules-kvision-bootstrap/9.1.1/node_modules" />
+    <excludedPredefinedLibrary name="Autogenesis/build/js/packages_imported/kvision-project-kvision-modules-kvision-fontawesome/9.1.1/node_modules" />
+    <excludedPredefinedLibrary name="Autogenesis/build/js/packages_imported/kvision-project-kvision/9.1.1/node_modules" />
+  </component>
+</project>

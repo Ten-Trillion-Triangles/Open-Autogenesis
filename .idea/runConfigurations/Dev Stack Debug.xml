@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Dev Stack Debug" type="CompoundRunConfiguration" factoryName="Compound">
+    <list name="selectedConfigurations">
+      <option value="Autogenesis Server Debug"/>
+      <option value="Server Extend Debug"/>
+    </list>
+  </configuration>
+</component>

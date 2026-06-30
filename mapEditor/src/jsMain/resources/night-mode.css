@@ -1,0 +1,90 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #03030a;
+  color: #f5f7ff;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+#kvapp {
+  min-height: 100vh;
+  padding: 24px;
+  background: radial-gradient(circle at top, rgba(94, 106, 220, 0.35), transparent 40%),
+    radial-gradient(circle at 20% 40%, rgba(255, 255, 255, 0.12), transparent 45%),
+    #03030a;
+}
+
+.map-editor-shell {
+  width: 100%;
+}
+
+.map-editor-canvas {
+  background: #0c0f1a;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+  padding: 20px;
+  min-height: 420px;
+}
+
+.map-editor-controls {
+  background: rgba(13, 17, 32, 0.8);
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.palette-button {
+  color: #fdfcff;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 2px transparent;
+}
+
+.palette-button.active {
+  box-shadow: 0 0 0 2px rgba(94, 106, 220, 0.8);
+}
+
+.map-editor-stat-block {
+  font-size: 0.95rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.map-editor-stat-block span:last-child {
+  font-weight: 700;
+  color: #94a6ff;
+}
+
+.resource-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.resource-badge {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.85rem;
+}
+
+/* WritingSettingsDialog layout fix — force the outer scrollable panel to its
+ * correct pixel width (900px dialog - 30px padding × 2 = 840px content area,
+ * 5% padding on each side = 84px, so 840 - 84 = 756px usable).
+ * flex-basis prevents flex-shrink from collapsing it. */
+.wsd-scrollbar-panel {
+    flex-basis: 756px !important;
+    min-width: 756px !important;
+    max-width: 756px !important;
+    width: 756px !important;
+}

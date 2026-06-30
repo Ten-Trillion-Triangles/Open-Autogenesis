@@ -1,0 +1,16 @@
+{
+  "name": "Autogenesis",
+  "short_name": "Autogenesis",
+  "description": "AI-driven grand strategy game",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#1a1f2e",
+  "icons": [
+    {
+      "src": "/img/AutogenesisTitle.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

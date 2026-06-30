@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.commonMain.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.commonMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.commonTest.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.commonTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.jsMain.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.jsMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.jsTest.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.jsTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.jvmDev.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.jvmDev.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.jvmMain.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.jvmMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.jvmTest.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.jvmTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.wasmJsMain.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.wasmJsMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.wasmJsTest.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.wasmJsTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.webMain.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.webMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.webTest.iml" filepath="$PROJECT_DIR$/.idea/modules/composeApp/Autogenesis.composeApp.webTest.iml" />
+    </modules>
+  </component>
+</project>

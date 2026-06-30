@@ -1,0 +1,107 @@
+# server-extend k8s manifest (operator reference for self-hosted clusters).
+#
+# Like matchmaker/k8s/matchmaker.yaml, this is *not* what the production
+# deployment runs under. Production runs inside AccelByte Extend via
+# `extend-sdk` / `ags csm deployment create`, which creates its own
+# Deployment/Service/Pod with the same probe contract.
+#
+# server-extend already exposes a `GET /player` endpoint from
+# `ServerExtend.kt` (always 200) which doubles as the HTTP health probe
+# target — same code path the in-container `HEALTHCHECK` uses.
+#
+# Operator steps before `kubectl apply`:
+#   1. Replace the `image:` tag with the one printed by
+#      `./gradlew :server-extend:dockerBuildImage --quiet` (default
+#      `ghcr.io/cage/autogenesis-server-extend:<short-sha>`).
+#   2. Replace `metadata.namespace` with the namespace you want the
+#      service running in.
+#   3. Either mount the `AB_*` secrets as a Secret-backed volume at
+#      `/home/.autogenesis/config/accelbyte.local.properties`, or rely on
+#      Extend to inject them as env vars at deploy time.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-extend
+  labels:
+    app: server-extend
+    app.kubernetes.io/part-of: autogenesis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server-extend
+  template:
+    metadata:
+      labels:
+        app: server-extend
+    spec:
+      containers:
+        - name: server-extend
+          image: ghcr.io/cage/autogenesis-server-extend:REPLACE_WITH_SHORT_SHA
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 7070
+              protocol: TCP
+            - name: grpc
+              containerPort: 9092
+              protocol: TCP
+          env:
+            - name: SERVER_EXTEND_GRPC_PORT
+              value: "9092"
+            # The Extend platform injects these as env vars; on a self-hosted
+            # cluster you would back them with a Secret:
+            #   - name: AB_NAMESPACE
+            #     valueFrom:
+            #       secretKeyRef: { name: ab-credentials, key: namespace }
+            #   - name: AB_CLIENT_ID
+            #     valueFrom:
+            #       secretKeyRef: { name: ab-credentials, key: clientId }
+            #   - name: AB_CLIENT_SECRET
+            #     valueFrom:
+            #       secretKeyRef: { name: ab-credentials, key: clientSecret }
+            #   - name: AB_BASE_URL
+            #     valueFrom:
+            #       secretKeyRef: { name: ab-credentials, key: baseUrl }
+          readinessProbe:
+            httpGet:
+              path: /player
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /player
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 30
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-extend
+  labels:
+    app: server-extend
+spec:
+  type: ClusterIP
+  selector:
+    app: server-extend
+  ports:
+    - name: http
+      port: 7070
+      targetPort: 7070
+      protocol: TCP
+    - name: grpc
+      port: 9092
+      targetPort: 9092
+      protocol: TCP

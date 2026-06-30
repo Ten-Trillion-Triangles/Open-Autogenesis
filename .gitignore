@@ -1,0 +1,140 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+!gradle/wrapper/gradle-wrapper.jar
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
+
+# Gradle / Kotlin build artifacts
+/.gradle/
+/build/
+/composeApp/build/
+/accelbyteSdk/build/
+/dukat/dukat/build/
+/build/js/
+
+# Node / TypeScript SDK artifacts
+accelbyte/accelbyte-typescript-sdk/node_modules/
+accelbyte/accelbyte-typescript-sdk/packages/*/dist/
+accelbyte/accelbyte-typescript-sdk/packages/*/node_modules/
+electronApp/node_modules/
+electronApp/.npm-cache/
+electronApp/.cache/
+
+# Dukat generated staging
+accelbyteSdk/dukat-generated/
+/.gradle
+
+# Additional caches & build artifacts
+**/.gradle/
+composeApp/node_modules/
+accelbyteSdk/.gradle/
+dukat/dukat/.gradle/
+/.gradle
+/.kotlin
+/rpc-ksp/build
+/.gradle
+/server/build
+/sharedModel/build
+**/.kotlin-js-store/
+/kvisionApp/build
+/server-extend/build
+gradle/yarn-4.4.0.js
+kvisionApp/.DS_Store
+kvisionApp/src/.DS_Store
+kvisionApp/src/jsMain/.DS_Store
+kvisionApp/src/jsMain/resources/.DS_Store
+.DS_Store
+/grpcBridgeProto/node_modules/
+/browser-smoke/node_modules/
+/browser-smoke/test-results/
+/mapEditor/build
+screenshots/gameplayUI-plan.png
+screenshots/borked-ui.png
+screenshots/stats-ui.png
+server-extend/accelbyte local.properties
+server/accelbyte local.properties
+server-extend/accelbyte.local.properties
+server/accelbyte.local.properties
+/screenshots
+/electronApp/build/npm-cache
+/electronApp/build
+/electronJukebox/node_modules/
+/electronJukebox/build
+/electronJukebox/build/npm-cache
+/browser-smoke
+/browser-smoke/node_modules
+/browser-smoke/node_modules/.bin
+/md/maestro
+/md
+/docs/maestro
+/.playwright-mcp
+/.sisyphus/plans
+/.sisyphus
+/jukebox/build
+/audioTracksEditor/build
+/audio-tracks-editor-e2e/debug
+
+/matchmaker/build
+/kvisionApp-e2e/node_modules
+/kvisionApp-e2e/node_modules/.bin
+/kvisionApp-e2e/artifacts
+/.hermes/plans
+
+# Local secrets files — NEVER commit. The actual values live in the
+# sibling `autogenesis-secrets/` repo (per the 2026-06-29 source-available
+# scrub plan). Copy the committed `*.properties` stub and rename to
+# `*.local.properties`, then fill in real values. Sync via
+#   <path-to-autogenesis-secrets>/sync.sh
+# which is tested and passing per commit ba55d3c.
+*.local.properties
+
+# Throwaway Playwright capture artifacts that have contained real
+# AccelByte user IDs in past captures. Regenerable by re-running probes;
+# MUST NOT be tracked.
+/kvisionApp-e2e/probes/artifacts-resume-e2e/
+/kvisionApp-e2e/probes/artifacts-resume-round/
+/kvisionApp-e2e/probes/artifacts-wait-for-modal/
+/kvisionApp-e2e/probes/artifacts/
+
+# Throwaway LLM CLI todo lists (operator-internal; regenerate on demand)
+/.amazonq/
+/.claude/
+/.gemini/
+/.agent/
+/.sisyphus/
+
+# Compiled Python bytecode — should never be tracked
+__pycache__/
+*.pyc
+
+# Playwright probe throwaway artifacts (regenerable; contained real AB user IDs in past captures)
+/kvisionApp-e2e/probes/artifacts/
+/kvisionApp-e2e/probes/artifacts-resume-e2e/
+/kvisionApp-e2e/probes/artifacts-resume-round/
+/kvisionApp-e2e/probes/artifacts-wait-for-modal/
+/kvisionApp-e2e/probes/artifacts-login-flow/
+/kvisionApp-e2e/probes/artifacts-echo-verify/
+
+# Node build outputs (Kotlin/JS webpack)
+/kvisionApp/build/
+/audio-tracks-editor-e2e/node_modules/

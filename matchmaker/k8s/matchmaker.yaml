@@ -1,0 +1,99 @@
+# Matchmaker k8s manifest (Phase 1 of feature/live-pvp-and-billing).
+#
+# This file is an *operator reference* — the production deployment runs
+# inside AccelByte Extend via `extend-sdk` / `ags csm deployment create`,
+# not by applying this YAML directly. The Extend deployment creates its own
+# Deployment/Service/Pod with the same probe contract; the YAML below is
+# what you would hand to a self-hosted k8s cluster as a fallback.
+#
+# The gRPC `Health` service is now registered on the same port by
+# `MatchmakerMain.kt` (see `grpc-services` dependency in build.gradle.kts),
+# so `grpc_health_probe` actually works against this Deployment.
+#
+# Operator steps before `kubectl apply`:
+#   1. Replace the `image:` tag with the one printed by
+#      `./gradlew :matchmaker:dockerBuildImage --quiet` (default
+#      `ghcr.io/cage/autogenesis-matchmaker:<short-sha>`).
+#   2. Replace `metadata.namespace` with the namespace you want the
+#      matchmaker running in.
+#   3. Either mount the `AB_*` secrets as a Secret-backed volume at
+#      `/home/.autogenesis/config/accelbyte.local.properties`, or rely on
+#      Extend to inject them as env vars at deploy time.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matchmaker
+  labels:
+    app: matchmaker
+    app.kubernetes.io/part-of: autogenesis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matchmaker
+  template:
+    metadata:
+      labels:
+        app: matchmaker
+    spec:
+      containers:
+        - name: matchmaker
+          image: ghcr.io/cage/autogenesis-matchmaker:REPLACE_WITH_SHORT_SHA
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: grpc
+              containerPort: 9095
+              protocol: TCP
+          env:
+            - name: MATCHMAKER_GRPC_PORT
+              value: "9095"
+            # The Extend platform injects these as env vars; on a self-hosted
+            # cluster you would back them with a Secret:
+            #   - name: AB_NAMESPACE
+            #     valueFrom:
+            #       secretKeyRef: { name: ab-credentials, key: namespace }
+            #   - name: AB_CLIENT_ID
+            #     valueFrom:
+            #       secretKeyRef: { name: ab-credentials, key: clientId }
+            #   - name: AB_CLIENT_SECRET
+            #     valueFrom:
+            #       secretKeyRef: { name: ab-credentials, key: clientSecret }
+            #   - name: AB_BASE_URL
+            #     valueFrom:
+            #       secretKeyRef: { name: ab-credentials, key: baseUrl }
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9095", "-connect-timeout=2s"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9095", "-connect-timeout=2s"]
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: matchmaker
+  labels:
+    app: matchmaker
+spec:
+  type: ClusterIP
+  selector:
+    app: matchmaker
+  ports:
+    - name: grpc
+      port: 9095
+      targetPort: 9095
+      protocol: TCP

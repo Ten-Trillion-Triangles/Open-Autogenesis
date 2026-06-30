@@ -1,0 +1,7 @@
+version: v2
+plugins:
+  - remote: buf.build/protocolbuffers/java:v33.2
+    out: ../sharedModel/build/generated/buf
+  - remote: buf.build/connectrpc/kotlin
+    out: ../sharedModel/build/generated/buf
+    opt: paths=source_relative

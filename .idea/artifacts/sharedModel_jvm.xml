@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="sharedModel-jvm">
+    <output-path>$PROJECT_DIR$/sharedModel/build/libs</output-path>
+    <root id="archive" name="sharedModel-jvm.jar">
+      <element id="module-output" name="Autogenesis.sharedModel.jvmMain" />
+    </root>
+  </artifact>
+</component>

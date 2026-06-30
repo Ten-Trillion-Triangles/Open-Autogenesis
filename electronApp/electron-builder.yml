@@ -1,0 +1,61 @@
+appId: org.ttt.autogenesis
+productName: Autogenesis
+directories:
+  output: build/electron
+files:
+  - "**/*"
+  - "!**/node_modules/.bin/**"
+  - "!**/.gradle/**"
+afterPack: scripts/fix-chrome-sandbox.js
+extraResources:
+  - from: build/staging/frontend
+    to: frontend
+  - from: build/staging/config
+    to: config
+asar: false
+linux:
+  target:
+    - dir
+    - AppImage
+    - deb
+    - rpm
+  artifactName: Autogenesis-linux-${version}.${ext}
+  category: Game
+  desktop:
+    Name: Autogenesis
+    Comment: Autogenesis desktop client
+  extraResources:
+    - from: build/staging/runtime/server-linux-x64
+      to: runtime/server-linux-x64
+    - from: build/staging/runtime/server-extend-linux-x64
+      to: runtime/server-extend-linux-x64
+deb:
+  depends:
+    - xwayland
+    - libx11-6
+    - libdbus-1-3
+rpm:
+  depends:
+    - xwayland
+    - libX11
+win:
+  target:
+    - dir
+    - nsis
+    - portable
+  artifactName: Autogenesis-windows-${version}.${ext}
+  legalTrademarks: Autogenesis
+  publish:
+    provider: generic
+    url: placeholder
+  extraResources:
+    - from: build/staging/runtime/server-windows-x64
+      to: runtime/server-windows-x64
+    - from: build/staging/runtime/server-extend-windows-x64
+      to: runtime/server-extend-windows-x64
+mac:
+  target:
+    - dir
+    - dmg
+    - zip
+  artifactName: Autogenesis-mac-${version}.${ext}

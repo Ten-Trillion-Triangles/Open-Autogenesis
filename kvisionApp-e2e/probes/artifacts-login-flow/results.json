@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Test 1: login lands on main menu or shows resume dialog",
+    "pass": true,
+    "details": "mainMenu=true resume=true"
+  },
+  {
+    "name": "Test 1: no \"fail to fetch\" error during login",
+    "pass": true,
+    "details": "Clean"
+  },
+  {
+    "name": "Test 1a: Resume dialog has Resume button",
+    "pass": true,
+    "details": ""
+  },
+  {
+    "name": "Test 1a: Resume dialog has New Game button",
+    "pass": true,
+    "details": ""
+  },
+  {
+    "name": "Test 1a: Resume dialog has Cancel button",
+    "pass": true,
+    "details": ""
+  },
+  {
+    "name": "Test 2: Cancel keeps user at main menu",
+    "pass": true,
+    "details": ""
+  },
+  {
+    "name": "Test 2: Cancel does NOT auto-restore to gameplay",
+    "pass": true,
+    "details": ""
+  },
+  {
+    "name": "Test 2: Cancel does NOT keep dialog open",
+    "pass": true,
+    "details": ""
+  },
+  {
+    "name": "Test 3: New Game clears snapshot and lands on main menu",
+    "pass": true,
+    "details": "mainMenu=true resumeDialog=false"
+  },
+  {
+    "name": "Test 3: no \"fail to fetch\" error",
+    "pass": true,
+    "details": ""
+  },
+  {
+    "name": "Test 4: no \"fail to fetch\" on re-login",
+    "pass": true,
+    "details": ""
+  }
+]

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="jukebox-js">
+    <output-path>$PROJECT_DIR$/jukebox/build/libs</output-path>
+    <root id="archive" name="jukebox-js.jar">
+      <element id="module-output" name="Autogenesis.jukebox.jsMain" />
+    </root>
+  </artifact>
+</component>

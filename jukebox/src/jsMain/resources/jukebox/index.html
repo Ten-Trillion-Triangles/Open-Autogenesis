@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔊 Jukebox — Audio Sound Test</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="header-title">🔊 Jukebox — Audio Sound Test</h1>
+            <div class="header-status">
+                <span id="connection-indicator" class="connection-dot standalone"></span>
+                <span id="connection-text" class="connection-text">Standalone</span>
+                <select id="device-selector" class="device-selector" title="Audio output device">
+                    <option value="default">Default output</option>
+                </select>
+                <button id="btn-stop-all" class="stop-all-button" title="Stop all audio and reset the engine">⏹ Stop All</button>
+            </div>
+        </header>
+
+        <!-- Main Content: Two-column layout -->
+        <div class="main-content">
+            <!-- LEFT Column: Music & SFX -->
+            <div class="left-column">
+                <!-- Music Section -->
+                <section class="section">
+                    <h2 class="section-header">Music</h2>
+                    <div class="button-grid music-grid">
+                        <button id="btn-forest" class="track-button">Forest</button>
+                        <button id="btn-battle" class="track-button">Battle</button>
+                        <button id="btn-menu" class="track-button">Menu</button>
+                    </div>
+                </section>
+
+                <!-- SFX Section -->
+                <section class="section">
+                    <h2 class="section-header">SFX</h2>
+                    <div class="button-grid sfx-grid">
+                        <button id="btn-sfx-click" class="track-button">Click</button>
+                        <button id="btn-sfx-explosion" class="track-button">Explosion</button>
+                        <button id="btn-sfx-gunshot" class="track-button">Gunshot</button>
+                        <button id="btn-sfx-footstep" class="track-button">Footstep</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- RIGHT Column: Active Players -->
+            <div class="right-column">
+                <section class="section">
+                    <h2 class="section-header">Active Players</h2>
+                    <div id="active-players" class="active-players-list">
+                        <div class="empty-state">No active audio players</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Bottom Panel: Global Controls -->
+        <div class="bottom-panel">
+            <!-- Global Section -->
+            <section class="section bottom-section">
+                <h2 class="section-header">Global</h2>
+                <div class="control-row">
+                    <label class="control-label" for="global-volume">Volume</label>
+                    <input type="range" id="global-volume" class="slider" min="-80" max="3" value="0">
+                    <span id="global-volume-value" class="slider-value">0 dB</span>
+                </div>
+                <div class="control-row">
+                    <label class="control-label" for="default-pan">Panning</label>
+                    <input type="range" id="default-pan" class="slider" min="-1" max="1" step="0.1" value="0">
+                    <span id="default-pan-value" class="slider-value">0.00</span>
+                </div>
+                <div class="control-row">
+                    <label class="control-label" for="default-speed">Speed</label>
+                    <input type="range" id="default-speed" class="slider" min="0.25" max="2" step="0.25" value="1">
+                    <span id="default-speed-value" class="slider-value">1.00x</span>
+                </div>
+            </section>
+
+            <!-- Channel Section -->
+            <section class="section bottom-section">
+                <h2 class="section-header">Channel</h2>
+                <div class="channel-controls">
+                    <div class="channel">
+                        <label class="control-label" for="music-volume">Music</label>
+                        <input type="range" id="music-volume" class="slider" min="-80" max="3" value="0">
+                        <button id="btn-music-mute" class="mute-button">Mute</button>
+                    </div>
+                    <div class="channel">
+                        <label class="control-label" for="sfx-volume">Sfx</label>
+                        <input type="range" id="sfx-volume" class="slider" min="-80" max="3" value="0">
+                        <span id="sfx-volume-value" class="slider-value">0 dB</span>
+                        <button id="btn-sfx-mute" class="mute-button">Mute</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fade Section -->
+            <section class="section bottom-section">
+                <h2 class="section-header">Fade</h2>
+                <div class="fade-controls">
+                    <div class="fade-input">
+                        <label for="fade-in-ms">Fade in</label>
+                        <input type="number" id="fade-in-ms" class="text-input" value="0" min="0" step="100">
+                        <span class="input-unit">ms</span>
+                    </div>
+                    <div class="fade-input">
+                        <label for="fade-out-ms">Fade out</label>
+                        <input type="number" id="fade-out-ms" class="text-input" value="0" min="0" step="100">
+                        <span class="input-unit">ms</span>
+                    </div>
+                    <div class="loop-control">
+                        <label for="btn-loop-mode">Loop</label>
+                        <button id="btn-loop-mode" class="toggle-button" data-state="off" title="Loop new plays by default">Off</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visualizer Section -->
+            <section class="section bottom-section">
+                <h2 class="section-header">Visualizer</h2>
+                <div id="visualizers" class="visualizers-container">
+                    <div class="empty-state">No visualizers active</div>
+                </div>
+            </section>
+
+            <!-- Action Log Section -->
+            <section class="section bottom-section">
+                <h2 class="section-header">Action Log</h2>
+                <div id="action-log" class="action-log"></div>
+            </section>
+        </div>
+    </div>
+
+    <script src="jukebox.js" defer></script>
+    <script src="app.js" defer></script>
+</body>
+</html>

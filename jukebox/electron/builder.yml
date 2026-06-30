@@ -1,0 +1,43 @@
+appId: org.ttt.autogenesis.jukebox
+productName: Jukebox Audio Sound Test
+directories:
+  output: build/electron
+files:
+  - "**/*"
+  - "!**/node_modules/.bin/**"
+  - "!**/.gradle/**"
+extraResources:
+  - from: build/staging/frontend
+    to: frontend
+  - from: build/staging/config
+    to: config
+asar: false
+linux:
+  target:
+    - dir
+    - AppImage
+  artifactName: Jukebox-linux-${version}.${ext}
+  category: Utility
+  desktop:
+    Name: Jukebox
+    Comment: Jukebox Audio Sound Test
+  extraResources:
+    - from: build/staging/runtime/server-linux-x64
+      to: runtime/server-linux-x64
+win:
+  target:
+    - dir
+    - nsis
+  artifactName: Jukebox-windows-${version}.${ext}
+  publish:
+    provider: generic
+    url: placeholder
+  extraResources:
+    - from: build/staging/runtime/server-windows-x64
+      to: runtime/server-windows-x64
+mac:
+  target:
+    - dir
+    - dmg
+    - zip
+  artifactName: Jukebox-mac-${version}.${ext}

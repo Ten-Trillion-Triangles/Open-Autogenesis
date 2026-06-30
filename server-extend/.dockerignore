@@ -1,0 +1,29 @@
+# Keep the docker build context small. The Dockerfile only needs the
+# `build/server-extend-runtime/server-extend-linux-x64/` directory produced by
+# `:server-extend:runtime` (and `docker/entrypoint.sh`); everything else is
+# just bloat that slows the build context transfer.
+
+.git
+.gradle
+.idea
+.kotlin
+build/classes
+build/distributions
+build/generated
+build/install
+build/jdks
+build/jre
+build/kotlin
+build/ksp-cache
+build/kspCaches
+build/libs
+build/reports
+build/scripts
+build/test-results
+build/tmp
+Dockerfile
+.dockerignore
+README.md
+AGENTS.md
+accelbyte.local.properties
+*.log

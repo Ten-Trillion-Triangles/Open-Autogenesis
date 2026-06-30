@@ -1,0 +1,25 @@
+# Keep the docker build context small. The Dockerfile only needs the
+# `build/install/matchmaker/` directory produced by `:matchmaker:installDist`
+# (and `docker/entrypoint.sh`); everything else is just bloat that slows the
+# build context transfer.
+
+.git
+.gradle
+.idea
+.kotlin
+build/classes
+build/distributions
+build/generated
+build/kotlin
+build/libs
+build/reports
+build/scripts
+build/test-results
+build/tmp
+build/extracted-protos
+build/extracted-include-protos
+Dockerfile
+.dockerignore
+README.md
+AGENTS.md
+*.log

@@ -1,0 +1,6 @@
+version: v2
+plugins:
+  - remote: buf.build/bufbuild/es
+    out: ../kvisionApp/src/jsMain/resources/grpc
+  - remote: buf.build/connectrpc/protoc-gen-connect-es
+    out: ../kvisionApp/src/jsMain/resources/grpc

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="kvisionApp-js">
+    <output-path>$PROJECT_DIR$/kvisionApp/build/libs</output-path>
+    <root id="archive" name="kvisionApp-js.jar">
+      <element id="module-output" name="Autogenesis.kvisionApp.jsMain" />
+    </root>
+  </artifact>
+</component>

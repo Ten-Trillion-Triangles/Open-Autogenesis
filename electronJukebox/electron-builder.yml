@@ -1,0 +1,38 @@
+appId: org.ttt.autogenesis.jukebox
+productName: Autogenesis Jukebox
+copyright: Copyright © 2026 Autogenesis Team
+directories:
+  output: build/electron
+files:
+  - "**/*"
+  - "!**/node_modules/.bin/**"
+  - "!**/.gradle/**"
+afterPack: scripts/fix-chrome-sandbox.js
+extraResources:
+  - from: build/staging/frontend
+    to: frontend
+  - from: build/staging/config
+    to: config
+asar: false
+linux:
+  target:
+    - dir
+    - AppImage
+    - deb
+  artifactName: Autogenesis-Jukebox-linux-${version}.${ext}
+  category: Audio
+  desktop:
+    Name: Autogenesis Jukebox
+    Comment: Audio system developer test tool
+  deb:
+    depends:
+      - xwayland
+      - libx11-6
+      - libdbus-1-3
+win:
+  target:
+    - dir
+    - nsis
+    - portable
+  artifactName: Autogenesis-Jukebox-windows-${version}.${ext}
+  legalTrademarks: Autogenesis

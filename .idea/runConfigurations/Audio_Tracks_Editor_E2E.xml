@@ -1,0 +1,31 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Audio Tracks Editor E2E" type="ShConfiguration">
+    <option name="SCRIPT_TEXT" value="set -euo pipefail
+# Start the static server in the background using the same helper
+# script that the "Audio Tracks Editor" run config uses (skips the
+# gradle build when the dist already exists, so re-runs are fast).
+bash "$PROJECT_DIR$/audioTracksEditor/scripts/serve-audio-editor.sh" 4174 &
+SERVER_PID=$!
+trap 'kill $SERVER_PID 2>/dev/null || true; exit 0' INT TERM
+# Wait for the server to bind
+for i in 1 2 3 4 5 6 7 8 9 10; do
+  if curl -sS -o /dev/null http://127.0.0.1:4174/index.html 2>/dev/null; then
+    break
+  fi
+  sleep 1
+done
+# Run the Playwright suite
+cd "$PROJECT_DIR$/audio-tracks-editor-e2e"
+npx playwright test --reporter=list
+TEST_EXIT=$?
+kill $SERVER_PID 2>/dev/null || true
+exit $TEST_EXIT" />
+    <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="false" />
+    <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$/audio-tracks-editor-e2e" />
+    <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+    <option name="INTERPRETER_PATH" value="/bin/bash" />
+    <option name="EXECUTE_IN_TERMINAL" value="true" />
+    <option name="EXECUTE_SCRIPT_FILE" value="true" />
+    <method v="2" />
+  </configuration>
+</component>
