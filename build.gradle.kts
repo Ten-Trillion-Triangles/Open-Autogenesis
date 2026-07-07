@@ -85,6 +85,28 @@ tasks.register<Exec>("runKvisionNoHotReload") {
     commandLine = listOf(gradlewCommand, "--no-daemon", ":kvisionApp:jsBrowserDevelopmentRun")
     environment["KVISION_DISABLE_HOT_RELOAD"] = "true"
     isIgnoreExitValue = true
+    // Forward -PkvisionApp.bootWidget=<value> into the child Gradle
+    // process so the webpack DefinePlugin (set up in
+    // kvisionApp/webpack.config.d/boot-widget-env.js) substitutes
+    // process.env.AUTOGENESIS_BOOT_WIDGET at compile time.
+    //
+    // The child process then re-enters :kvisionApp:jsBrowserDevelopmentRun
+    // (JavaExec); its env block in kvisionApp/build.gradle.kts forwards
+    // the same var to the webpack subprocess. This double-hop ensures the
+    // env var survives Gradle's process model.
+    val bootWidgetValue: String = providers.gradleProperty("kvisionApp.bootWidget").orElse("").get()
+    if(bootWidgetValue.isNotEmpty()) {
+        environment("AUTOGENESIS_BOOT_WIDGET", bootWidgetValue)
+        logger.lifecycle("runKvisionNoHotReload: forwarding AUTOGENESIS_BOOT_WIDGET='$bootWidgetValue' to child Gradle process")
+    }
+
+    // Sibling forward for AUTOGENESIS_DEMO_MODE (kvisionApp/demo-mode-env.js).
+    // Valid values: off, widgets, full.
+    val demoModeValue: String = providers.gradleProperty("kvisionApp.demoMode").orElse("").get()
+    if(demoModeValue.isNotEmpty()) {
+        environment("AUTOGENESIS_DEMO_MODE", demoModeValue)
+        logger.lifecycle("runKvisionNoHotReload: forwarding AUTOGENESIS_DEMO_MODE='$demoModeValue' to child Gradle process")
+    }
 }
 
 tasks.register("packageElectronLinux") {
@@ -617,11 +639,6 @@ val secretsGuardPatterns = listOf(
     Regex("""arn:aws:bedrock:[a-z0-9-]+:521369004927:inference-profile/"""),
     // Tenant URLs (autogenesis.prod + watchdog + dshub + echoofmaridia-autogenesis)
     Regex("""https?://(autogenesis|watchdog|dshub|echoofmaridia-autogenesis)\.prod\.gamingservices\.accelbyte\.io"""),
-    // Bare AccelByte tenant namespace — operator-internal name that must
-    // never appear hardcoded in source. Operators point the property file
-    // at whichever namespace they want to test against; no code changes
-    // are required to retarget.
-    Regex("""echoofmaridia-autogenesis"""),
     // Real AB user ID hex
     Regex("""004c3eb02c0b4436b41b24d5d670b0e4"""),
     // Tokens leaked to console

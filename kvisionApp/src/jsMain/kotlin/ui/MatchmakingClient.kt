@@ -3,7 +3,9 @@ package ui
 import globals.AccelByteEnv
 import globals.ClientDebug
 import globals.WebsocketConfig
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.serialization.serializer
 import org.ttt.autogenesis.kvisionapp.ServerExtendBridge
 import org.ttt.autogenesis.kvisionapp.WebSocketRpcBridge
@@ -14,6 +16,7 @@ import structs.Commander
 import structs.matchmaking.GameRequest
 import structs.matchmaking.GameTicket
 import structs.matchmaking.GameType
+import structs.resume.ResumePushConsumeRequest
 
 /**
  * Result of a multiplayer matchmaking attempt.
@@ -603,6 +606,92 @@ object MatchmakingClient
     }
 
     // ===== Raw RPC invocations =====
+
+    /**
+     * Tells the main server the user has consumed the `client.resumeAvailable`
+     * push by clicking Resume, New Game, or Cancel. The server-side dedupe
+     * (`UiSignalRpcHandlers.pushedResumeThisSession`) holds the push for the
+     * rest of the server session; this call removes the userId from the set
+     * so a future push (e.g. the user logs back in) is allowed to go through.
+     *
+     * Fire-and-forget: failures are logged and the call returns `false`, but
+     * the user-visible action (Resume / New Game / Cancel) does NOT block on
+     * the consume RPC. A failed consume just means the next login in the same
+     * JVM will not see the dialog until the server is restarted — the same
+     * behavior as if the user closed the browser before the SSE timeout.
+     *
+     * Bug 27 (2026-07-01): the dialog was reappearing on every SSE rebind
+     * because the server was pushing repeatedly and the client was mounting
+     * a fresh dialog each time. The server-side dedupe in
+     * `UiSignalRpcHandlers.notifyResumeAvailable` plus this client-driven
+     * consume RPC close the loop.
+     */
+    suspend fun consumeResumePush(userId: String): Boolean
+    {
+        if (userId.isBlank())
+        {
+            Logger.debug(LogCategory.NETWORK, "MatchmakingClient.consumeResumePush: userId blank, skipping")
+            return false
+        }
+        val invoker = try
+        {
+            WebSocketRpcBridge.waitForConnection()
+            WebSocketRpcBridge.rpcInvoker
+        }
+        catch (e: Throwable)
+        {
+            Logger.warn(LogCategory.NETWORK, "MatchmakingClient.consumeResumePush: WS not ready for userId=$userId: ${e.message}")
+            return false
+        }
+        if (invoker == null)
+        {
+            Logger.debug(LogCategory.NETWORK, "MatchmakingClient.consumeResumePush: rpcInvoker is null, skipping")
+            return false
+        }
+
+        return try
+        {
+            val payload = RpcJson.encodeToJsonElement(
+                ResumePushConsumeRequest.serializer(),
+                ResumePushConsumeRequest(userId = userId)
+            )
+            val response = invoker.invoke("server.consumeResumePush", payload)
+            val err = response.error
+            if (err != null)
+            {
+                Logger.warn(LogCategory.NETWORK, "MatchmakingClient.consumeResumePush: RPC error for userId=$userId: ${err.code} ${err.message}")
+                return false
+            }
+            Logger.info(LogCategory.NETWORK, "MatchmakingClient.consumeResumePush: ok for userId=$userId (next push will re-arm)")
+            true
+        }
+        catch (e: Throwable)
+        {
+            Logger.warn(LogCategory.NETWORK, "MatchmakingClient.consumeResumePush: invoke threw for userId=$userId: ${e.message}")
+            false
+        }
+    }
+
+    /**
+     * Fire-and-forget variant of [consumeResumePush] intended for the
+     * Resume / New Game / Cancel button callbacks in
+     * `ui.MainMenu.wireResumeDialog`. The button's user-visible action
+     * (mount GameplayUI / open the commander selection dialog / just
+     * hide the dialog) must NOT block on the consume wire — the user's
+     * click should feel instant.
+     *
+     * The GlobalScope.launch pattern is acceptable here because:
+     *   1. The RPC is idempotent and best-effort (server is permissive).
+     *   2. The dispatch site is already inside an event handler; a missed
+     *      tick would just leave the next push suppressed until the user
+     *      restarts the server, not crash the page.
+     */
+    fun consumeResumePushFireAndForget(userId: String)
+    {
+        GlobalScope.launch {
+            consumeResumePush(userId)
+        }
+    }
 
     private suspend fun invokeMatchMaking(
         request: GameRequest,

@@ -24,6 +24,8 @@ import org.ttt.autogenesis.network.ActionSubmitRequest
 import org.ttt.autogenesis.network.OpenWidgetData
 import org.ttt.autogenesis.network.OpenWidgetType
 import org.ttt.autogenesis.network.CommandClassificationData
+import globals.KEnv
+import globals.KEnv.DemoMode
 import globals.World
 import ui.gameplay.networking.UiSignalClientHandlers
 import org.ttt.autogenesis.network.GameOverData
@@ -100,8 +102,22 @@ class GameplayUI : SimplePanel()
         minHeight = io.kvision.core.CssSize(100, io.kvision.core.UNIT.vh)
         zIndex = 1
 
+        // FULL demoMode seed: when bridges are skipped, World.localPlayer
+        // would otherwise be null and dependent widgets render blank. Seed
+        // it once from DemoFixtures so the layout shows something without
+        // requiring a live game server.
+        if(KEnv.demoMode == KEnv.DemoMode.FULL)
+        {
+            if(World.localPlayer == null)
+            {
+                World.localPlayer = DemoFixtures.buildDemoLocalPlayer()
+                Logger.info(LogCategory.UI, "GameplayUI: FULL demoMode active — seeded World.localPlayer from DemoFixtures")
+            }
+        }
+
         historyWindow = GameHistoryWindow().apply {
             zIndex = 1000
+            demoMode = KEnv.demoMode != DemoMode.OFF
         }
 
         add(historyWindow!!)
@@ -137,7 +153,7 @@ class GameplayUI : SimplePanel()
         add(playerInfoWidget!!)
 
         // Instantiate and add StatsWidget (hidden by default)
-        statsWidget = StatsWidget(demoMode = false)
+        statsWidget = StatsWidget(demoMode = KEnv.demoMode != DemoMode.OFF)
         statsWidget?.playerResourcesWidget = playerResourcesWidget
         statsWidget?.playerTerritoriesWidget = playerTerritoriesWidget
         statsWidget?.playerInfoWidget = playerInfoWidget
@@ -198,7 +214,7 @@ class GameplayUI : SimplePanel()
                     paddingLeft = 400.px
 
 
-                    scoreDisplay = scoreDisplay(demoMode = false) {
+                    scoreDisplay = scoreDisplay(demoMode = KEnv.demoMode != DemoMode.OFF) {
                         // Optional initializers
                         onDelegateClick = {
                             Logger.debug(LogCategory.UI, "GameplayUI: Opening Delegate Widget from score bar")
@@ -269,7 +285,7 @@ class GameplayUI : SimplePanel()
                         }
                     }
 
-                    Logger.debug(LogCategory.UI, "GameplayUI: Instantiating TurnResolutionWidget with demoMode=false")
+                    Logger.debug(LogCategory.UI, "GameplayUI: Instantiating TurnResolutionWidget with demoMode=${KEnv.demoMode != DemoMode.OFF}")
                     turnResolutionWidget = TurnResolutionWidget(
                         onSwitchToMap = { showMap() },
                         onSetCommandInteractive = { enabled -> commandBox?.setInteractive(enabled) },
@@ -295,7 +311,7 @@ class GameplayUI : SimplePanel()
                                 }
                             }
                         },
-                        demoMode = false
+                        demoMode = KEnv.demoMode != DemoMode.OFF
                     )
                     UiSignalClientHandlers.attachWidget(turnResolutionWidget!!)
                     add(turnResolutionWidget!!)

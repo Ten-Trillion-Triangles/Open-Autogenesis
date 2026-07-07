@@ -39,7 +39,7 @@ kotlin {
 application {
     applicationName = "autogenesis-server-extend"
     mainClass.set("org.ttt.autogenesis.serverextend.ServerExtendKt")
-    applicationDefaultJvmArgs = listOf("--add-opens", "java.base/java.lang=ALL-UNNAMED", "-XX:-EnableJVMCI")
+    applicationDefaultJvmArgs = listOf("--add-opens", "java.base/java.lang=ALL-UNNAMED")
     // Forward AUTOGENESIS_SHUTDOWN_DELAY_MS to the :server-extend:run JVM
     // for symmetry with the main server's dev-mode override.
     val shutdownDelayOverride = System.getenv("AUTOGENESIS_SHUTDOWN_DELAY_MS")?.takeIf { it.isNotBlank() }

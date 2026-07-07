@@ -154,9 +154,15 @@ class MatchmakingAlgorithmTest
     {
         val algo = MatchmakingAlgorithm()
         val batch = listOf(ticket("t-a", "PRO", subsidy = 2, rank = 1))
-        assertFailsWith<IllegalArgumentException> {
-            algo.propose(batch, targetPlayers = 4)
-        }
+        // Contract change: insufficient tickets now return an empty list
+        // instead of throwing. This matches the gRPC match2 contract — a
+        // match function that throws on insufficient input would surface as
+        // UNKNOWN status, which the platform treats as a fatal error. Empty
+        // responses are the correct signal that no match is available yet.
+        assertTrue(
+            algo.propose(batch, targetPlayers = 4).isEmpty(),
+            "insufficient tickets should yield no proposals, not throw"
+        )
     }
 
     @Test

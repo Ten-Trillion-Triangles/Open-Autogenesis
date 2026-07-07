@@ -25,6 +25,37 @@ object UiSignalRpcHandlers
     internal var connectionManager: PlayerConnectionManager? = null
 
     /**
+     * Per-server-instance dedupe set for `client.resumeAvailable` pushes
+     * (BUG 27, 2026-07-01).
+     *
+     * The push fires from `server-extend/.../ServerExtend.kt:347-350` on every
+     * `/events` SSE rebind. The browser's `RestRpcClient` auto-reconnects every
+     * ~45-60 seconds, so without a dedupe the same `client.resumeAvailable`
+     * notification lands on the client 3+ times in a 5-minute window, each
+     * time mounting a fresh `ResumeOrNewDialog` and stacking it on top of any
+     * previous instance.
+     *
+     * The dedupe lives on the server. The client calls
+     * [consumeResumePush] when the user picks Resume / New Game / Cancel, which
+     * removes the userId from this set so a subsequent push (e.g. a fresh
+     * login in the same JVM) actually goes through.
+     *
+     * Server restart re-arms the set (fresh JVM, fresh ConcurrentHashMap).
+     * This matches the user's spec: "fresh start, fresh push."
+     */
+    private val pushedResumeThisSession: java.util.concurrent.ConcurrentHashMap.KeySetView<String, Boolean> =
+        java.util.concurrent.ConcurrentHashMap.newKeySet()
+
+    /**
+     * Test seam: empties the dedupe set so test order does not leak state
+     * between cases. NOT for production use.
+     */
+    internal fun resetResumePushDedupeForTest()
+    {
+        pushedResumeThisSession.clear()
+    }
+
+    /**
      * Injected by [Server] setup when push-notification wiring is enabled.
      * Nullable so the rest of the system continues to function when push is
      * disabled (e.g. dev mode without a VAPID keypair provisioned).
@@ -667,6 +698,27 @@ object UiSignalRpcHandlers
     {
         val userId = payload.userId
 
+        // BUG 27 (2026-07-01): per-server-instance dedupe. The push fires on
+        // every SSE rebind; the client's `ResumeAvailabilityListener` will
+        // mount a fresh `ResumeOrNewDialog` for every duplicate push, stacking
+        // dialogs on top of each other and never dismissing. Once we've pushed
+        // for this user, do NOT push again until the client calls
+        // [consumeResumePush] (which the client fires on Resume / New Game /
+        // Cancel).
+        //
+        // The check is intentionally FIRST in the function — the mid-game
+        // guard below it is a separate, complementary check that protects
+        // against the "user is actively mid-turn" case. The dedupe is the
+        // "stop spamming the client" case.
+        if (pushedResumeThisSession.contains(userId))
+        {
+            Logger.info(
+                LogCategory.NETWORK,
+                "UiSignalRpcHandlers.notifyResumeAvailable: skipped (user=$userId already pushed this session; client must call server.consumeResumePush to re-arm)"
+            )
+            return
+        }
+
         // BUG FIX — do NOT push the resume modal if the user is currently
         // in an active game session. The `client.resumeAvailable` push fires
         // every time the SSE rebinds (e.g., on login, on reconnect, on
@@ -746,6 +798,10 @@ object UiSignalRpcHandlers
             val element = RpcJson.encodeToJsonElement(ResumeAvailabilityNotification.serializer(), payload)
             val notification = RpcMessage.Notification("client.resumeAvailable", element)
             sessions.forEach { it.sendRpcMessage(notification) }
+            // Mark this user as pushed for the rest of the server session.
+            // Future pushes for the same userId will short-circuit at the
+            // top-of-function dedupe check.
+            pushedResumeThisSession.add(userId)
             Logger.info(
                 LogCategory.NETWORK,
                 "UiSignalRpcHandlers.notifyResumeAvailable: pushed to userId=$userId sessions=${sessions.size} round=${payload.worldRound} hasAi=${payload.hasAi}"
@@ -776,6 +832,9 @@ object UiSignalRpcHandlers
             val element = RpcJson.encodeToJsonElement(ResumeAvailabilityNotification.serializer(), payload)
             val notification = RpcMessage.Notification("client.resumeAvailable", element)
             fallbackSessions.forEach { it.sendRpcMessage(notification) }
+            // Same dedupe — even on the fallback path the userId is now
+            // considered "pushed" and a repeat push will be skipped.
+            pushedResumeThisSession.add(userId)
             Logger.info(
                 LogCategory.NETWORK,
                 "UiSignalRpcHandlers.notifyResumeAvailable: pushed (fallback via playerStats.playerID) to userId=$userId connectionId=$fallbackConnectionId round=${payload.worldRound} hasAi=${payload.hasAi}"
@@ -798,6 +857,38 @@ object UiSignalRpcHandlers
         Logger.info(LogCategory.NETWORK, "UiSignalRpcHandlers: broadcasting force show turn resolution")
         val data = ForceShowTurnResolutionData(true)
         broadcastNotification("ui.forceShowTurnResolution", data)
+    }
+
+    /**
+     * Client → server RPC: the user has consumed the resume-availability push
+     * by clicking Resume, New Game, or Cancel. Removes the userId from the
+     * dedupe set so a subsequent `client.resumeAvailable` push (e.g. from a
+     * fresh login in the same JVM) actually goes through.
+     *
+     * Wire contract: client invokes `server.consumeResumePush` on the WebSocket
+     * RPC bridge. The server is the receiver (RpcDirection.SERVER). The push
+     * itself is a server-pushed notification, so the consume RPC needs to
+     * travel the other direction.
+     *
+     * Idempotent: calling consume for an unknown userId is a silent no-op.
+     * Two consume calls for the same userId are equivalent to one.
+     *
+     * Bug 27 (2026-07-01): the resume dialog was reappearing on every SSE
+     * rebind because the push was firing repeatedly and the client kept
+     * mounting a new `ResumeOrNewDialog` on top. The server-side dedupe in
+     * [notifyResumeAvailable] plus this client-driven consume RPC close the
+     * loop: push once, hold until the user explicitly consumes, then
+     * re-arm for the next login.
+     */
+    @RpcMethod("server.consumeResumePush", RpcDirection.SERVER)
+    suspend fun consumeResumePush(ctx: RpcCallContext, payload: structs.resume.ResumePushConsumeRequest)
+    {
+        val userId = payload.userId
+        val wasPresent = pushedResumeThisSession.remove(userId)
+        Logger.info(
+            LogCategory.NETWORK,
+            "UiSignalRpcHandlers.consumeResumePush: user=$userId removedFromDedupe=$wasPresent (next push will re-arm)"
+        )
     }
 
     /**

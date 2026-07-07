@@ -1,6 +1,8 @@
 package ui.gameplay
 
 import io.kvision.core.Container
+import globals.KEnv
+import globals.KEnv.DemoMode
 import org.ttt.autogenesis.logging.LogCategory
 import org.ttt.autogenesis.logging.Logger
 
@@ -198,7 +200,7 @@ object NeuralLinkManager
         val demoId = "DEMO-UNIT"
         if (!windows.containsKey(demoId))
         {
-            val win = NeuralLinkWindow(demoId, "DEMO UNIT", commandContext = "/test", demoMode = false)
+            val win = NeuralLinkWindow(demoId, "DEMO UNIT", commandContext = "/test", demoMode = KEnv.demoMode != KEnv.DemoMode.OFF)
             win.onWindowClosed = { handleExternalClose(demoId) }
             windows[demoId] = win
             parent.add(win)

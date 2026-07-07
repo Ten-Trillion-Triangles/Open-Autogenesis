@@ -87,6 +87,14 @@ fun main(args: Array<String>)
             namespace = System.getenv("AB_NAMESPACE") ?: System.getProperty("AB_NAMESPACE") ?: ""
         )
 
+        // Connect to the AMS watchdog WebSocket so AMS marks this DS as
+        // ready in the fleet UI and routes claim traffic to it. The
+        // watchdog URL is injected by AMS at fleet placement via the
+        // `AB_WATCHDOG_URL` env var. Without this client the DS shows as
+        // `provisioning` forever and never receives claim traffic.
+        // Block-3 of feature/live-pvp-and-billing.
+        accelbyte.ams.AmsWatchdogClient.connect()
+
         // Subscribe to server claimed events and bind session to WorldManager + TurnHarness
         DsHubClient.onServerClaimed.onEach { event ->
             Logger.info(LogCategory.NETWORK, "DS Hub: Server claimed for session=${event.sessionId}, gameMode=${event.gameMode}, expectedPlayers=${event.matchingAllies.size}")
@@ -150,6 +158,7 @@ fun main(args: Array<String>)
             Logger.info(LogCategory.SYSTEM, "DS Hub: Shutdown hook firing, disconnecting...")
             accelbyte.dsm.DedicatedServerRegistration.stop()
             DsHubClient.disconnect()
+            accelbyte.ams.AmsWatchdogClient.stopForTest()
         })
     }
     else
@@ -561,6 +570,14 @@ fun Application.serverModule()
     }
 
     routing {
+        get("/health") {
+            // Block-4 of feature/live-pvp-and-billing. The main server
+            // Dockerfile HEALTHCHECK (see `docs/LIVE_MODE.md:79-83`) probes
+            // `curl -fsS http://127.0.0.1:9080/health`. Without this route
+            // the curl probe 404s, the HEALTHCHECK fails, AMS considers
+            // the DS unhealthy, and the fleet terminates it.
+            call.respondText("ok", io.ktor.http.ContentType.Text.Plain, io.ktor.http.HttpStatusCode.OK)
+        }
         get("/player") {
             call.respond(mapOf("status" to "alive"))
         }

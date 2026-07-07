@@ -166,6 +166,45 @@ class AutogenesisApp : Application()
                 stack.remove(loadingScreen)
                 KEnv.setBackgroundImage("img/AutogenesisTitle.png")
 
+                // Boot-widget override branch. When KEnv.bootWidget is set (by env
+                // var, URL param, or window override), mount that widget directly
+                // and skip the entire skipLogin/MainMenu scaffold. Strict
+                // validation — unknown values abort boot with Logger.error listing
+                // valid names.
+                val bootWidget = KEnv.bootWidget
+                if(bootWidget != null)
+                {
+                    if(bootWidget !in KEnv.VALID_BOOT_WIDGETS)
+                    {
+                        Logger.error(LogCategory.SYSTEM, "Main: AUTOGENESIS_BOOT_WIDGET='$bootWidget' is not a valid widget name. Valid widgets: ${KEnv.VALID_BOOT_WIDGETS.sorted().joinToString(", ")}. Aborting boot.")
+                        return@launch
+                    }
+                    Logger.info(LogCategory.SYSTEM, "Main: mounting boot widget '$bootWidget' (skipLogin + bridges bypassed)")
+                    val widget: io.kvision.core.Widget = when(bootWidget)
+                    {
+                        "MainMenu" -> ui.MainMenu()
+                        "MapViewer" -> ui.MapViewer()
+                        "GameplayUI" -> ui.gameplay.GameplayUI()
+                        // DebugConsole is an `object` singleton (trigger surface,
+                        // not a UI panel). Wrap it in a SimplePanel so the boot
+                        // visibly succeeds; DebugConsole.* methods remain callable.
+                        "DebugConsole" -> io.kvision.panel.SimplePanel(className = "debug-console-mount")
+                        "CollectionOverlay" -> ui.CollectionOverlay()
+                        "ResumeOrNewDialog" -> ui.ResumeOrNewDialog(
+                            onResume = { Logger.info(LogCategory.SYSTEM, "Main: boot ResumeOrNewDialog onResume (no-op)") },
+                            onNewGame = { Logger.info(LogCategory.SYSTEM, "Main: boot ResumeOrNewDialog onNewGame (no-op)") },
+                            onCancel = { Logger.info(LogCategory.SYSTEM, "Main: boot ResumeOrNewDialog onCancel (no-op)") }
+                        )
+                        "CommanderSelectionDialog" -> ui.CommanderSelectionDialog(commanders = emptyList())
+                        else -> error("unreachable: validated above")
+                    }
+                    widget.width = io.kvision.core.CssSize(100, io.kvision.core.UNIT.perc)
+                    widget.height = io.kvision.core.CssSize(100, io.kvision.core.UNIT.perc)
+                    stack.add(widget)
+                    stack.activeIndex = stack.getChildren().indexOf(widget)
+                    return@launch
+                }
+
                 if(KEnv.skipLogin)
                 {
                     Logger.info(LogCategory.SYSTEM, "Main: skipLogin enabled, bypassing login screen")
@@ -200,8 +239,15 @@ class AutogenesisApp : Application()
                     // authoritative signal that drives the modal.
                     MainScope().launch {
                         Logger.info(LogCategory.NETWORK, "Main: rebinding post-auth bridges with accelbyteId=${globals.AccelByteEnv.userId} (REST/SSE first, then WS)")
-                        RestRpcBridge.connect(accelbyteId = globals.AccelByteEnv.userId)
-                        WebSocketRpcBridge.connect(accelbyteId = globals.AccelByteEnv.userId)
+                        if(KEnv.demoMode == globals.KEnv.DemoMode.FULL)
+                        {
+                            Logger.info(LogCategory.NETWORK, "Main: AUTOGENESIS_DEMO_MODE=FULL: skipping RestRpcBridge.connect() and WebSocketRpcBridge.connect() in skipLogin path")
+                        }
+                        else
+                        {
+                            RestRpcBridge.connect(accelbyteId = globals.AccelByteEnv.userId)
+                            WebSocketRpcBridge.connect(accelbyteId = globals.AccelByteEnv.userId)
+                        }
                     }
 
                     if(KEnv.testMode)
@@ -264,6 +310,74 @@ class AutogenesisApp : Application()
 }
 
 /**
+ * Resolve the boot widget name from three sources in priority order:
+ *   1. window.__AUTOGENESIS_BOOT_WIDGET__    (runtime override)
+ *   2. ?bootWidget=                          (URL param)
+ *   3. process.env.AUTOGENESIS_BOOT_WIDGET   (build-time webpack DefinePlugin)
+ *
+ * Returns null if no source is set, OR if every source is empty string.
+ * Validation is the caller's job — see [AutogenesisApp.start].
+ */
+private fun resolveBootWidget(): String?
+{
+    // 1. window override
+    val windowVal = kotlin.js.js("typeof window !== 'undefined' && window.__AUTOGENESIS_BOOT_WIDGET__")
+    if(windowVal != null && windowVal != false && windowVal != "")
+    {
+        return windowVal.toString()
+    }
+    // 2. URL param
+    queryParameter("bootWidget")?.let { urlVal ->
+        if(urlVal.isNotBlank())
+        {
+            return urlVal
+        }
+    }
+    // 3. build-time env (webpack DefinePlugin substitutes at compile time;
+    //    webpack ProvidePlugin polyfills process via process/browser.js
+    //    for the dev server where DefinePlugin might not substitute).
+    val envVal = kotlin.js.js("typeof process !== 'undefined' && process.env && process.env.AUTOGENESIS_BOOT_WIDGET")
+    if(envVal != null && envVal != false && envVal != "")
+    {
+        return envVal.toString()
+    }
+    return null
+}
+
+/**
+ * Resolve the demo mode from three sources in priority order:
+ *   1. window.__AUTOGENESIS_DEMO_MODE__  (runtime override)
+ *   2. ?demoMode=                        (URL param)
+ *   3. process.env.AUTOGENESIS_DEMO_MODE (build-time webpack DefinePlugin)
+ *
+ * Returns DemoMode.OFF when no source is set OR every source is empty.
+ * Throws IllegalArgumentException on unknown values — main() catches the
+ * exception, logs the valid list via Logger.error, and falls back to OFF
+ * (lenient on boot, since demoMode is a passive state flag, not an
+ * explicit operator choice like bootWidget).
+ */
+private fun resolveDemoMode(): globals.KEnv.DemoMode
+{
+    val windowVal = kotlin.js.js("typeof window !== 'undefined' && window.__AUTOGENESIS_DEMO_MODE__")
+    if(windowVal != null && windowVal != false && windowVal != "")
+    {
+        return globals.KEnv.DemoMode.fromValue(windowVal.toString())
+    }
+    queryParameter("demoMode")?.let { urlVal ->
+        if(urlVal.isNotBlank())
+        {
+            return globals.KEnv.DemoMode.fromValue(urlVal)
+        }
+    }
+    val envVal = kotlin.js.js("typeof process !== 'undefined' && process.env && process.env.AUTOGENESIS_DEMO_MODE")
+    if(envVal != null && envVal != false && envVal != "")
+    {
+        return globals.KEnv.DemoMode.fromValue(envVal.toString())
+    }
+    return globals.KEnv.DemoMode.OFF
+}
+
+/**
  * Application entry point that detects the backend environment and wires up
  * the RPC bridge before starting KVision.
  */
@@ -301,6 +415,45 @@ fun main()
         val transport = ServerExtendTransport.fromValue(value)
         ServerExtendConfig.transport = transport
         Logger.info(LogCategory.NETWORK, "Main: serverExtendTransport override set to $transport")
+    }
+
+    // Boot-widget override: window > URL > build-time env. When set, the
+    // selected widget mounts directly at startup, bypassing skipLogin and
+    // bridge rebinds (debug surface only — production must NEVER set this).
+    val bootWidget = resolveBootWidget()
+    if(bootWidget != null)
+    {
+        KEnv.bootWidget = bootWidget
+        Logger.info(LogCategory.SYSTEM, "Main: AUTOGENESIS_BOOT_WIDGET resolved to '$bootWidget' (bypassing skipLogin/MainMenu)")
+    }
+    else
+    {
+        Logger.debug(LogCategory.SYSTEM, "Main: AUTOGENESIS_BOOT_WIDGET not set, default boot path active")
+    }
+
+    // Demo-mode resolution: window > URL > build-time env. Drives per-widget
+    // demoMode booleans (WIDGETS / FULL) and skips bridge connects for FULL.
+    // Demoted from a strict-abort to a log-and-default posture because
+    // demoMode is a passive state flag — a stray ?demoMode=nonsense URL
+    // should not brick the app.
+    val demoModeRaw: globals.KEnv.DemoMode = try
+    {
+        resolveDemoMode()
+    }
+    catch(e: IllegalArgumentException)
+    {
+        Logger.error(LogCategory.SYSTEM, "Main: " + (e.message ?: "unknown demoMode") + " Falling back to OFF.")
+        globals.KEnv.DemoMode.OFF
+    }
+    KEnv.demoMode = demoModeRaw
+    if(demoModeRaw != globals.KEnv.DemoMode.OFF)
+    {
+        val bridgesLabel = if(demoModeRaw == globals.KEnv.DemoMode.FULL) "BYPASSED" else "live"
+        Logger.info(LogCategory.SYSTEM, "Main: AUTOGENESIS_DEMO_MODE resolved to '$demoModeRaw' (widgets in demo, bridges $bridgesLabel)")
+    }
+    else
+    {
+        Logger.debug(LogCategory.SYSTEM, "Main: AUTOGENESIS_DEMO_MODE not set (or OFF), real state path active")
     }
 
     val browserSmokeEnabled = queryParameter("browserSmoke")?.toBooleanStrictOrNull() == true
@@ -389,25 +542,32 @@ fun main()
                     "ws://127.0.0.1:9080"
                 }
 
-                WebSocketRpcBridge.connect(baseUrl = wsUrl)
-                WebSocketRpcBridge.onConnected {
-                    WebsocketConfig.websocketId = WebSocketRpcBridge.connectionId ?: ""
-                    // Connect the REST bridge and wire AudioClientHandlers.rpcInvoker
-                    // so sendReportState() actually transmits AudioReportState to the server.
-                    // Using a flag prevents duplicate configure() calls.
-                    var restBridgeInitialized = false
-                    RestRpcBridge.onConnected {
-                        if (!restBridgeInitialized)
-                        {
-                            restBridgeInitialized = true
-                            RestRpcBridge.rpcInvoker?.let { invoker ->
-                                AudioClientHandlers.configure(invoker)
-                                Logger.info(LogCategory.SYSTEM, "Main: AudioClientHandlers configured with RestRpcBridge.rpcInvoker")
+                if(KEnv.demoMode == globals.KEnv.DemoMode.FULL)
+                {
+                    Logger.info(LogCategory.NETWORK, "Main: AUTOGENESIS_DEMO_MODE=FULL: skipping WebSocketRpcBridge.connect()")
+                }
+                else
+                {
+                    WebSocketRpcBridge.connect(baseUrl = wsUrl)
+                    WebSocketRpcBridge.onConnected {
+                        WebsocketConfig.websocketId = WebSocketRpcBridge.connectionId ?: ""
+                        // Connect the REST bridge and wire AudioClientHandlers.rpcInvoker
+                        // so sendReportState() actually transmits AudioReportState to the server.
+                        // Using a flag prevents duplicate configure() calls.
+                        var restBridgeInitialized = false
+                        RestRpcBridge.onConnected {
+                            if (!restBridgeInitialized)
+                            {
+                                restBridgeInitialized = true
+                                RestRpcBridge.rpcInvoker?.let { invoker ->
+                                    AudioClientHandlers.configure(invoker)
+                                    Logger.info(LogCategory.SYSTEM, "Main: AudioClientHandlers configured with RestRpcBridge.rpcInvoker")
+                                }
                             }
                         }
                     }
+                    Logger.info(LogCategory.NETWORK, "Main: WebSocket RPC bridge connected successfully")
                 }
-                Logger.info(LogCategory.NETWORK, "Main: WebSocket RPC bridge connected successfully")
             }
             catch(e: Exception)
             {
@@ -441,15 +601,22 @@ fun main()
 
         try
         {
-            ServerExtendBridge.connect()
-            BrowserSmokeState.setConnected(true)
-            BrowserSmokeState.setTransport(ServerExtendBridge.activeTransport())
-            Logger.info(LogCategory.NETWORK, "Main: server-extend bridge connected successfully")
+            if(KEnv.demoMode == globals.KEnv.DemoMode.FULL)
+            {
+                Logger.info(LogCategory.NETWORK, "Main: AUTOGENESIS_DEMO_MODE=FULL: skipping ServerExtendBridge.connect()")
+            }
+            else
+            {
+                ServerExtendBridge.connect()
+                BrowserSmokeState.setConnected(true)
+                BrowserSmokeState.setTransport(ServerExtendBridge.activeTransport())
+                Logger.info(LogCategory.NETWORK, "Main: server-extend bridge connected successfully")
 
-            // Fire-and-forget: warm the billing/usage cache so the top-bar pill and any
-            // early-opened Shop/Usage overlay see an accurate credit balance without a
-            // visible loading flash. Overlays also re-pull on open.
-            BillingState.loadOnLogin()
+                // Fire-and-forget: warm the billing/usage cache so the top-bar pill and any
+                // early-opened Shop/Usage overlay see an accurate credit balance without a
+                // visible loading flash. Overlays also re-pull on open.
+                BillingState.loadOnLogin()
+            }
 
             if(browserSmokeEnabled)
             {

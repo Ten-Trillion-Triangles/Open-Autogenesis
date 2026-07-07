@@ -62,7 +62,7 @@ class MatchPoolBootstrapTest
     private fun stubExisting(
         ticketExpirationSeconds: Int = 60,
         sessionTemplate: String = "pvp-4p-session",
-        matchFunction: String = "custom"
+        matchFunction: String = "autogenesis-matchmaker"
     ): MatchPoolDetails
     {
         val op = MatchPoolDetails.builder().namespace(namespace).pool("pvp-4").build()
@@ -140,10 +140,74 @@ class MatchPoolBootstrapTest
         assertEquals("pvp-4", body.name)
         assertEquals(60, body.ticketExpirationSeconds)
         assertEquals("pvp-4p-session", body.sessionTemplate)
-        assertEquals("custom", body.matchFunction)
+        assertEquals("autogenesis-matchmaker", body.matchFunction)
         // The matchFunctionOverride routes the make_matches RPC to the
-        // custom matchmaker gRPC endpoint.
+        // custom matchmaker gRPC endpoint. The value MUST equal the match
+        // function name registered with match2 (see
+        // `root build.gradle.kts: matchFunctionName = "autogenesis-matchmaker"`),
+        // otherwise match2 has no function to route tickets to.
         assertNotNull(body.matchFunctionOverride)
-        assertEquals("custom", body.matchFunctionOverride.makeMatches)
+        assertEquals("autogenesis-matchmaker", body.matchFunctionOverride.makeMatches)
+    }
+
+    // -------------------------------------------------------------------
+    // TDD RED step for Block-2: the pool's match_function value MUST equal
+    // the match function name registered with match2 (root build.gradle.kts
+    // `matchFunctionName = "autogenesis-matchmaker"`). The legacy value
+    // `"custom"` was a placeholder; if the pool carries "custom" but match2
+    // has registered "autogenesis-matchmaker", no matches will route.
+    // -------------------------------------------------------------------
+
+    @Test
+    fun createPoolMatchFunctionEqualsRegisteredMatch2Name() {
+        stubMissing()
+        val capturedOp = slot<CreateMatchPool>()
+        every { matchPools.createMatchPool(capture(capturedOp)) } returns mockk(relaxed = true)
+
+        MatchPoolBootstrap.reconcileLadder(matchPools, namespace, ladder)
+
+        val body = capturedOp.captured.body
+        assertEquals(
+            "autogenesis-matchmaker",
+            body.matchFunction,
+            "Pool matchFunction must equal the match2-registered function name (build.gradle.kts:175)"
+        )
+        assertEquals(
+            "autogenesis-matchmaker",
+            body.matchFunctionOverride.makeMatches,
+            "Pool matchFunctionOverride.makeMatches must equal the match2-registered function name"
+        )
+    }
+
+    @Test
+    fun existingPoolDriftDetectsLegacyCustomMatchFunctionValue() {
+        // Operator's existing pool on the platform has the legacy "custom"
+        // value. The bootstrap MUST detect the drift and rewrite it to
+        // "autogenesis-matchmaker" via updateMatchPool.
+        stubExisting(matchFunction = "custom")
+        MatchPoolBootstrap.reconcileLadder(matchPools, namespace, ladder)
+        coVerify(exactly = 0) { matchPools.createMatchPool(any()) }
+        coVerify(exactly = 1) { matchPools.updateMatchPool(any()) }
+    }
+
+    @Test
+    fun updateMatchPoolBodyUsesRegisteredMatch2Name() {
+        stubExisting(matchFunction = "custom") // drift
+        val capturedOp = slot<UpdateMatchPool>()
+        every { matchPools.updateMatchPool(capture(capturedOp)) } returns mockk(relaxed = true)
+
+        MatchPoolBootstrap.reconcileLadder(matchPools, namespace, ladder)
+
+        val config = capturedOp.captured.body
+        assertEquals(
+            "autogenesis-matchmaker",
+            config.matchFunction,
+            "Updated pool matchFunction must equal the match2-registered function name"
+        )
+        assertEquals(
+            "autogenesis-matchmaker",
+            config.matchFunctionOverride.makeMatches,
+            "Updated pool matchFunctionOverride.makeMatches must equal the match2-registered function name"
+        )
     }
 }

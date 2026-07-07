@@ -240,3 +240,63 @@ val copyKvisionGlobalLocalProperties by tasks.registering(Copy::class) {
 tasks.named("jsProcessResources") {
     dependsOn(copyKvisionIamLocalProperties, copyKvisionGlobalLocalProperties)
 }
+
+// Forward `-PkvisionApp.bootWidget=<value>` Gradle property to the webpack
+// DefinePlugin via the `AUTOGENESIS_BOOT_WIDGET` shell env var. The webpack
+// config file `webpack.config.d/boot-widget-env.js` reads this var at bundle
+// time and substitutes `process.env.AUTOGENESIS_BOOT_WIDGET` with the value.
+//
+// Default empty (no override) — production builds always boot MainMenu
+// unless the operator explicitly opts in.
+//
+// Example:
+//   ./gradlew runKvisionNoHotReload -PkvisionApp.bootWidget=MapViewer
+//
+// The webpack dev server task (`:kvisionApp:jsBrowserDevelopmentRun` /
+// `runKvisionNoHotReload`) is a JavaExec; the production webpack bundle
+// task is an Exec. Both extend ProcessForkOptions so `environment(...)`
+// resolves.
+//
+// IMPORTANT: the kotlin-js plugin registers its webpack tasks during
+// `kotlin { js { ... } }` evaluation, which runs at script-body time. The
+// `runKvisionNoHotReload` task is registered separately in the root
+// `build.gradle.kts`. Both kinds of tasks must be configured in
+// `afterEvaluate { }` so the configuration block sees them — script-body
+// configureEach only fires for tasks already in the collection, which is
+// empty before plugin evaluation completes.
+afterEvaluate {
+    tasks.withType<JavaExec>().configureEach {
+        if(name.contains("Webpack") || name.contains("Kvision") || name.contains("Browser")) {
+            val bootWidgetValue: String = providers.gradleProperty("kvisionApp.bootWidget").orElse("").get()
+            if(bootWidgetValue.isNotEmpty()) {
+                environment("AUTOGENESIS_BOOT_WIDGET", bootWidgetValue)
+            }
+        }
+    }
+    tasks.withType<Exec>().configureEach {
+        if(name.contains("Webpack") || name.contains("Kvision") || name.contains("Browser")) {
+            val bootWidgetValue: String = providers.gradleProperty("kvisionApp.bootWidget").orElse("").get()
+            if(bootWidgetValue.isNotEmpty()) {
+                environment("AUTOGENESIS_BOOT_WIDGET", bootWidgetValue)
+            }
+        }
+    }
+    // Sibling block for AUTOGENESIS_DEMO_MODE (kvisionApp/demo-mode-env.js).
+    // Same forwarder pattern. Valid values: off, widgets, full.
+    tasks.withType<JavaExec>().configureEach {
+        if(name.contains("Webpack") || name.contains("Kvision") || name.contains("Browser")) {
+            val demoModeValue: String = providers.gradleProperty("kvisionApp.demoMode").orElse("").get()
+            if(demoModeValue.isNotEmpty()) {
+                environment("AUTOGENESIS_DEMO_MODE", demoModeValue)
+            }
+        }
+    }
+    tasks.withType<Exec>().configureEach {
+        if(name.contains("Webpack") || name.contains("Kvision") || name.contains("Browser")) {
+            val demoModeValue: String = providers.gradleProperty("kvisionApp.demoMode").orElse("").get()
+            if(demoModeValue.isNotEmpty()) {
+                environment("AUTOGENESIS_DEMO_MODE", demoModeValue)
+            }
+        }
+    }
+}

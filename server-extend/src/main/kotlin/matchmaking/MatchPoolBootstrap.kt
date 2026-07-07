@@ -30,7 +30,22 @@ import org.ttt.autogenesis.serverextend.config.AccelByteConfig
  */
 object MatchPoolBootstrap
 {
-    private const val CUSTOM_MATCH_FUNCTION = "custom"
+    /**
+     * The match function name registered with the match2 platform.
+     *
+     * MUST stay in lockstep with `matchFunctionName` declared in the root
+     * `build.gradle.kts` (line 175). When the platform routes tickets into
+     * the matchmaker gRPC service, it does so by `match_function` name —
+     * the pool's `match_function` field and the registered function name
+     * must be exactly equal, otherwise match2 cannot route tickets and
+     * the pool produces zero matches.
+     *
+     * Block-2 fix: the legacy value `"custom"` was a placeholder that did
+     * not match the registered name. The deployment-time value is
+     * `"autogenesis-matchmaker"`. The Gradle `verifyExtendDeployment`
+     * task asserts this wiring at deploy time; see `build.gradle.kts:553`.
+     */
+    private const val CUSTOM_MATCH_FUNCTION = "autogenesis-matchmaker"
 
     /**
      * Runs the bootstrap. Safe to invoke from a non-suspending context; the

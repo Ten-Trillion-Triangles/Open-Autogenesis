@@ -29,14 +29,14 @@ class MatchmakingAlgorithm(private val policy: AlgorithmPolicy = AlgorithmPolicy
 {
     /**
      * Returns the proposals for the given batch. May be empty when no
-     * candidate group satisfies the coverage rules.
+     * candidate group satisfies the coverage rules, or when fewer tickets
+     * are supplied than [targetPlayers] — in which case no proposal is
+     * possible and an empty list is returned rather than throwing.
      */
     fun propose(tickets: List<MatchTicket>, targetPlayers: Int): List<ProposedMatch>
     {
         if(targetPlayers < 1) return emptyList()
-        require(tickets.size >= targetPlayers) {
-            "Cannot propose matches with ${tickets.size} tickets for target=$targetPlayers"
-        }
+        if(tickets.size < targetPlayers) return emptyList()
 
         val byFamily: Map<String, List<MatchTicket>> = tickets.groupBy { it.ladderFamily }
         val proposals = mutableListOf<ProposedMatch>()

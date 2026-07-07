@@ -112,7 +112,7 @@ object GameInit
         Logger.debug(LogCategory.SYSTEM, "GameInit: BootStage advanced to WAITFORPLAYERS")
 
         // 2. Load Map
-        // 2-player maps: fixedUSamerica, San_Martello
+        // 2-player maps: San_Martello
         // 3-4 player maps: IO-map
         val totalPlayers = sessionData.maxPlayers
         Logger.info(LogCategory.GENERAL, "GameInit: Selecting map for $totalPlayers players...")
@@ -120,11 +120,12 @@ object GameInit
 
         val riggedMapName = ServerConfig.rigMapName
         val allMaps = listOf(
-            "maps/fixedUSamerica.map",
             "maps/San_Martello.map",
             "maps/IO-map.map",
             "maps/Laurasiagondwana.map",
             "maps/jupiter.map",
+            "maps/Europa.map",
+            "maps/Arctica.map",
             "maps/StartMap.map"
         )
         val riggedMap = riggedMapName?.let { rigName ->
@@ -153,8 +154,11 @@ object GameInit
         {
             if(totalPlayers == 2)
             {
-                // Randomly pick one of the two 2-player maps
-                val twoPlayerMaps = listOf("maps/fixedUSamerica.map", "maps/San_Martello.map")
+                // Randomly pick one of the 2-player maps (San_Martello, Arctica)
+                val twoPlayerMaps = listOf(
+                    "maps/San_Martello.map",
+                    "maps/Arctica.map"
+                )
                 val chosen = twoPlayerMaps[kotlin.random.Random.nextInt(twoPlayerMaps.size)]
                 try
                 {
@@ -168,11 +172,12 @@ object GameInit
             }
             else if(totalPlayers == 3 || totalPlayers == 4)
             {
-                // Randomly pick one of the 3-4 player maps (IO-map, Laurasiagondwana, jupiter)
+                // Randomly pick one of the 3-4 player maps (IO-map, Laurasiagondwana, jupiter, Europa)
                 val threeFourPlayerMaps = listOf(
                     "maps/IO-map.map",
                     "maps/Laurasiagondwana.map",
-                    "maps/jupiter.map"
+                    "maps/jupiter.map",
+                    "maps/Europa.map"
                 )
                 val chosen = threeFourPlayerMaps[kotlin.random.Random.nextInt(threeFourPlayerMaps.size)]
                 try

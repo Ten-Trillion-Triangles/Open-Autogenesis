@@ -41,6 +41,19 @@ import java.time.Instant
  * at WARN and returns. The user simply does not see the modal and
  * falls through to the normal Play button flow.
  *
+ * **Push-side dedupe (BUG 26/27, 2026-07-05).** The browser's SSE client
+ * auto-reconnects every ~45-60s. Without a push-side dedupe, every reconnect
+ * fires `client.resumeAvailable` again. The receiver-side dedupe in
+ * `UiSignalRpcHandlers.notifyResumeAvailable` (keyed by `userId` in a
+ * ConcurrentHashMap) was insufficient because the client can clear it
+ * via `server.consumeResumePush` on dialog dismiss — by the time the next
+ * SSE reconnect arrives, the receiver-side dedupe is empty and the push
+ * goes through. The push-side dedupe here is keyed on `savedAt`
+ * (invariant under reconnects: the snapshot doesn't change between
+ * reconnects that happen close together) plus a wall-clock cooldown
+ * (5 min). Both signals are AND-combined: same `savedAt` AND within
+ * cooldown → skip. Any other case → push.
+ *
  * **Bridge contract** — the call to the main server uses the same
  * `WebSocketRpcClient` + `rpcInvoker.invoke` pattern as
  * [org.ttt.autogenesis.serverextend.matchmaking.ServerConnector.notifyGameServer].
@@ -49,6 +62,137 @@ import java.time.Instant
  */
 object ResumeAvailabilityPushService
 {
+    /**
+     * Per-server-instance dedupe cache for push-side dedup (BUG 26/27,
+     * 2026-07-05). Keyed by `userId`. The value carries the snapshot's
+     * `savedAt` (the dedup key) and the wall-clock time of the last push.
+     *
+     * Server restart re-arms the cache (fresh JVM, fresh ConcurrentHashMap).
+     * This matches the user's spec: "fresh start, fresh push."
+     */
+    private data class LastPush(val savedAt: String, val pushedAtMs: Long)
+
+    private val lastPushByUser: java.util.concurrent.ConcurrentHashMap<String, LastPush> =
+        java.util.concurrent.ConcurrentHashMap()
+
+    /**
+     * Wall-clock cooldown for push-side dedup. A repeat push for the same
+     * `savedAt` within this many milliseconds is skipped. Set to 5 minutes
+     * — longer than typical SSE reconnect cadences (~45-60s) but short
+     * enough that a fresh login on the same JVM after a long disconnect
+     * still gets the push. The cooldown is a SECOND-BEST option; the
+     * primary dedup signal is `savedAt`.
+     */
+    private const val PUSH_DEDUPE_COOLDOWN_MS: Long = 5L * 60L * 1000L
+
+    /**
+     * Diagnostic enum for the dedupe decision. Each value names the
+     * condition that led to the decision so log lines and tests can
+     * distinguish a cache miss (push), a savedAt match (skip), and a
+     * cooldown-only match (skip).
+     */
+    enum class PushSkipReason
+    {
+        /** No prior push recorded for this user — proceed. */
+        NONE,
+        /** Cached `savedAt` matches incoming `savedAt` AND we are within the cooldown — skip. */
+        SAME_SAVED_AT_WITHIN_COOLDOWN,
+        /** `userId` is blank — never push. Defensive guard mirroring checkAndPush. */
+        BLANK_USER_ID,
+        /** `savedAt` is blank — no dedup signal possible, but markPushed was never called so cooldown alone cannot fire. */
+        BLANK_SAVED_AT_NO_DEDUP_SIGNAL
+    }
+
+    /**
+     * Pure decision function for whether a push should proceed. Extracted
+     * from [checkAndPushBlocking] so it is unit-testable without spinning
+     * up a WebSocket or VFS. Production callers pass `System.currentTimeMillis()`
+     * for `nowMs`; tests pass synthetic times for determinism.
+     *
+     * `savedAt` is nullable because [ResumeAvailabilityNotification.savedAt]
+     * is nullable in the wire format. A null/blank `savedAt` means no
+     * dedup signal is available; the function falls through to "push."
+     *
+     * Decision rules:
+     *   1. Blank `userId` → skip (defensive)
+     *   2. Blank or null `savedAt` → push (no dedup signal possible; this is
+     *      the documented limitation, see BUG 26 test case 8)
+     *   3. No cache entry for `userId` → push (cache miss)
+     *   4. Cached `savedAt` matches AND `now - pushedAtMs < cooldownMs` → skip
+     *   5. Otherwise → push (savedAt changed = new save, or cooldown elapsed)
+     */
+    internal fun shouldPushResumeAvailability(
+        userId: String,
+        savedAt: String?,
+        nowMs: Long,
+        cooldownMs: Long = PUSH_DEDUPE_COOLDOWN_MS
+    ): PushDecision
+    {
+        if (userId.isBlank())
+        {
+            return PushDecision(shouldPush = false, reason = PushSkipReason.BLANK_USER_ID)
+        }
+        if (savedAt.isNullOrBlank())
+        {
+            // No dedup signal possible. The push proceeds; cooldown-only
+            // dedup is also unavailable (markPushed never runs for blank
+            // savedAt in production). This is a known limitation —
+            // documented in ResumeAvailabilityPushDedupeTest case 8.
+            return PushDecision(shouldPush = true, reason = PushSkipReason.BLANK_SAVED_AT_NO_DEDUP_SIGNAL)
+        }
+        val cached = lastPushByUser[userId] ?: return PushDecision(shouldPush = true, reason = PushSkipReason.NONE)
+        val sameSavedAt = cached.savedAt == savedAt
+        val withinCooldown = (nowMs - cached.pushedAtMs) < cooldownMs
+        return if (sameSavedAt && withinCooldown)
+        {
+            PushDecision(shouldPush = false, reason = PushSkipReason.SAME_SAVED_AT_WITHIN_COOLDOWN)
+        }
+        else
+        {
+            PushDecision(shouldPush = true, reason = PushSkipReason.NONE)
+        }
+    }
+
+    /**
+     * Records that a push happened for `userId` with the supplied `savedAt`
+     * at wall-clock time `nowMs`. Subsequent calls to
+     * [shouldPushResumeAvailability] for the same `userId` + `savedAt`
+     * within the cooldown will return `shouldPush = false`.
+     *
+     * Production callers MUST invoke this after a successful pushToMainServer
+     * call. The call is idempotent — calling it twice with the same args
+     * just refreshes `pushedAtMs`.
+     */
+    internal fun markPushed(userId: String, savedAt: String, nowMs: Long)
+    {
+        if (userId.isBlank() || savedAt.isBlank())
+        {
+            // Do not record blank-keyed entries; they cannot contribute to
+            // dedup and would only clutter the cache.
+            return
+        }
+        lastPushByUser[userId] = LastPush(savedAt = savedAt, pushedAtMs = nowMs)
+    }
+
+    /**
+     * Test seam: clears the dedupe cache so test cases do not leak state
+     * between runs. NOT for production use.
+     */
+    internal fun resetResumePushDedupeForTest()
+    {
+        lastPushByUser.clear()
+    }
+
+    /**
+     * The dedupe decision: whether the push should proceed, and the
+     * reason for the decision. The reason is exposed for log diagnostics
+     * and test assertions.
+     */
+    internal data class PushDecision(
+        val shouldPush: Boolean,
+        val reason: PushSkipReason
+    )
+
     /**
      * Triggers a one-shot check. Fires the notification asynchronously;
      * callers do not need to await. Use this from the SSE connection
@@ -122,7 +266,47 @@ object ResumeAvailabilityPushService
                     hasAi = aiCount > 0,
                     savedAt = response.updatedAt ?: Instant.now().toString()
                 )
+
+                // BUG 26/27 (2026-07-05): push-side dedupe. The SSE handler
+                // calls checkAndPush on every reconnect (~45-60s). The
+                // receiver-side dedupe in UiSignalRpcHandlers.notifyResumeAvailable
+                // is keyed on userId and is cleared by the client's
+                // server.consumeResumePush call. By the time the next SSE
+                // reconnect arrives, the receiver-side dedupe is empty and
+                // the push goes through. The push-side dedupe here is keyed
+                // on savedAt (invariant under reconnects: the snapshot's
+                // savedAt doesn't change between reconnects that happen
+                // close together) plus a 5-minute wall-clock cooldown as a
+                // backstop. Both signals are AND-combined.
+                //
+                // notification.savedAt is nullable (the data class allows
+                // null for forward-compat), but production always builds it
+                // from response.updatedAt ?: Instant.now().toString(), so
+                // it is effectively never null here. The decision function
+                // accepts String? and treats blank/null as "no dedup signal."
+                val nowMs = System.currentTimeMillis()
+                val dedupeDecision = shouldPushResumeAvailability(
+                    userId = userId,
+                    savedAt = notification.savedAt,
+                    nowMs = nowMs
+                )
+                if (!dedupeDecision.shouldPush)
+                {
+                    Logger.info(
+                        LogCategory.NETWORK,
+                        "ResumeAvailabilityPushService: push skipped for user=$userId reason=${dedupeDecision.reason} (push-side dedupe; savedAt=${notification.savedAt})"
+                    )
+                    return@fold
+                }
+
                 pushToMainServer(userId, notification)
+                // Record the push ONLY after a successful pushToMainServer
+                // call so a failed push can be retried on the next reconnect
+                // (markPushed-then-fail would leak dedupe state and the user
+                // would never see the modal until the cooldown elapsed).
+                // notification.savedAt is non-null in production builds but
+                // we guard the cast for safety.
+                notification.savedAt?.let { markPushed(userId, it, nowMs = nowMs) }
             },
             onFailure = { err ->
                 val isNotFound = err is RecordNotFoundException || (err.message ?: "").contains("not found", ignoreCase = true)

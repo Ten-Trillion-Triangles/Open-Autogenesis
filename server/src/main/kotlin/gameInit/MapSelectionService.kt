@@ -17,11 +17,24 @@ object MapSelectionService
     private val random = Random.Default
 
     /**
+     * Map resource paths that are reserved for non-matchmaking entry points
+     * (e.g. guided tutorials) and must not be picked by the random fallback
+     * pool. Pulled from `pickRandomDescriptor` so an exclusion here keeps the
+     * map reachable by deterministic-name loaders while it stays out of the
+     * random roll.
+     */
+    private val excludedRandomPoolPaths: Set<String> = setOf(
+        "maps/tutorial.map"
+    )
+
+    /**
      * Finds every known map descriptor (packaged + uploaded) and chooses one at random.
      */
     fun pickRandomDescriptor(): MapResourceDescriptor?
     {
-        val packaged = MapResourceRegistry.listPackagedMaps().map { path ->
+        val packaged = MapResourceRegistry.listPackagedMaps()
+            .filterNot { path -> path in excludedRandomPoolPaths }
+            .map { path ->
             MapResourceDescriptor(
                 path = path,
                 source = MapResourceSource.PACKAGED

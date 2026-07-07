@@ -40,7 +40,7 @@ kotlin {
 application {
     applicationName = "autogenesis-server"
     mainClass.set("org.ttt.autogenesis.server.ServerKt")
-    applicationDefaultJvmArgs = listOf("--add-opens", "java.base/java.lang=ALL-UNNAMED", "-XX:-EnableJVMCI")
+    applicationDefaultJvmArgs = listOf("--add-opens", "java.base/java.lang=ALL-UNNAMED")
     // Forward dev-mode overrides to the :server:run JVM.
     //   AUTOGENESIS_SHUTDOWN_DELAY_MS — keeps the DS alive long enough for
     //     the user to switch tabs and resume (default 15s, dev 600s).
@@ -177,7 +177,7 @@ dependencies {
 // remains green; operators opt in to the sandbox tests by running
 // `./gradlew :server:testSandbox` with real AccelByte creds in the env.
 tasks.withType<Test>().configureEach {
-    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED", "-XX:-EnableJVMCI")
+    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
     useJUnitPlatform {
         includeEngines("junit-jupiter", "junit-vintage")
         // Phase 2 of feature/live-pvp-and-billing: the default `test` task
