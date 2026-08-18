@@ -138,3 +138,6 @@ __pycache__/
 # Node build outputs (Kotlin/JS webpack)
 /kvisionApp/build/
 /audio-tracks-editor-e2e/node_modules/
+/.amazonq
+/.amazonq/cli-todo-lists
+/.idea/modules

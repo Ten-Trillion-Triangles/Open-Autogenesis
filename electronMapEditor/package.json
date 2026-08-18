@@ -1,0 +1,25 @@
+{
+  "name": "autogenesis-map-editor-electron",
+  "version": "0.1.0",
+  "description": "Standalone desktop map editor for Autogenesis — packages the KVision mapEditor module for distribution.",
+  "author": "Autogenesis Team <dev@autogenesis.dev>",
+  "license": "MIT",
+  "homepage": "https://autogenesis.app",
+  "private": true,
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "postinstall": "node scripts/patch-playwright-pirates.js",
+    "package:linux": "node scripts/package-linux.js",
+    "package:windows": "electron-builder --win dir nsis portable --config electron-builder.yml",
+    "package:mac": "electron-builder --mac dir dmg zip --config electron-builder.yml"
+  },
+  "dependencies": {
+    "electron-log": "4.4.0"
+  },
+  "devDependencies": {
+    "electron": "26.3.0",
+    "electron-builder": "24.6.0",
+    "npm": "10.9.0"
+  }
+}

@@ -1,0 +1,39 @@
+appId: org.ttt.autogenesis.mapeditor
+productName: Autogenesis Map Editor
+copyright: Copyright © 2026 Ten Trillion Triangles LLC
+directories:
+  output: build/electron
+files:
+  - "**/*"
+  - "!**/node_modules/.bin/**"
+  - "!**/.gradle/**"
+afterPack: scripts/fix-chrome-sandbox.js
+extraResources:
+  - from: build/staging/frontend
+    to: frontend
+asar: false
+linux:
+  target:
+    - dir
+    - AppImage
+  artifactName: Autogenesis-MapEditor-linux-${version}.${ext}
+  category: Development
+  desktop:
+    Name: Autogenesis Map Editor
+    Comment: Standalone map editor for Autogenesis
+win:
+  target:
+    - dir
+    - nsis
+    - portable
+  artifactName: Autogenesis-MapEditor-windows-${version}.${ext}
+  legalTrademarks: Autogenesis Map Editor
+  publish:
+    provider: generic
+    url: placeholder
+mac:
+  target:
+    - dir
+    - dmg
+    - zip
+  artifactName: Autogenesis-MapEditor-mac-${version}.${ext}
