@@ -550,4 +550,3 @@ private fun ByteArray.toUint8Array(): Uint8Array
     }
     return uint8Array
 }
-

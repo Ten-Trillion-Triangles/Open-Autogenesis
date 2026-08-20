@@ -413,4 +413,3 @@ class ShopOverlay : BillingOverlayWindow(
         Logger.info(LogCategory.NETWORK, "ShopOverlay: CHOOSE pressed for tier=$tier @ $price/month (mock)")
     }
 }
-

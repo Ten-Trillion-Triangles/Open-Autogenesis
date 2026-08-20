@@ -90,4 +90,3 @@ class RestRpcBridgeTest
         assertTrue(err.message?.contains("drainTimeoutMillis") == true)
     }
 }
-

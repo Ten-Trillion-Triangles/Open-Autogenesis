@@ -14,4 +14,3 @@ export const RpcEnvelope = /*@__PURE__*/ proto3.makeMessageType(
     { no: 1, name: "payload", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
 );
-
